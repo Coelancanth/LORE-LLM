@@ -390,7 +390,7 @@ public sealed class MediaWikiIngestionService : IMediaWikiIngestionService
         try
         {
             var summary = await FetchSummaryAsync(apiBase, title, cancellationToken);
-            var slug = ToSlug(title);
+            var slug = TextSlugger.ToSlug(title);
             var baseUri = new Uri(apiBase);
             var pageUrl = $"{baseUri.Scheme}://{baseUri.Host}/wiki/{Uri.EscapeDataString(title.Replace(' ', '_'))}";
 
@@ -447,7 +447,7 @@ public sealed class MediaWikiIngestionService : IMediaWikiIngestionService
             }
 
             var summary = await FetchSummaryAsync(apiBase, title, cancellationToken);
-            var conceptId = $"wiki:{ToSlug(title)}";
+            var conceptId = $"wiki:{TextSlugger.ToSlug(title)}";
 
             var aliases = new List<string>();
             if (!string.Equals(title, token, StringComparison.OrdinalIgnoreCase))
@@ -516,22 +516,4 @@ public sealed class MediaWikiIngestionService : IMediaWikiIngestionService
         }
     }
 
-    private static string ToSlug(string value)
-    {
-        var builder = new StringBuilder();
-        foreach (var ch in value.ToLowerInvariant())
-        {
-            if (char.IsLetterOrDigit(ch))
-            {
-                builder.Append(ch);
-            }
-            else if (builder.Length > 0 && builder[^1] != '-')
-            {
-                builder.Append('-');
-            }
-        }
-
-        var slug = builder.ToString().Trim('-');
-        return string.IsNullOrWhiteSpace(slug) ? "entry" : slug;
-    }
 }

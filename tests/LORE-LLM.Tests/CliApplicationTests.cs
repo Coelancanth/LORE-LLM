@@ -8,6 +8,7 @@ using LORE_LLM.Application.PostProcessing;
 using LORE_LLM.Domain.Extraction;
 using LORE_LLM.Domain.Investigation;
 using LORE_LLM.Domain.Knowledge;
+using LORE_LLM.Application.Wiki;
 using LORE_LLM.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
@@ -35,6 +36,7 @@ public class CliApplicationTests
         yield return new object[] { BuildSimpleScenario("validate", "--workspace", CreateTempDirectory()) };
         yield return new object[] { BuildSimpleScenario("integrate", "--workspace", CreateTempDirectory(), "--destination", CreateTempDirectory()) };
         yield return new object[] { BuildInvestigateScenario() };
+        yield return new object[] { BuildWikiCrawlScenario() };
     }
 
     [Theory]
@@ -166,6 +168,33 @@ public class CliApplicationTests
             services => services.AddSingleton<IMediaWikiIngestionService>(new StubMediaWikiIngestionService()));
     }
 
+    private static CommandScenario BuildWikiCrawlScenario()
+    {
+        const string projectDisplayName = "Pathologic2 Marble Nest";
+        var sanitizer = new ProjectNameSanitizer();
+        var sanitizedProject = sanitizer.Sanitize(projectDisplayName);
+        var workspace = CreateTempDirectory();
+        var rawDirectory = Path.Combine(workspace, sanitizedProject, "knowledge", "raw");
+        Directory.CreateDirectory(rawDirectory);
+
+        var args = new[]
+        {
+            "crawl-wiki",
+            "--workspace", workspace,
+            "--project", projectDisplayName,
+            "--page", "Daniil Dankovsky"
+        };
+
+        return new CommandScenario(
+            args,
+            () =>
+            {
+                var outputFile = Path.Combine(rawDirectory, "daniil-dankovsky.md");
+                File.Exists(outputFile).ShouldBeTrue("Crawler should create markdown file.");
+            },
+            services => services.AddSingleton<IMediaWikiCrawler>(new StubMediaWikiCrawler()));
+    }
+
     private static ICliApplication CreateCliApplication(Action<IServiceCollection>? configure = null)
     {
         var services = new ServiceCollection();
@@ -229,6 +258,28 @@ public class CliApplicationTests
             File.WriteAllText(knowledgePath, JsonSerializer.Serialize(document, JsonOptions));
 
             return Task.FromResult(Result.Success(document));
+        }
+    }
+
+    private sealed class StubMediaWikiCrawler : IMediaWikiCrawler
+    {
+        public Task<Result<int>> CrawlAsync(
+            DirectoryInfo workspace,
+            string projectDisplayName,
+            bool forceRefresh,
+            string[]? specificPages,
+            int maxPages,
+            CancellationToken cancellationToken)
+        {
+            var sanitizer = new ProjectNameSanitizer();
+            var sanitized = sanitizer.Sanitize(projectDisplayName);
+            var targetDirectory = Path.Combine(workspace.FullName, sanitized, "knowledge", "raw");
+            Directory.CreateDirectory(targetDirectory);
+
+            var file = Path.Combine(targetDirectory, "daniil-dankovsky.md");
+            File.WriteAllText(file, "# Daniil Dankovsky\n\n> Source: https://pathologic.fandom.com/wiki/Daniil_Dankovsky\n\nLore summary.");
+
+            return Task.FromResult(Result.Success(1));
         }
     }
 }

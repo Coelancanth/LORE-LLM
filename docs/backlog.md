@@ -29,12 +29,18 @@
   - Implemented token heuristics and candidate matching backed by a MediaWiki ingestion service (opensearch + parse) with on-disk caching and knowledge base emission.
   - Investigation workflow now persists `knowledge_base.json`, updates manifest artifacts, and surfaces wiki-backed candidates per segment.
   - Expanded unit and CLI coverage around the pipeline and refreshed docs/examples for the new artifacts.
-- [ ] VS-0007 LLM-assisted clustering (chat protocol).
+- [ ] VS-0007 Crawl wiki pages to Markdown via API.
+  - Walk `Special:AllPages` using `action=query&list=allpages` and cache every page title/pageid.
+  - Fetch rendered HTML or wikitext for each page via `action=parse` and convert into markdown files (one file per wiki entry) with attribution metadata.
+  - Persist the crawl under `knowledge/raw/*.md`, record retrieval timestamps/licenses, and add CLI switches for refresh vs reuse.
+  - Add integration tests to confirm the crawler respects throttling and produces deterministic output for small fixture sets.
+- [ ] VS-0008 LLM-assisted clustering (chat protocol).
   - Introduce a `cluster` CLI experience that batches segments and formats Markdown prompts for a user-selected chat provider (Cursor, OpenAI, Claude, etc.).
   - Define a lightweight prompt/response contract so the LLM returns structured cluster metadata (`clusterId`, member IDs, synopsis, confidence).
   - Persist results to `clusters_llm.json` alongside the raw conversation transcript for auditing and add integration tests around the new artifact shape.
   - Make the chat provider pluggable (protocol + API key/config inputs) and document usage in onboarding.
-- [ ] VS-0008 Glossary-aware enrichment from clusters.
+- [ ] VS-0009 Glossary-aware enrichment from clusters.
   - Use LLM-generated clusters to detect glossary terms, flag gaps, and push cluster summaries back onto member segments for the augmentation/translation pipeline.
   - Extend augmentation to consume `clusters_llm.json`, merging cluster synopses and glossary highlights into segment metadata.
   - Provide CLI toggles for enabling the enrichment path and update docs/tests to reflect glossary + cluster interplay.
+
