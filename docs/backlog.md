@@ -56,4 +56,22 @@
   - Index entries include `title`, tokenized `keywords`, and `isRedirect` flag; redirect-only pages can be skipped downstream.
   - Updated crawler docs with resume semantics and indexing flow.
 
+- [ ] VS-0012 Pluggable chat provider configuration (config folder).
+  - Introduce `config/chat.providers.json` to declare providers (DeepSeek/OpenAI/Claude/etc.), default model, temperature, maxTokens, and API key env var mapping.
+  - Precedence: CLI > environment variables > config file defaults.
+  - Validate configuration against the official provider API specs (DeepSeek Chat Completions, OpenAI responses, Anthropic Messages) and surface actionable errors on misconfig.
+  - Wire DI to construct providers from config; keep `DEEPSEEK_API_KEY` compatibility.
+
+- [ ] VS-0013 Knowledge-aware clustering prompt enrichment.
+  - Add `--with-knowledge` (and caps like `--knowledge-max`) to inject top-N relevant concepts from `knowledge/wiki_keyword_index.json` and/or `knowledge_base.json` into clustering prompts.
+  - Keep prompts within token budgets; document guidance and add tests.
+
+- [ ] VS-0014 Crawler resume for tab-only variant outputs.
+  - When `EmitBaseDocument = false` with configured `TabOutputs`, skip pages where all expected variant files already exist (unless `--force-refresh`).
+  - Add deterministic tests and doc updates.
+
+- [ ] VS-0015 Cluster CLI options: temperature/model overrides.
+  - Add `--temperature` and `--model` to the `cluster` command; flow through to selected provider.
+  - Document safe ranges per provider and defaults sourced from config.
+
 
