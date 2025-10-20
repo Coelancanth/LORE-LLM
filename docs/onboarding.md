@@ -11,7 +11,7 @@ Welcome aboard! This guide gives new contributors the minimum context and repeat
 | **Purpose** | CLI-driven localization pipeline that extracts raw text, enriches it with context (metadata, clusters, knowledge), and prepares machine-translation workflows. |
 | **Tech stack** | .NET 8 (C#), `CSharpFunctionalExtensions`, `Microsoft.Extensions.Hosting`, `System.CommandLine`, xUnit + Shouldly + NSubstitute. |
 | **Artifacts** | JSON/TOML files under a per-project workspace (`source_text_raw.json`, `knowledge_base.json`, `investigation.json`, etc.). |
-| **CLI verbs** | `extract`, `augment`, `translate`, `validate`, `integrate`, `investigate`. Each lives in `src/LORE-LLM/Presentation/Commands/<Verb>`. |
+| **CLI verbs** | `extract`, `augment`, `translate`, `validate`, `integrate`, `investigate`, `crawl-wiki`. Each lives in `src/LORE-LLM/Presentation/Commands/<Verb>`. |
 
 ---
 
@@ -80,6 +80,10 @@ Stick to vertical slices: Domain → Application → Presentation. Infrastructur
 4. **Investigate wiki integration**  
    - Run `dotnet run --project src/LORE-LLM -- investigate --workspace <workspace> --project <name> --force-refresh` once to seed the wiki cache and keyword index.  
    - Subsequent runs can supply `--offline` to exercise the pipeline without network calls (fails if caches are missing or stale).
+
+5. **(Optional) Cache wiki markdown**  
+   - Use `dotnet run --project src/LORE-LLM -- crawl-wiki --workspace <workspace> --project <name> --page "Page Title"` to save MediaWiki content as markdown under `knowledge/raw/`.  
+   - Advanced projects can register crawl post-processing plugins to strip UI fragments (infoboxes, galleries) without touching shared crawler code.
 
 ---
 

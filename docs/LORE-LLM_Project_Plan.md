@@ -6,8 +6,8 @@
 - Enable seamless hand-off to Paratranz (or equivalent) for human-in-the-loop polishing without duplicating effort.
 
 ## 2. Core-First Scope
-- **Core MVP (v0.1)**: Extraction from raw text dumps (e.g., `english.txt`), glossary lifecycle, preprocessing, prompt assembly, LLM-assisted clustering (chat protocol), metadata/knowledge synthesis, validation, local artifact storage, CLI orchestration.
-- **Core Extensions (v0.2+)**: Paratranz sync adapters, reviewer dashboard, automated QA reports, CI integration, optional automated wiki crawl.
+- **Core MVP (v0.1)**: Extraction from raw text dumps (e.g., `english.txt`), glossary lifecycle, preprocessing, prompt assembly, LLM-assisted clustering (chat protocol), metadata/knowledge synthesis, wiki markdown crawl (`crawl-wiki`), validation, local artifact storage, CLI orchestration.
+- **Core Extensions (v0.2+)**: MediaWiki post-processing plugin system, Paratranz sync adapters, reviewer dashboard, automated QA reports, CI integration.
 - **Commercial-Grade Enhancements (post-core)**: Secrets management, rate limiting, analytics, licensing compliance, build/release packaging, enterprise auth.
 
 ## 3. Input Data Model Assumptions
@@ -198,9 +198,16 @@ Sample corpus: `english.txt` (Pathologic 2 dialogue export). The extractor treat
   - Scaffold single-project solution (`LORE-LLM` console) plus `LORE-LLM.Tests`, with vertical-slice folders and central dependency injection/composition root.
   - Wire baseline test infrastructure (xUnit, Shouldly, NSubstitute) and add shared test utilities.
 
+### 3.8 Raw Wiki Markdown (`knowledge/raw/*.md`)
+- One markdown file per MediaWiki page crawled via `crawl-wiki`. Captures cleaned prose, tab sections, and attribution metadata (`Source`, `License`, `Retrieved`).
+- Post-processing removes decorative UI (infoboxes, spoiler banners) using project-specific sanitizers (future work under VS-0008).
+
 ### Phase 1 – Core Pipeline (Weeks 3–6)
 - Build `SourceExtractor` with plugin points for XML, JSON, plain text, emitting minimal text-first datasets and optional authored metadata appendices.
 - Implement `MetadataSynthesizer` capable of inferring speaker/tone/scene context from raw text via heuristics and glossary signals.
+- Ship baseline wiki ingestion + crawl tooling:
+  - `crawl-wiki` CLI command to persist markdown snapshots per page with caching/throttling.
+  - `investigate` command reuses cached knowledge to annotate segments.
 - Stand up the chat-based clustering workflow:
   - Format Markdown prompts that batch segments + glossary context.
   - Call a user-selected LLM provider (Cursor, OpenAI, Claude, etc.) via a pluggable chat protocol.
@@ -216,6 +223,7 @@ Sample corpus: `english.txt` (Pathologic 2 dialogue export). The extractor treat
 - Harden CLI UX (progress reporting, resumable runs, dry runs).
 - Add structured logging, metrics hooks, and error recovery (retry/backoff, partial reruns).
 - Provide sample project, documentation, and automated tests across modules, highlighting fluent pipeline composition patterns.
+- Introduce MediaWiki post-processing plugin system to strip site-specific UI (infoboxes, galleries, spoiler boxes) and normalize markdown tabs.
 - Introduce QA tooling for cluster confidence review, glossary coverage gaps, and LLM transcript inspection.
 - Add CLI utilities to review clusters, split/merge assignments, and persist overrides back into the workspace manifest.
 - Add cross-cutting behaviors (caching, telemetry) via pipeline middleware so vertical slices stay isolated.
@@ -249,10 +257,11 @@ Sample corpus: `english.txt` (Pathologic 2 dialogue export). The extractor treat
 
 ## 10. Next Immediate Actions
 1. Finalize schemas for `source_text_raw.json`, optional `source_text_metadata.json`, `metadata_inferred.json`, `clusters_llm.json`, `glossary_translated.json`, `preprocessed_text.json`, and `translation_raw.json`.
-2. Prototype the chat-based clustering prompt/response flow on a small corpus and check it into `docs/examples/cluster_prompt.md` + `clusters_llm.example.json`.
-3. Wire the glossary ingestion pipeline to surface glossary cues inside the clustering prompts.
-4. Draft prompt templates for metadata synthesis, clustering, and translation, plus glossary enforcement logic; run a small translation spike using the updated context.
-5. Establish repository structure (Domain/Application/Infrastructure/Cli projects), fluent pipeline skeleton, vertical-slice command modules, dependency-injected services, and CI (lint + unit tests) to anchor contributions.
+2. Design and implement the MediaWiki post-processing plugin framework; ship the Pathologic-specific sanitizer that trims infoboxes, maps, and art galleries.
+3. Prototype the chat-based clustering prompt/response flow on a small corpus and check it into `docs/examples/cluster_prompt.md` + `clusters_llm.example.json`.
+4. Wire the glossary ingestion pipeline to surface glossary cues inside the clustering prompts.
+5. Draft prompt templates for metadata synthesis, clustering, and translation, plus glossary enforcement logic; run a small translation spike using the updated context.
+6. Establish repository structure (Domain/Application/Infrastructure/Cli projects), fluent pipeline skeleton, vertical-slice command modules, dependency-injected services, and CI (lint + unit tests) to anchor contributions.
 
 
 
