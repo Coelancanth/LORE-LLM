@@ -5,6 +5,7 @@ using LORE_LLM.Application.Commands.Extract;
 using LORE_LLM.Application.Commands.Integrate;
 using LORE_LLM.Application.Commands.Translate;
 using LORE_LLM.Application.Commands.Validate;
+using LORE_LLM.Application.Extraction;
 using LORE_LLM.Presentation;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -15,6 +16,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddLoreLlmServices(this IServiceCollection services)
     {
         services.AddSingleton<ICliApplication, CliApplication>();
+        services.AddSingleton<IRawTextExtractor, RawTextExtractor>();
 
         services.AddSingleton<ICommandHandler<ExtractCommandOptions>, ExtractCommandHandler>();
         services.AddSingleton<ICommandHandler<AugmentCommandOptions>, AugmentCommandHandler>();

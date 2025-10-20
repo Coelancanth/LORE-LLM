@@ -1,12 +1,19 @@
 using CSharpFunctionalExtensions;
+using LORE_LLM.Application.Extraction;
 
 namespace LORE_LLM.Application.Commands.Extract;
 
 public sealed class ExtractCommandHandler : ICommandHandler<ExtractCommandOptions>
 {
+    private readonly IRawTextExtractor _extractor;
+
+    public ExtractCommandHandler(IRawTextExtractor extractor)
+    {
+        _extractor = extractor;
+    }
+
     public Task<Result<int>> HandleAsync(ExtractCommandOptions options, CancellationToken cancellationToken)
     {
-        Console.WriteLine($"[extract] input={options.Input.FullName} output={options.Output.FullName}");
-        return Task.FromResult(Result.Success(0));
+        return _extractor.ExtractAsync(options.Input, options.Output, cancellationToken);
     }
 }

@@ -9,7 +9,7 @@ namespace LORE_LLM.Tests;
 public class CliApplicationTests
 {
     [Fact]
-    public async Task RunAsync_without_arguments_returns_help_success()
+    public async Task RunAsync_without_arguments_returns_help_error_code()
     {
         var cli = CreateCliApplication();
 
@@ -18,25 +18,49 @@ public class CliApplicationTests
         exitCode.ShouldBe(1);
     }
 
-    public static IEnumerable<object[]> CommandNames()
+    public static IEnumerable<object[]> CommandScenarios()
     {
-        yield return new object[] { "extract" };
-        yield return new object[] { "augment" };
-        yield return new object[] { "translate" };
-        yield return new object[] { "validate" };
-        yield return new object[] { "integrate" };
+        yield return new object[] { BuildExtractScenario() };
+        yield return new object[] { BuildSimpleScenario("augment", "--workspace", CreateTempDirectory()) };
+        yield return new object[] { BuildSimpleScenario("translate", "--workspace", CreateTempDirectory(), "--language", "ru") };
+        yield return new object[] { BuildSimpleScenario("validate", "--workspace", CreateTempDirectory()) };
+        yield return new object[] { BuildSimpleScenario("integrate", "--workspace", CreateTempDirectory(), "--destination", CreateTempDirectory()) };
     }
 
     [Theory]
-    [MemberData(nameof(CommandNames))]
-    public async Task Commands_return_success(string commandName)
+    [MemberData(nameof(CommandScenarios))]
+    public async Task Commands_return_success(CommandScenario scenario)
     {
         var cli = CreateCliApplication();
-        var args = BuildArguments(commandName);
 
-        var exitCode = await cli.RunAsync(args);
+        var exitCode = await cli.RunAsync(scenario.Arguments);
 
         exitCode.ShouldBe(0);
+        scenario.AssertPostConditions();
+    }
+
+    private static CommandScenario BuildExtractScenario()
+    {
+        var inputFile = CreateTempFile("1111 Sample line", "2222");
+        var workspace = CreateTempDirectory();
+
+        var args = new[]
+        {
+            "extract",
+            "--input", inputFile,
+            "--output", workspace
+        };
+
+        return new CommandScenario(args, () =>
+        {
+            var rawPath = Path.Combine(workspace, "source_text_raw.json");
+            File.Exists(rawPath).ShouldBeTrue("Expected extractor to create source_text_raw.json");
+        });
+    }
+
+    private static CommandScenario BuildSimpleScenario(params string[] arguments)
+    {
+        return new CommandScenario(arguments, () => { });
     }
 
     private static ICliApplication CreateCliApplication()
@@ -46,56 +70,20 @@ public class CliApplicationTests
         return services.BuildServiceProvider().GetRequiredService<ICliApplication>();
     }
 
-    private static string[] BuildArguments(string commandName)
-    {
-        var workspace = CreateTempDirectory();
-
-        return commandName switch
-        {
-            "extract" => new[]
-            {
-                "extract",
-                "--input", CreateTempFile(),
-                "--output", workspace
-            },
-            "augment" => new[]
-            {
-                "augment",
-                "--workspace", workspace
-            },
-            "translate" => new[]
-            {
-                "translate",
-                "--workspace", workspace,
-                "--language", "ru"
-            },
-            "validate" => new[]
-            {
-                "validate",
-                "--workspace", workspace
-            },
-            "integrate" => new[]
-            {
-                "integrate",
-                "--workspace", workspace,
-                "--destination", CreateTempDirectory()
-            },
-            _ => throw new ArgumentOutOfRangeException(nameof(commandName), commandName, null)
-        };
-    }
-
     private static string CreateTempDirectory()
     {
-        var path = Path.Combine(Path.GetTempPath(), "lore-llm-tests", Guid.NewGuid().ToString("N"));
+        var path = Path.Combine(Path.GetTempPath(), "lore-llm-tests", "cli", Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(path);
         return path;
     }
 
-    private static string CreateTempFile()
+    private static string CreateTempFile(params string[] lines)
     {
-        var filePath = Path.Combine(Path.GetTempPath(), "lore-llm-tests", Guid.NewGuid().ToString("N") + ".txt");
-        Directory.CreateDirectory(Path.GetDirectoryName(filePath)!);
-        File.WriteAllText(filePath, "stub");
-        return filePath;
+        var path = Path.Combine(Path.GetTempPath(), "lore-llm-tests", "cli", Guid.NewGuid().ToString("N") + ".txt");
+        Directory.CreateDirectory(Path.GetDirectoryName(path)!);
+        File.WriteAllLines(path, lines);
+        return path;
     }
+
+    public sealed record CommandScenario(string[] Arguments, Action AssertPostConditions);
 }
