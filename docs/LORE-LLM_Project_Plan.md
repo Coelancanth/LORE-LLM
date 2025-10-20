@@ -6,8 +6,8 @@
 - Enable seamless hand-off to Paratranz (or equivalent) for human-in-the-loop polishing without duplicating effort.
 
 ## 2. Core-First Scope
-- **Core MVP (v0.1)**: Extraction from raw text dumps (e.g., `english.txt`), knowledge-assisted metadata synthesis when upstream context is missing, glossary lifecycle, preprocessing, prompt assembly, LLM translation, validation, local artifact storage, CLI orchestration.
-- **Core Extensions (v0.2+)**: Paratranz sync adapters, reviewer dashboard, automated QA reports, CI integration.
+- **Core MVP (v0.1)**: Extraction from raw text dumps (e.g., `english.txt`), glossary lifecycle, preprocessing, prompt assembly, LLM-assisted clustering (chat protocol), metadata/knowledge synthesis, validation, local artifact storage, CLI orchestration.
+- **Core Extensions (v0.2+)**: Paratranz sync adapters, reviewer dashboard, automated QA reports, CI integration, optional automated wiki crawl.
 - **Commercial-Grade Enhancements (post-core)**: Secrets management, rate limiting, analytics, licensing compliance, build/release packaging, enterprise auth.
 
 ## 3. Input Data Model Assumptions
@@ -93,26 +93,24 @@ Sample corpus: `english.txt` (Pathologic 2 dialogue export). The extractor treat
 }
 ```
 
-### 3.6 Cluster Contexts (`clusters.json`)
+### 3.6 Cluster Contexts (`clusters_llm.json`)
 ```json
 {
   "cluster_id": "scene:bachelor_vs_executor",
-  "member_ids": [
+  "members": [
     "conv:6192355001750784",
     "conv:6192355001750785",
     "conv:6192355001750786"
   ],
-  "shared_context": [
-    "Climactic exchange between Daniil Dankovsky and the Executor inside the Theatre.",
-    "Outcome hinges on confronting Death; tone is fatalistic and confrontational."
-  ],
-  "entities": ["Daniil Dankovsky", "Executor", "Death"],
+  "summary": "Climactic exchange between Daniil Dankovsky and the Executor inside the Theatre. Outcome hinges on confronting Death; tone is fatalistic and confrontational.",
+  "glossary_hits": ["Executor", "Daniil Dankovsky"],
+  "llm_notes": "LLM-generated synopsis based on chat prompt context and operator-provided segments.",
   "confidence": 0.72,
-  "attribution": "Inferred via LLM; cross-referenced with Fandom wiki summary."
+  "source_conversation": "logs/chat/cluster_001.md"
 }
 ```
 
-- Each string retains its raw `id` for fallback. Prompts normally use cluster context, but low-confidence clusters trigger per-string metadata instead.
+- Cluster contexts are synthesized via a chat-based LLM workflow. Operators provide segment batches + glossary cues, and the model responds with structured JSON adhering to our prompt contract. Low-confidence responses fall back to per-string metadata.
 
 ### 3.7 Knowledge Base (`knowledge/key_concepts.json`)
 ```json
@@ -202,13 +200,15 @@ Sample corpus: `english.txt` (Pathologic 2 dialogue export). The extractor treat
 
 ### Phase 1 – Core Pipeline (Weeks 3–6)
 - Build `SourceExtractor` with plugin points for XML, JSON, plain text, emitting minimal text-first datasets and optional authored metadata appendices.
-- Implement `MetadataSynthesizer` capable of inferring speaker/tone/scene context from raw text via heuristics and LLM prompts.
-- Create knowledge-ingestion tooling to summarize Fandom wiki pages into structured `knowledge/key_concepts.json` with attribution metadata.
-- Design cluster builder that groups related strings, emits confidence scores, and preserves raw ID fallbacks.
+- Implement `MetadataSynthesizer` capable of inferring speaker/tone/scene context from raw text via heuristics and glossary signals.
+- Stand up the chat-based clustering workflow:
+  - Format Markdown prompts that batch segments + glossary context.
+  - Call a user-selected LLM provider (Cursor, OpenAI, Claude, etc.) via a pluggable chat protocol.
+  - Persist `clusters_llm.json` alongside raw conversation transcripts for auditing.
 - Implement glossary ingestion, disambiguation helpers, lemmatization (spaCy via Python interop or ONNX model).
   - Create preprocessing pipeline and artifact persistence.
   - Ship initial `AITranslator` with prompt templates, batching, and glossary enforcement heuristics.
-  - Deliver first vertical slices (`extract`, `augment`, `translate`) as independent CLI features wired to shared services/namespaces.
+  - Deliver first vertical slices (`extract`, `cluster`, `augment`, `translate`) as independent CLI features wired to shared services/namespaces.
   - Add `Validator` for placeholder/tag checks and glossary coverage reports.
   - Establish functional error handling patterns across services using `CSharpFunctionalExtensions` (`Result`, `Maybe`, `UnitResult`).
 
@@ -216,7 +216,7 @@ Sample corpus: `english.txt` (Pathologic 2 dialogue export). The extractor treat
 - Harden CLI UX (progress reporting, resumable runs, dry runs).
 - Add structured logging, metrics hooks, and error recovery (retry/backoff, partial reruns).
 - Provide sample project, documentation, and automated tests across modules, highlighting fluent pipeline composition patterns.
-- Introduce QA tooling for cluster confidence review, fallback detection, and knowledge-entry coverage reports.
+- Introduce QA tooling for cluster confidence review, glossary coverage gaps, and LLM transcript inspection.
 - Add CLI utilities to review clusters, split/merge assignments, and persist overrides back into the workspace manifest.
 - Add cross-cutting behaviors (caching, telemetry) via pipeline middleware so vertical slices stay isolated.
 
@@ -248,10 +248,10 @@ Sample corpus: `english.txt` (Pathologic 2 dialogue export). The extractor treat
 - **Supportability**: Publish SLA-ready documentation, API references, troubleshooting guides, and contact channels.
 
 ## 10. Next Immediate Actions
-1. Finalize schemas for `source_text_raw.json`, optional `source_text_metadata.json`, `metadata_inferred.json`, `clusters.json`, `knowledge/key_concepts.json`, `glossary_translated.json`, `preprocessed_text.json`, and `translation_raw.json`.
-2. Prototype `SourceExtractor` on `english.txt` (Pathologic 2 sample) and integrate the `MetadataSynthesizer` to validate inference quality against the curated knowledge base.
-3. Build the knowledge-ingestion script for Fandom wiki summaries, document attribution requirements, and seed initial key concepts.
-4. Draft prompt templates for metadata synthesis, clustering, and translation, plus glossary enforcement logic; run small translation spike using chosen LLM.
+1. Finalize schemas for `source_text_raw.json`, optional `source_text_metadata.json`, `metadata_inferred.json`, `clusters_llm.json`, `glossary_translated.json`, `preprocessed_text.json`, and `translation_raw.json`.
+2. Prototype the chat-based clustering prompt/response flow on a small corpus and check it into `docs/examples/cluster_prompt.md` + `clusters_llm.example.json`.
+3. Wire the glossary ingestion pipeline to surface glossary cues inside the clustering prompts.
+4. Draft prompt templates for metadata synthesis, clustering, and translation, plus glossary enforcement logic; run a small translation spike using the updated context.
 5. Establish repository structure (Domain/Application/Infrastructure/Cli projects), fluent pipeline skeleton, vertical-slice command modules, dependency-injected services, and CI (lint + unit tests) to anchor contributions.
 
 

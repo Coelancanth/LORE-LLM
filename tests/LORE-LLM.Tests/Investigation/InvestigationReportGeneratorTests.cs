@@ -50,7 +50,7 @@ public class InvestigationReportGeneratorTests
                 new("seg-2", "there is nothing to see here.", false, 2)
             });
 
-        var result = await generator.GenerateAsync(new DirectoryInfo(Path.GetTempPath()), document, forceRefresh: false, CancellationToken.None);
+        var result = await generator.GenerateAsync(new DirectoryInfo(Path.GetTempPath()), document, forceRefresh: false, offline: false, CancellationToken.None);
 
         result.IsSuccess.ShouldBeTrue();
         var report = result.Value;
@@ -78,6 +78,7 @@ public class InvestigationReportGeneratorTests
             string projectDisplayName,
             IEnumerable<string> candidateTokens,
             bool forceRefresh,
+            bool offline,
             CancellationToken cancellationToken)
         {
             return Task.FromResult(Result.Success(_document));

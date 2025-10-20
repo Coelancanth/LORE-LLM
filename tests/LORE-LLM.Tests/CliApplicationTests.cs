@@ -205,6 +205,7 @@ public class CliApplicationTests
             string projectDisplayName,
             IEnumerable<string> candidateTokens,
             bool forceRefresh,
+            bool offline,
             CancellationToken cancellationToken)
         {
             var entry = new KnowledgeEntry(

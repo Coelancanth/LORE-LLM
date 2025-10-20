@@ -15,5 +15,6 @@ public interface IMediaWikiIngestionService
         string projectDisplayName,
         IEnumerable<string> candidateTokens,
         bool forceRefresh,
+        bool offline,
         CancellationToken cancellationToken);
 }

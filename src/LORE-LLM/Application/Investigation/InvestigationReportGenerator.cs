@@ -26,6 +26,7 @@ public sealed class InvestigationReportGenerator
         DirectoryInfo projectDirectory,
         SourceTextRawDocument sourceDocument,
         bool forceRefresh,
+        bool offline,
         CancellationToken cancellationToken)
     {
         var segmentContexts = BuildTokenContexts(sourceDocument.Segments);
@@ -40,6 +41,7 @@ public sealed class InvestigationReportGenerator
             sourceDocument.ProjectDisplayName,
             aggregatedTokens,
             forceRefresh,
+            offline,
             cancellationToken);
 
         if (knowledgeResult.IsFailure)

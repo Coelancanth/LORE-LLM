@@ -29,12 +29,12 @@
   - Implemented token heuristics and candidate matching backed by a MediaWiki ingestion service (opensearch + parse) with on-disk caching and knowledge base emission.
   - Investigation workflow now persists `knowledge_base.json`, updates manifest artifacts, and surfaces wiki-backed candidates per segment.
   - Expanded unit and CLI coverage around the pipeline and refreshed docs/examples for the new artifacts.
-- [ ] VS-0007 Prefilter wiki ingestion via keyword index.
-  - Cache MediaWiki `allpages` listings (titles, aliases) under the workspace and normalize to a keyword index.
-  - Map extracted segment tokens to indexed pages to prioritize ingestion requests and avoid unnecessary API calls.
-  - Thread the filtered candidate list into `EnsureKnowledgeBaseAsync`, falling back to configurable top-N when matches are sparse.
-  - Update investigation tests/docs to cover the narrowed fetch path and cache lifecycle options (`--force-refresh`, offline mode).
-- [ ] VS-0008 Investigate integration pipeline consumes wiki context.
-  - Merge `investigation.json` and `knowledge_base.json` insights back into the augmentation stage (e.g., enrich metadata with matched concepts, confidence scores, excerpt snippets).
-  - Surface annotated lore in downstream artifacts/previews so translation prompt assembly can leverage it.
-  - Add CLI parameterization for enabling/disabling lore injection and document the expectations in the onboarding guide.
+- [ ] VS-0007 LLM-assisted clustering (chat protocol).
+  - Introduce a `cluster` CLI experience that batches segments and formats Markdown prompts for a user-selected chat provider (Cursor, OpenAI, Claude, etc.).
+  - Define a lightweight prompt/response contract so the LLM returns structured cluster metadata (`clusterId`, member IDs, synopsis, confidence).
+  - Persist results to `clusters_llm.json` alongside the raw conversation transcript for auditing and add integration tests around the new artifact shape.
+  - Make the chat provider pluggable (protocol + API key/config inputs) and document usage in onboarding.
+- [ ] VS-0008 Glossary-aware enrichment from clusters.
+  - Use LLM-generated clusters to detect glossary terms, flag gaps, and push cluster summaries back onto member segments for the augmentation/translation pipeline.
+  - Extend augmentation to consume `clusters_llm.json`, merging cluster synopses and glossary highlights into segment metadata.
+  - Provide CLI toggles for enabling the enrichment path and update docs/tests to reflect glossary + cluster interplay.

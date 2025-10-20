@@ -77,6 +77,10 @@ Stick to vertical slices: Domain → Application → Presentation. Infrastructur
    - Understand JSON contracts in `docs/schemas/`.  
    - Knowing field names speeds up debugging later.
 
+4. **Investigate wiki integration**  
+   - Run `dotnet run --project src/LORE-LLM -- investigate --workspace <workspace> --project <name> --force-refresh` once to seed the wiki cache and keyword index.  
+   - Subsequent runs can supply `--offline` to exercise the pipeline without network calls (fails if caches are missing or stale).
+
 ---
 
 ## 5. Development Workflow Expectations
@@ -108,3 +112,4 @@ If you get stuck, drop questions in the team’s chat channel or open a draft PR
 - Consider automating setup (scripts, sample workspace) once the onboarding steps stabilize.
 
 Welcome again—happy shipping! 🎉
+

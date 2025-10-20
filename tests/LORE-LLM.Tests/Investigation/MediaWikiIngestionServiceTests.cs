@@ -38,6 +38,7 @@ public class MediaWikiIngestionServiceTests : IDisposable
             "Pathologic2 Marble Nest",
             tokens,
             forceRefresh: true,
+            offline: false,
             CancellationToken.None);
 
         result.IsSuccess.ShouldBeTrue();
@@ -53,10 +54,33 @@ public class MediaWikiIngestionServiceTests : IDisposable
             "Pathologic2 Marble Nest",
             tokens,
             forceRefresh: false,
+            offline: false,
             CancellationToken.None);
 
         cachedResult.IsSuccess.ShouldBeTrue();
         cachedResult.Value.Entries.Count.ShouldBe(1);
+        handler.RequestCount.ShouldBe(0);
+    }
+
+    [Fact]
+    public async Task EnsureKnowledgeBaseAsync_offline_without_cache_returns_failure()
+    {
+        var handler = new StubHttpMessageHandler();
+        var client = new HttpClient(handler);
+        var service = new MediaWikiIngestionService(client);
+
+        var tokens = new[] { "Executor" };
+
+        var result = await service.EnsureKnowledgeBaseAsync(
+            _tempDirectory,
+            "pathologic2-marble-nest",
+            "Pathologic2 Marble Nest",
+            tokens,
+            forceRefresh: false,
+            offline: true,
+            CancellationToken.None);
+
+        result.IsSuccess.ShouldBeFalse();
         handler.RequestCount.ShouldBe(0);
     }
 
@@ -89,6 +113,12 @@ public class MediaWikiIngestionServiceTests : IDisposable
             }
 
             var uri = request.RequestUri.ToString();
+            if (uri.Contains("list=allpages", StringComparison.OrdinalIgnoreCase))
+            {
+                const string payload = "{\"query\":{\"allpages\":[{\"title\":\"Executor\"}]}}";
+                return Task.FromResult(BuildResponse(payload));
+            }
+
             if (uri.Contains("opensearch", StringComparison.OrdinalIgnoreCase))
             {
                 var payload = "[\"Executor\",[\"Executor\"],[\"\"],[\"https://pathologic.fandom.com/wiki/Executor\"]]";

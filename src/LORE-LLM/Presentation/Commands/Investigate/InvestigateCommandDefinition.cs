@@ -28,19 +28,26 @@ internal static class InvestigateCommandDefinition
             Description = "Re-fetch wiki knowledge even if it is already cached."
         };
 
+        var offlineOption = new Option<bool>("--offline")
+        {
+            Description = "Skip network calls and use only cached artifacts."
+        };
+
         var command = new Command("investigate", "Analyze extracted segments and produce investigation report artifacts.");
         command.Options.Add(workspaceOption);
         command.Options.Add(projectOption);
         command.Options.Add(forceRefreshOption);
+        command.Options.Add(offlineOption);
 
         command.SetAction(async (parseResult, cancellationToken) =>
         {
             var workspace = parseResult.GetValue(workspaceOption)!;
             var project = parseResult.GetValue(projectOption) ?? "default";
             var forceRefresh = parseResult.GetValue(forceRefreshOption);
+            var offline = parseResult.GetValue(offlineOption);
 
             var handler = services.GetRequiredService<ICommandHandler<InvestigationCommandOptions>>();
-            var result = await handler.HandleAsync(new InvestigationCommandOptions(workspace, project, forceRefresh), cancellationToken);
+            var result = await handler.HandleAsync(new InvestigationCommandOptions(workspace, project, forceRefresh, offline), cancellationToken);
 
             if (result.IsSuccess)
             {

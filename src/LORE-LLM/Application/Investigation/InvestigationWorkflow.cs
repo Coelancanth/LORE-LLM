@@ -62,7 +62,12 @@ public sealed class InvestigationWorkflow : IInvestigationWorkflow
             return Result.Failure<int>("Failed to deserialize source_text_raw.json.");
         }
 
-        var reportResult = await _reportGenerator.GenerateAsync(projectDirectory, sourceDocument, options.ForceRefresh, cancellationToken);
+        var reportResult = await _reportGenerator.GenerateAsync(
+            projectDirectory,
+            sourceDocument,
+            options.ForceRefresh,
+            options.Offline,
+            cancellationToken);
         if (reportResult.IsFailure)
         {
             return Result.Failure<int>(reportResult.Error);
@@ -106,6 +111,13 @@ public sealed class InvestigationWorkflow : IInvestigationWorkflow
         if (File.Exists(knowledgePath))
         {
             artifacts["knowledgeBase"] = "knowledge_base.json";
+        }
+
+        var keywordIndexRelative = Path.Combine("knowledge", "wiki_keyword_index.json");
+        var keywordIndexPath = Path.Combine(projectDirectory.FullName, keywordIndexRelative);
+        if (File.Exists(keywordIndexPath))
+        {
+            artifacts["knowledgeKeywordIndex"] = keywordIndexRelative.Replace('\\', '/');
         }
 
         var updatedManifest = new WorkspaceManifest(
