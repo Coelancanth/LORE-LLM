@@ -43,18 +43,24 @@ public class CliApplicationTests
     {
         var inputFile = CreateTempFile("1111 Sample line", "2222");
         var workspace = CreateTempDirectory();
+        const string projectName = "pathologic2-marble-nest";
 
         var args = new[]
         {
             "extract",
             "--input", inputFile,
-            "--output", workspace
+            "--output", workspace,
+            "--project", projectName
         };
 
         return new CommandScenario(args, () =>
         {
-            var rawPath = Path.Combine(workspace, "source_text_raw.json");
+            var projectFolder = Path.Combine(workspace, projectName);
+            var rawPath = Path.Combine(projectFolder, "source_text_raw.json");
+            var manifestPath = Path.Combine(projectFolder, "workspace.json");
+
             File.Exists(rawPath).ShouldBeTrue("Expected extractor to create source_text_raw.json");
+            File.Exists(manifestPath).ShouldBeTrue("Expected extractor to create workspace.json");
         });
     }
 

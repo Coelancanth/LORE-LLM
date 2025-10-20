@@ -21,17 +21,25 @@ internal static class ExtractCommandDefinition
             Required = true
         };
 
+        var projectOption = new Option<string>("--project", "-p")
+        {
+            Description = "Project identifier used to classify extraction output.",
+            Required = false
+        };
+
         var command = new Command("extract", "Extract raw text and produce source artifacts ready for the pipeline.");
         command.Options.Add(inputOption);
         command.Options.Add(outputOption);
+        command.Options.Add(projectOption);
 
         command.SetAction(async (parseResult, cancellationToken) =>
         {
             var input = parseResult.GetValue(inputOption)!;
             var output = parseResult.GetValue(outputOption)!;
+            var project = parseResult.GetValue(projectOption) ?? "default";
 
             var handler = services.GetRequiredService<ICommandHandler<ExtractCommandOptions>>();
-            var result = await handler.HandleAsync(new ExtractCommandOptions(input, output), cancellationToken);
+            var result = await handler.HandleAsync(new ExtractCommandOptions(input, output, project), cancellationToken);
 
             if (result.IsSuccess)
             {

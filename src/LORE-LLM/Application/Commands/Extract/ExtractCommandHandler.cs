@@ -14,6 +14,6 @@ public sealed class ExtractCommandHandler : ICommandHandler<ExtractCommandOption
 
     public Task<Result<int>> HandleAsync(ExtractCommandOptions options, CancellationToken cancellationToken)
     {
-        return _extractor.ExtractAsync(options.Input, options.Output, cancellationToken);
+        return _extractor.ExtractAsync(options.Input, options.Output, options.Project, cancellationToken);
     }
 }

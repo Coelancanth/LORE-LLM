@@ -23,13 +23,16 @@ public class RawTextExtractorTests
             "",
             "3333 Third line");
         var workspace = CreateTempDirectory();
+        const string projectName = "Pathologic2 Marble Nest";
 
-        var result = await extractor.ExtractAsync(new FileInfo(inputFile), new DirectoryInfo(workspace), CancellationToken.None);
+        var result = await extractor.ExtractAsync(new FileInfo(inputFile), new DirectoryInfo(workspace), projectName, CancellationToken.None);
 
         result.IsSuccess.ShouldBeTrue();
 
-        var rawPath = Path.Combine(workspace, "source_text_raw.json");
-        var manifestPath = Path.Combine(workspace, "workspace.json");
+        var sanitizedProject = "pathologic2-marble-nest";
+        var projectFolder = Path.Combine(workspace, sanitizedProject);
+        var rawPath = Path.Combine(projectFolder, "source_text_raw.json");
+        var manifestPath = Path.Combine(projectFolder, "workspace.json");
 
         File.Exists(rawPath).ShouldBeTrue();
         File.Exists(manifestPath).ShouldBeTrue();
@@ -41,7 +44,9 @@ public class RawTextExtractorTests
         }
 
         document.ShouldNotBeNull();
-        document!.Segments.Count.ShouldBe(3);
+        document!.Project.ShouldBe(sanitizedProject);
+        document.ProjectDisplayName.ShouldBe(projectName);
+        document.Segments.Count.ShouldBe(3);
         document.Segments[0].Id.ShouldBe("1111");
         document.Segments[0].Text.ShouldBe("First line");
         document.Segments[0].IsEmpty.ShouldBeFalse();
@@ -56,7 +61,9 @@ public class RawTextExtractorTests
         }
 
         manifest.ShouldNotBeNull();
-        manifest!.InputHash.ShouldBe(document.InputHash);
+        manifest!.Project.ShouldBe(sanitizedProject);
+        manifest.ProjectDisplayName.ShouldBe(projectName);
+        manifest.InputHash.ShouldBe(document.InputHash);
         manifest.Artifacts.TryGetValue("sourceTextRaw", out var artifactPath).ShouldBeTrue();
         artifactPath.ShouldBe("source_text_raw.json");
     }
@@ -67,7 +74,7 @@ public class RawTextExtractorTests
         var extractor = new RawTextExtractor();
         var workspace = CreateTempDirectory();
 
-        var result = await extractor.ExtractAsync(new FileInfo(Path.Combine(workspace, "missing.txt")), new DirectoryInfo(workspace), CancellationToken.None);
+        var result = await extractor.ExtractAsync(new FileInfo(Path.Combine(workspace, "missing.txt")), new DirectoryInfo(workspace), "project", CancellationToken.None);
 
         result.IsSuccess.ShouldBeFalse();
     }
@@ -79,7 +86,7 @@ public class RawTextExtractorTests
         var inputFile = CreateInputFile("   ", "\t");
         var workspace = CreateTempDirectory();
 
-        var result = await extractor.ExtractAsync(new FileInfo(inputFile), new DirectoryInfo(workspace), CancellationToken.None);
+        var result = await extractor.ExtractAsync(new FileInfo(inputFile), new DirectoryInfo(workspace), "project", CancellationToken.None);
 
         result.IsSuccess.ShouldBeFalse();
     }
