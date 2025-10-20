@@ -171,6 +171,7 @@ Segments:
 | `--project`, `-p` | Project display name | "default" |
 | `--provider` | Chat provider (local, deepseek) | "local" |
 | `--batch-size` | Segments per batch | 25 |
+| `--max-segments` | Upper limit on segments processed (testing) | 0 (no cap) |
 | `--include-empty` | Include empty segments | false |
 | `--prompt-template` | Custom prompt file path | *(built-in)* |
 | `--save-transcript` | Save prompt/response audit log | false |

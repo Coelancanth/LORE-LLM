@@ -72,8 +72,9 @@ public sealed class WikiIndexService : IWikiIndexService
                 continue;
             }
 
-            var isRedirect = await IsRedirectDocumentAsync(file.FullName, cancellationToken);
-            entries.Add(KnowledgeKeywordIndexEntry.FromTitle(title, isRedirect));
+            var redirectTargets = await TryGetRedirectTargetsAsync(file.FullName, cancellationToken);
+            var isRedirect = redirectTargets is not null && redirectTargets.Count > 0;
+            entries.Add(KnowledgeKeywordIndexEntry.FromTitle(title, isRedirect, redirectTargets));
         }
 
         var index = new KnowledgeKeywordIndex(DateTimeOffset.UtcNow, entries);
@@ -82,14 +83,14 @@ public sealed class WikiIndexService : IWikiIndexService
         return Result.Success(entries.Count);
     }
 
-    private static async Task<bool> IsRedirectDocumentAsync(string path, CancellationToken cancellationToken)
+    private static async Task<IReadOnlyList<KnowledgeRedirectTarget>?> TryGetRedirectTargetsAsync(string path, CancellationToken cancellationToken)
     {
         try
         {
             var text = await File.ReadAllTextAsync(path, cancellationToken);
             if (string.IsNullOrWhiteSpace(text))
             {
-                return false;
+                return null;
             }
 
             // Redirect-only files produced by the crawler start with a small header and a list:
@@ -101,7 +102,7 @@ public sealed class WikiIndexService : IWikiIndexService
             var hasRedirectHeader = lines.Any(l => l.Trim().Equals("Redirect to:", StringComparison.OrdinalIgnoreCase));
             if (!hasRedirectHeader)
             {
-                return false;
+                return null;
             }
 
             // Heuristic: redirect docs typically have 1-3 metadata lines, the redirect header, and 1-5 list items, with no other content.
@@ -111,7 +112,7 @@ public sealed class WikiIndexService : IWikiIndexService
 
             if (redirectSection.Count == 0)
             {
-                return false;
+                return null;
             }
 
             // After "Redirect to:", expect only list items (links)
@@ -120,11 +121,42 @@ public sealed class WikiIndexService : IWikiIndexService
             var allLists = after.All(l => l.StartsWith("- "));
             var hasAtLeastOneTarget = after.Any(l => l.StartsWith("- "));
 
-            return allLists && hasAtLeastOneTarget;
+            if (!(allLists && hasAtLeastOneTarget))
+            {
+                return null;
+            }
+
+            // Parse list items: "- [Display](link)"
+            var targets = new List<KnowledgeRedirectTarget>();
+            foreach (var line in after)
+            {
+                if (!line.StartsWith("- "))
+                {
+                    continue;
+                }
+                var trimmed = line.Substring(2).Trim();
+                // Very light-weight parse of Markdown link
+                var openBracket = trimmed.IndexOf('[');
+                var closeBracket = trimmed.IndexOf(']');
+                var openParen = trimmed.IndexOf('(');
+                var closeParen = trimmed.LastIndexOf(')');
+                if (openBracket >= 0 && closeBracket > openBracket && openParen > closeBracket && closeParen > openParen)
+                {
+                    var display = trimmed.Substring(openBracket + 1, closeBracket - openBracket - 1).Trim();
+                    var href = trimmed.Substring(openParen + 1, closeParen - openParen - 1).Trim();
+                    var slug = Path.GetFileNameWithoutExtension(href).Trim();
+                    if (!string.IsNullOrWhiteSpace(display) && !string.IsNullOrWhiteSpace(slug))
+                    {
+                        targets.Add(new KnowledgeRedirectTarget(display, slug));
+                    }
+                }
+            }
+
+            return targets.Count > 0 ? targets : null;
         }
         catch
         {
-            return false;
+            return null;
         }
     }
 }

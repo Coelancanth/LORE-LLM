@@ -51,6 +51,12 @@ internal static class ClusterCommandDefinition
             Description = "Save prompt/response transcript to markdown."
         };
 
+        var maxSegmentsOption = new Option<int>("--max-segments")
+        {
+            Description = "Upper limit on number of segments to process (testing/throttling).",
+            Required = false
+        };
+
         var command = new Command("cluster", "Cluster segments via LLM with a pluggable chat provider.");
         command.Options.Add(workspaceOption);
         command.Options.Add(projectOption);
@@ -59,6 +65,7 @@ internal static class ClusterCommandDefinition
         command.Options.Add(includeEmptyOption);
         command.Options.Add(promptTemplateOption);
         command.Options.Add(saveTranscriptOption);
+        command.Options.Add(maxSegmentsOption);
 
         command.SetAction(async (parseResult, cancellationToken) =>
         {
@@ -69,10 +76,11 @@ internal static class ClusterCommandDefinition
             var includeEmpty = parseResult.GetValue(includeEmptyOption);
             var promptTemplate = parseResult.GetValue(promptTemplateOption);
             var saveTranscript = parseResult.GetValue(saveTranscriptOption);
+            var maxSegments = parseResult.GetValue(maxSegmentsOption);
 
             var handler = services.GetRequiredService<ICommandHandler<ClusterCommandOptions>>();
             var result = await handler.HandleAsync(
-                new ClusterCommandOptions(workspace, project, provider, batchSize == 0 ? 25 : batchSize, includeEmpty, promptTemplate, saveTranscript),
+                new ClusterCommandOptions(workspace, project, provider, batchSize == 0 ? 25 : batchSize, includeEmpty, promptTemplate, saveTranscript) with { MaxSegments = maxSegments },
                 cancellationToken);
 
             if (result.IsSuccess)

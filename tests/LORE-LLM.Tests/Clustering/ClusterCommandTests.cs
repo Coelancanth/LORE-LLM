@@ -68,6 +68,7 @@ public class ClusterCommandTests
             "--project", projectDisplayName,
             "--provider", "local",
             "--batch-size", "1",
+            "--max-segments", "1",
             "--save-transcript"
         };
 

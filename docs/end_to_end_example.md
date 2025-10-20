@@ -72,8 +72,8 @@ dotnet run --project src/LORE-LLM -- index-wiki \
 ```
 
 - Output: `knowledge/wiki_keyword_index.json`
-  - Each entry: `{ title, keywords: [..], isRedirect: bool }`
-  - Redirect-only pages are flagged for downstream skipping
+  - Each entry: `{ title, keywords: [..], isRedirect: bool, redirectTargets?: [{title, slug}] }`
+  - Redirect-only pages are flagged and include `redirectTargets` for downstream skipping/resolution
 
 ---
 
@@ -112,6 +112,7 @@ dotnet run --project src/LORE-LLM -- cluster \
   --project "Pathologic2 Marble Nest" \
   --provider deepseek \
   --batch-size 25 \
+  --max-segments 100 \
   --save-transcript
 ```
 

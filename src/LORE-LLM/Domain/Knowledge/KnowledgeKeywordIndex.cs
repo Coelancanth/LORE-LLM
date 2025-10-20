@@ -52,11 +52,12 @@ public sealed class KnowledgeKeywordIndex
 public sealed class KnowledgeKeywordIndexEntry
 {
     [JsonConstructor]
-    public KnowledgeKeywordIndexEntry(string title, IReadOnlyList<string> keywords, bool isRedirect = false)
+    public KnowledgeKeywordIndexEntry(string title, IReadOnlyList<string> keywords, bool isRedirect = false, IReadOnlyList<KnowledgeRedirectTarget>? redirectTargets = null)
     {
         Title = title;
         Keywords = keywords ?? Array.Empty<string>();
         IsRedirect = isRedirect;
+        RedirectTargets = redirectTargets;
     }
 
     public string Title { get; }
@@ -65,10 +66,12 @@ public sealed class KnowledgeKeywordIndexEntry
 
     public bool IsRedirect { get; }
 
-    public static KnowledgeKeywordIndexEntry FromTitle(string title, bool isRedirect = false)
+    public IReadOnlyList<KnowledgeRedirectTarget>? RedirectTargets { get; }
+
+    public static KnowledgeKeywordIndexEntry FromTitle(string title, bool isRedirect = false, IReadOnlyList<KnowledgeRedirectTarget>? redirectTargets = null)
     {
         var tokens = TokenizeTitle(title);
-        return new KnowledgeKeywordIndexEntry(title, tokens, isRedirect);
+        return new KnowledgeKeywordIndexEntry(title, tokens, isRedirect, redirectTargets);
     }
 
     public static string NormalizeToken(string token)
@@ -116,4 +119,17 @@ public sealed class KnowledgeKeywordIndexEntry
 
         return tokens.ToList();
     }
+}
+
+public sealed class KnowledgeRedirectTarget
+{
+    [JsonConstructor]
+    public KnowledgeRedirectTarget(string title, string slug)
+    {
+        Title = title;
+        Slug = slug;
+    }
+
+    public string Title { get; }
+    public string Slug { get; }
 }

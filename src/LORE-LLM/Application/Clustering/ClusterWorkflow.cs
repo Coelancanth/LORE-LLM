@@ -73,6 +73,11 @@ public sealed class ClusterWorkflow : IClusterWorkflow
             .Where(s => options.IncludeEmpty || !s.IsEmpty)
             .ToList();
 
+        if (options is { MaxSegments: > 0 } && segments.Count > options.MaxSegments)
+        {
+            segments = segments.Take(options.MaxSegments).ToList();
+        }
+
         var batches = BatchSegments(segments, Math.Max(1, options.BatchSize));
 
         var transcript = new StringBuilder();

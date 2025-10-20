@@ -9,6 +9,9 @@ public sealed record ClusterCommandOptions(
     int BatchSize,
     bool IncludeEmpty,
     FileInfo? PromptTemplate,
-    bool SaveTranscript);
+    bool SaveTranscript)
+{
+    public int MaxSegments { get; init; } = 0;
+}
 
 

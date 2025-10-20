@@ -108,7 +108,21 @@ dotnet run --project src/LORE-LLM -- index-wiki \
 ```
 
 - Output: `<workspace>/<project>/knowledge/wiki_keyword_index.json`
-- Each entry includes `title`, tokenized `keywords` and `isRedirect` (true for redirect-only markdown). Redirect-only pages can be skipped by later stages.
+- Each entry includes:
+  - `title`: normalized file title
+  - `keywords`: tokenized search keys
+  - `isRedirect`: true for redirect-only markdown
+  - `redirectTargets`: optional list of `{ title, slug }` targets parsed from the redirect list
+
+Example (Backbone → The Town):
+```json
+{
+  "title": "backbone",
+  "keywords": ["backbone"],
+  "isRedirect": true,
+  "redirectTargets": [ { "title": "The Town", "slug": "the-town" } ]
+}
+```
 
 ---
 

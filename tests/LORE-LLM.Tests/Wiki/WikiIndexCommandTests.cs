@@ -23,6 +23,7 @@ public class WikiIndexCommandTests
 
         File.WriteAllText(Path.Combine(rawDir, "daniil-dankovsky.md"), "# Daniil Dankovsky\n\n> Source: ...");
         File.WriteAllText(Path.Combine(rawDir, "executor.md"), "# Executor\n\n> Source: ...\n\nRedirect to:\n\n- [Executioner](executioner.md)");
+        File.WriteAllText(Path.Combine(rawDir, "backbone.md"), "# Backbone\n\n> Source: ...\n\nRedirect to:\n\n- [The Town](the-town.md)\n");
 
         var args = new[]
         {
@@ -48,6 +49,15 @@ public class WikiIndexCommandTests
         var redirectEntry = index.Entries.FirstOrDefault(e => e.Title.Contains("executor", StringComparison.OrdinalIgnoreCase));
         redirectEntry.ShouldNotBeNull();
         redirectEntry!.IsRedirect.ShouldBeTrue();
+        redirectEntry.RedirectTargets.ShouldNotBeNull();
+        redirectEntry.RedirectTargets!.Count.ShouldBe(1);
+        redirectEntry.RedirectTargets![0].Slug.ShouldBe("executioner");
+
+        var backbone = index.Entries.FirstOrDefault(e => e.Title.Equals("backbone", StringComparison.OrdinalIgnoreCase));
+        backbone.ShouldNotBeNull();
+        backbone!.IsRedirect.ShouldBeTrue();
+        backbone.RedirectTargets.ShouldNotBeNull();
+        backbone.RedirectTargets![0].Slug.ShouldBe("the-town");
     }
 
     private static ICliApplication CreateCliApplication()
