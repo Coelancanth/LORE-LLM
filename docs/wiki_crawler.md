@@ -13,7 +13,8 @@ services.Configure<MediaWikiCrawlerOptions>(options =>
 {
     var project = new MediaWikiCrawlerProjectOptions
     {
-        ApiBase = "https://pathologic.fandom.com/api.php"
+        ApiBase = "https://pathologic.fandom.com/api.php",
+        EmitBaseDocument = false
     };
 
     project.HtmlPostProcessors.Add(MediaWikiHtmlPostProcessorIds.Common);
@@ -25,6 +26,7 @@ services.Configure<MediaWikiCrawlerOptions>(options =>
 
 * `ApiBase` – MediaWiki API endpoint (usually `<host>/api.php`).
 * `HtmlPostProcessors` – ordered list of post-processing plugins (see below). Leave empty to run every plugin whose `CanProcess` returns `true`.
+* `EmitBaseDocument` – defaults to `true`. Set to `false` when you only want per-tab outputs (pages without matching tabs still emit a combined document so redirects remain preserved).
 
 ---
 
@@ -73,7 +75,7 @@ project.TabOutputs.Add(new MediaWikiTabOutputOptions
 - `FileSuffix` determines the filename (defaults to `-{tabSlug}` if omitted).
 - `TitleFormat` (optional) customizes the top-level heading; `{title}` and `{tab}` placeholders resolve to the page title and tab label.
 
-The crawler still writes the base `<slug>.md` with every tab collapsed into headings, and then emits additional files such as `<slug>-pathologic-2.md`. Each variant replicates the metadata header (`Source`, `License`, `Retrieved`) and adds a `Variant:` line for clarity.
+When `EmitBaseDocument` is `true`, the crawler writes the base `<slug>.md` with every tab collapsed into headings, and then emits additional files such as `<slug>-pathologic-2.md`. Set it to `false` to skip the combined output whenever matching tabs are found—redirect-only pages still fall back to the base document so no links are lost. Each variant replicates the metadata header (`Source`, `License`, `Retrieved`) and adds a `Variant:` line for clarity.
 
 ---
 

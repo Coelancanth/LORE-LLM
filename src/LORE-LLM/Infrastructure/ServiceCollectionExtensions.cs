@@ -32,7 +32,8 @@ public static class ServiceCollectionExtensions
         {
             var projectOptions = new MediaWikiCrawlerProjectOptions
             {
-                ApiBase = "https://pathologic.fandom.com/api.php"
+                ApiBase = "https://pathologic.fandom.com/api.php",
+                EmitBaseDocument = false
             };
             projectOptions.HtmlPostProcessors.Add(MediaWikiHtmlPostProcessorIds.Common);
             projectOptions.HtmlPostProcessors.Add(MediaWikiHtmlPostProcessorIds.PathologicMarbleNest);

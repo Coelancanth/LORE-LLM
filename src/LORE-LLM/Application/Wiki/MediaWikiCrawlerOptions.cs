@@ -9,6 +9,8 @@ public sealed class MediaWikiCrawlerProjectOptions
     public List<string> HtmlPostProcessors { get; } = new();
 
     public List<MediaWikiTabOutputOptions> TabOutputs { get; } = new();
+
+    public bool EmitBaseDocument { get; set; } = true;
 }
 
 public sealed class MediaWikiCrawlerOptions

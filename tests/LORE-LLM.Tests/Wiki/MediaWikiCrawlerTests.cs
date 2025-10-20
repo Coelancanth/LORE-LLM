@@ -44,6 +44,7 @@ public sealed class MediaWikiCrawlerTests : IDisposable
         {
             ApiBase = "https://example.invalid/api.php"
         };
+        projectOptions.EmitBaseDocument = false;
         projectOptions.HtmlPostProcessors.Add(MediaWikiHtmlPostProcessorIds.Common);
         projectOptions.HtmlPostProcessors.Add(MediaWikiHtmlPostProcessorIds.PathologicMarbleNest);
         projectOptions.TabOutputs.Add(new MediaWikiTabOutputOptions
@@ -77,18 +78,7 @@ public sealed class MediaWikiCrawlerTests : IDisposable
         result.Value.ShouldBe(1);
 
         var outputFile = Path.Combine(_projectDirectory.FullName, "knowledge", "raw", "bachelor.md");
-        File.Exists(outputFile).ShouldBeTrue("Expected crawler to create markdown file.");
-
-        var contents = File.ReadAllText(outputFile);
-        contents.ShouldContain("# Bachelor");
-        contents.ShouldContain("Source:");
-        contents.ShouldContain("Masked enforcer");
-        contents.ShouldContain("## Pathologic 2");
-        contents.ShouldContain("## Pathologic");
-        contents.ShouldNotContain("infoboxtable");
-        contents.ShouldNotContain("nomobile");
-        contents.ShouldNotContain("![Portrait]");
-        contents.ShouldNotContain("Should be dropped");
+        File.Exists(outputFile).ShouldBeFalse("Combined markdown should be omitted when tab variants are configured.");
 
         var tabPathologic2 = Path.Combine(_projectDirectory.FullName, "knowledge", "raw", "bachelor-pathologic-2.md");
         File.Exists(tabPathologic2).ShouldBeTrue("Expected crawler to create Pathologic 2 tab variant.");

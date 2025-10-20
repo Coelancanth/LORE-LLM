@@ -173,7 +173,8 @@ public sealed class MediaWikiCrawler : IMediaWikiCrawler
     {
         var slug = TextSlugger.ToSlug(title);
         var outputPath = Path.Combine(targetDirectory.FullName, $"{slug}.md");
-        if (!forceRefresh && File.Exists(outputPath))
+        var expectBaseDocument = projectOptions.EmitBaseDocument || projectOptions.TabOutputs.Count == 0;
+        if (!forceRefresh && expectBaseDocument && File.Exists(outputPath))
         {
             return false;
         }
@@ -202,34 +203,46 @@ public sealed class MediaWikiCrawler : IMediaWikiCrawler
 
         var configuredProcessors = projectOptions.HtmlPostProcessors;
         var processedResult = _htmlPipeline.Process(sanitizedProject, title, html, configuredProcessors);
-        var markdownBody = ConvertHtmlToMarkdown(processedResult.Html);
-        if (processedResult.RedirectTargets.Count > 0)
-        {
-            var redirectMarkdown = BuildRedirectMarkdown(processedResult.RedirectTargets);
-            if (string.IsNullOrWhiteSpace(markdownBody))
-            {
-                markdownBody = redirectMarkdown;
-            }
-            else
-            {
-                markdownBody = $"{redirectMarkdown}{Environment.NewLine}{Environment.NewLine}{markdownBody}".Trim();
-            }
-        }
+        var hasTabSections = processedResult.TabSections.Count > 0;
+        var shouldWriteBase = projectOptions.EmitBaseDocument || !hasTabSections;
+
         var baseUri = new Uri(apiBase);
         var pageUrl = $"{baseUri.Scheme}://{baseUri.Host}/wiki/{Uri.EscapeDataString(title.Replace(' ', '_'))}";
         var retrievedAt = DateTimeOffset.UtcNow;
 
-        var builder = new StringBuilder();
-        builder.AppendLine($"# {title}");
-        builder.AppendLine();
-        builder.AppendLine($"> Source: {pageUrl}");
-        builder.AppendLine($"> License: CC-BY-SA 3.0");
-        builder.AppendLine($"> Retrieved: {retrievedAt:O}");
-        builder.AppendLine();
-        builder.AppendLine(markdownBody);
-        builder.AppendLine();
+        if (shouldWriteBase)
+        {
+            var markdownBody = ConvertHtmlToMarkdown(processedResult.Html);
+            if (processedResult.RedirectTargets.Count > 0)
+            {
+                var redirectMarkdown = BuildRedirectMarkdown(processedResult.RedirectTargets);
+                if (string.IsNullOrWhiteSpace(markdownBody))
+                {
+                    markdownBody = redirectMarkdown;
+                }
+                else
+                {
+                    markdownBody = $"{redirectMarkdown}{Environment.NewLine}{Environment.NewLine}{markdownBody}".Trim();
+                }
+            }
 
-        await File.WriteAllTextAsync(outputPath, builder.ToString(), cancellationToken);
+            var builder = new StringBuilder();
+            builder.AppendLine($"# {title}");
+            builder.AppendLine();
+            builder.AppendLine($"> Source: {pageUrl}");
+            builder.AppendLine($"> License: CC-BY-SA 3.0");
+            builder.AppendLine($"> Retrieved: {retrievedAt:O}");
+            builder.AppendLine();
+            builder.AppendLine(markdownBody);
+            builder.AppendLine();
+
+            await File.WriteAllTextAsync(outputPath, builder.ToString(), cancellationToken);
+        }
+        else if (File.Exists(outputPath))
+        {
+            // Remove stale base document when variants are preferred.
+            File.Delete(outputPath);
+        }
 
         if (projectOptions.TabOutputs.Count > 0 && processedResult.TabSections.Count > 0)
         {
