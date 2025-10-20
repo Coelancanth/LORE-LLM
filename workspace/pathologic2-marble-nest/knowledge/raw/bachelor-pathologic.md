@@ -3,7 +3,7 @@
 > Source: https://pathologic.fandom.com/wiki/Bachelor
 > License: CC-BY-SA 3.0
 > Variant: Pathologic
-> Retrieved: 2025-10-20T12:02:46.6142024+00:00
+> Retrieved: 2025-10-20T12:59:01.3582397+00:00
 
 **Daniil Dankovsky** — also known as the **Bachelor** — is an expert on thanatology summoned to town by [Isidor Burakh](/wiki/Isidor_Burakh "Isidor Burakh"), who claims to hold proof to further advance Dankovsky's research on death. He is one of three playable characters alongside the [Haruspex](/wiki/Haruspex "Haruspex") and the [Changeling](/wiki/Changeling "Changeling"). 
  

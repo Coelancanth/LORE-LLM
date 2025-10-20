@@ -3,7 +3,7 @@
 > Source: https://pathologic.fandom.com/wiki/Bachelor
 > License: CC-BY-SA 3.0
 > Variant: Pathologic 2
-> Retrieved: 2025-10-20T12:02:46.6142024+00:00
+> Retrieved: 2025-10-20T12:59:01.3582397+00:00
 
 **Daniil Dankovsky** — also known as the **Bachelor** — is one of three playable characters alongside the [Haruspex](/wiki/Haruspex "Haruspex") and the [Changeling](/wiki/Changeling "Changeling"). He is the player character in *[Pathologic: The Marble Nest](/wiki/Pathologic:_The_Marble_Nest "Pathologic: The Marble Nest").* 
  

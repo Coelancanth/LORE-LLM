@@ -79,6 +79,39 @@ When `EmitBaseDocument` is `true`, the crawler writes the base `<slug>.md` with 
 
 ---
 
+## Resume/Skip Semantics
+
+- Base-document mode (EmitBaseDocument = true or no TabOutputs): if the base markdown already exists and `--force-refresh` is not set, the crawler skips that page and continues. This enables safe, resumable runs.
+- Tab-only mode (EmitBaseDocument = false with TabOutputs): currently always fetches and regenerates tab variants. If you want resume behavior here, we can add a pre-check to skip when all expected variants already exist.
+
+Examples:
+
+```bash
+# Resume a previous full crawl (skips existing base documents)
+dotnet run --project src/LORE-LLM -- crawl-wiki --workspace <workspace> --project <name>
+
+# Force re-fetch and rebuild all markdown
+dotnet run --project src/LORE-LLM -- crawl-wiki --workspace <workspace> --project <name> --force-refresh
+```
+
+---
+
+## Indexing Crawled Markdown
+
+After crawling, generate the keyword index used by investigation and other stages:
+
+```bash
+dotnet run --project src/LORE-LLM -- index-wiki \
+  --workspace <workspace> \
+  --project <name> \
+  --force-refresh
+```
+
+- Output: `<workspace>/<project>/knowledge/wiki_keyword_index.json`
+- Each entry includes `title`, tokenized `keywords` and `isRedirect` (true for redirect-only markdown). Redirect-only pages can be skipped by later stages.
+
+---
+
 ## Tips for New Fandoms
 
 - Capture a few representative pages, inspect the raw HTML, and note repeated UI fragments to target.

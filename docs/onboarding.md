@@ -157,6 +157,16 @@ Stick to vertical slices: Domain → Application → Presentation. Infrastructur
    - The workflow batches segments to stay within token limits; adjust `--batch-size` as needed.
    - Always use `--save-transcript` for auditing and manual review workflows.
 
+7. **Build the wiki keyword index**  
+   - After crawling, generate the index used by investigation and clustering prompts:  
+   ```bash
+   dotnet run --project src/LORE-LLM -- index-wiki \
+     --workspace <workspace> \
+     --project <name> \
+     --force-refresh
+   ```
+   - This writes `<workspace>/<project>/knowledge/wiki_keyword_index.json` with `title`, `keywords`, and `isRedirect` flags.
+
 ---
 
 ## 5. Development Workflow Expectations

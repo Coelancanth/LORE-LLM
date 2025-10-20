@@ -51,4 +51,9 @@
   - Extend augmentation to consume `clusters_llm.json`, merging cluster synopses and glossary highlights into segment metadata.
   - Provide CLI toggles for enabling the enrichment path and update docs/tests to reflect glossary + cluster interplay.
 
+- [x] VS-0011 Wiki keyword indexing + redirect detection.
+  - Added `index-wiki` CLI command to generate `knowledge/wiki_keyword_index.json` from crawled markdown.
+  - Index entries include `title`, tokenized `keywords`, and `isRedirect` flag; redirect-only pages can be skipped downstream.
+  - Updated crawler docs with resume semantics and indexing flow.
+
 

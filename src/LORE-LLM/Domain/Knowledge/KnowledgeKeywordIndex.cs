@@ -52,20 +52,23 @@ public sealed class KnowledgeKeywordIndex
 public sealed class KnowledgeKeywordIndexEntry
 {
     [JsonConstructor]
-    public KnowledgeKeywordIndexEntry(string title, IReadOnlyList<string> keywords)
+    public KnowledgeKeywordIndexEntry(string title, IReadOnlyList<string> keywords, bool isRedirect = false)
     {
         Title = title;
         Keywords = keywords ?? Array.Empty<string>();
+        IsRedirect = isRedirect;
     }
 
     public string Title { get; }
 
     public IReadOnlyList<string> Keywords { get; }
 
-    public static KnowledgeKeywordIndexEntry FromTitle(string title)
+    public bool IsRedirect { get; }
+
+    public static KnowledgeKeywordIndexEntry FromTitle(string title, bool isRedirect = false)
     {
         var tokens = TokenizeTitle(title);
-        return new KnowledgeKeywordIndexEntry(title, tokens);
+        return new KnowledgeKeywordIndexEntry(title, tokens, isRedirect);
     }
 
     public static string NormalizeToken(string token)

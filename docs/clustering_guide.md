@@ -60,6 +60,8 @@ dotnet run --project src/LORE-LLM -- cluster \
 
 7. Re-run the same command—it will parse the transcript and persist clusters to `clusters_llm.json`
 
+Tip: Improve prompts by injecting relevant concepts from the wiki keyword index (`knowledge/wiki_keyword_index.json`) and `knowledge_base.json` (from the `investigate` stage). Keep total prompt tokens reasonable and prefer bullet lists of concept IDs (e.g., `wiki:executor`) with one-line summaries.
+
 ### 3. DeepSeek API (Automatic)
 
 **Setup:**

@@ -13,8 +13,9 @@ using LORE_LLM.Application.Extraction;
 using LORE_LLM.Application.Investigation;
 using LORE_LLM.Application.Clustering;
 using LORE_LLM.Application.Chat;
-using LORE_LLM.Application.PostProcessing;
+using LORE_LLM.Application.Commands.Index;
 using LORE_LLM.Application.Wiki;
+using LORE_LLM.Application.PostProcessing;
 using LORE_LLM.Presentation;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -103,6 +104,9 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<ICommandHandler<IntegrateCommandOptions>, IntegrateCommandHandler>();
         services.AddSingleton<ICommandHandler<InvestigationCommandOptions>, InvestigationCommandHandler>();
         services.AddSingleton<ICommandHandler<WikiCrawlCommandOptions>, WikiCrawlCommandHandler>();
+        services.AddSingleton<ICommandHandler<IndexWikiCommandOptions>, IndexWikiCommandHandler>();
+
+        services.AddSingleton<IWikiIndexService, WikiIndexService>();
         services.AddSingleton<ICommandHandler<ClusterCommandOptions>, ClusterCommandHandler>();
 
         return services;
