@@ -145,17 +145,16 @@ Sample corpus: `english.txt` (Pathologic 2 dialogue export). The extractor treat
 10. **Feedback Loop**: Capture reviewer notes, in-game QA issues, and player feedback to update glossary, prompts, metadata inference rules, and context hints.
 
 ## 5. Architecture Overview
-- **Architectural Style**: Clean Architecture framing (Domain → Application → Infrastructure → Presentation) combined with Vertical Slice Architecture. Each CLI verb (extract, augment, translate, validate, integrate) is implemented as an independent slice that wires its command handler, request/response models, and validators to the shared domain services without cross-slice coupling.
-- **Layered Solution Layout**:
-  - `AILocalizer.Domain`: Pure business logic (entities, value objects, glossary rules) with no external dependencies.
-  - `AILocalizer.Application`: Use cases, fluent pipeline orchestrators, clustering/metadata policies, defined through interfaces.
-  - `AILocalizer.Infrastructure`: Implementations for LLM adapters, knowledge ingestion, storage, filesystem access, and integration gateways.
-  - `AILocalizer.Cli`: Presentation layer hosting the `System.CommandLine` verbs, resolved through `Microsoft.Extensions.Hosting` and DI; a future `AILocalizer.Sdk` can reuse Application services.
+  - **Architectural Style**: Clean Architecture principles applied within a consolidated executable that is organized via Vertical Slice Architecture. Each CLI verb (extract, augment, translate, validate, integrate) resides in an isolated feature folder with its own request/response models, validators, and pipeline wiring; shared contracts are expressed through dedicated namespaces.
+  - **Solution Layout**:
+    - `AILocalizer` (.NET 8 console app): Contains presentation (CLI), application services, domain abstractions, and infrastructure adapters separated by namespaces (`Presentation`, `Application`, `Domain`, `Infrastructure`) and internal interfaces.
+    - `AILocalizer.Tests` (xUnit): Exercises domain logic, pipeline orchestration, and CLI integration with test doubles for external systems.
 - **Vertical Slices**: Each command registers its own request handler, validators, and pipeline configuration via feature modules (e.g., `ExtractFeature.ConfigureServices`). Shared behaviors (telemetry, exception handling) are implemented as middleware so slices stay independent.
 - **Processing Core**: Stateless services operating on versioned JSON artifacts stored in `.ailocalizer/{phase}`; deterministic outputs enable caching and diffing. Serialization uses `System.Text.Json` (with custom converters) for performance and source generator support.
 - **Fluent Pipeline API**: Developers compose workflows through a fluent interface (e.g., `Pipeline.For(source).AugmentMetadata().BuildGlossary().Translate().Validate().Integrate()`), enabling concise yet expressive orchestration in commercial or scripted deployments.
 - **Observability**: Structured logging via `Serilog` (console/file/Seq sinks) and `OpenTelemetry` hooks capture command invocations, LLM call metadata, and clustering confidence for auditing.
 - **Coding Practices**: Target .NET 8/C# 12, favor `record` types for immutable models, embrace async streams for large text batches, and enforce analyzers (StyleCop/IDisposable analyzers) via Roslyn rulesets.
+- **Error & Testing Toolkit**: Adopt `CSharpFunctionalExtensions` for result/Maybe workflows, `Shouldly` for expressive assertions, and `NSubstitute` for lightweight test doubles.
 - **LLM Adapter Layer**: Pluggable providers (Gemini, Azure OpenAI, Claude) implementing a shared interface with retry, rate limiting, telemetry.
 - **Knowledge & Glossary Services**: Lore ingestion layer consuming curated wiki-derived `knowledge/key_concepts.json`, enforcing attribution, and feeding both metadata synthesis and glossary generation.
 - **Persistence**: Local workspace using structured directories; optional PostgreSQL/SQLite backing for large teams in commercial deployments.
@@ -166,8 +165,9 @@ Sample corpus: `english.txt` (Pathologic 2 dialogue export). The extractor treat
 
 ### Phase 0 – Foundations (Week 1–2)
 - Repository setup, coding standards, CI lint/tests.
-- Implement `config.yaml` loader, workspace manifest, logging, diagnostic scaffolding.
-- Scaffold clean architecture solution layout (Domain/Application/Infrastructure/Cli projects) with vertical-slice friendly wiring and central dependency injection/composition root.
+  - Implement `config.yaml` loader, workspace manifest, logging, diagnostic scaffolding.
+  - Scaffold single-project solution (`AILocalizer` console) plus `AILocalizer.Tests`, with vertical-slice folders and central dependency injection/composition root.
+  - Wire baseline test infrastructure (xUnit, Shouldly, NSubstitute) and add shared test utilities.
 
 ### Phase 1 – Core Pipeline (Weeks 3–6)
 - Build `SourceExtractor` with plugin points for XML, JSON, plain text, emitting minimal text-first datasets and optional authored metadata appendices.
@@ -175,10 +175,11 @@ Sample corpus: `english.txt` (Pathologic 2 dialogue export). The extractor treat
 - Create knowledge-ingestion tooling to summarize Fandom wiki pages into structured `knowledge/key_concepts.json` with attribution metadata.
 - Design cluster builder that groups related strings, emits confidence scores, and preserves raw ID fallbacks.
 - Implement glossary ingestion, disambiguation helpers, lemmatization (spaCy via Python interop or ONNX model).
-- Create preprocessing pipeline and artifact persistence.
-- Ship initial `AITranslator` with prompt templates, batching, and glossary enforcement heuristics.
-- Deliver first vertical slices (`extract`, `augment`, `translate`) as independent CLI features wired to Application services.
-- Add `Validator` for placeholder/tag checks and glossary coverage reports.
+  - Create preprocessing pipeline and artifact persistence.
+  - Ship initial `AITranslator` with prompt templates, batching, and glossary enforcement heuristics.
+  - Deliver first vertical slices (`extract`, `augment`, `translate`) as independent CLI features wired to shared services/namespaces.
+  - Add `Validator` for placeholder/tag checks and glossary coverage reports.
+  - Establish functional error handling patterns across services using `CSharpFunctionalExtensions` (`Result`, `Maybe`, `UnitResult`).
 
 ### Phase 2 – Stability & Developer Experience (Weeks 7–9)
 - Harden CLI UX (progress reporting, resumable runs, dry runs).
