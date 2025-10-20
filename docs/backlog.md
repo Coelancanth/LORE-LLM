@@ -17,5 +17,5 @@
 - [ ] VS-0004 Define schemas for metadata, clusters, knowledge, and investigation.
   - Add strongly typed records for `SegmentMetadata`, `ClusterContext`, `KnowledgeEntry`, and `InvestigationSuggestion` (linkage between segments and indexed wiki articles).
   - Document JSON schemas in `docs/schemas/` and provide examples in `docs/examples/` for metadata, clusters, wiki knowledge entries, and investigation reports.
-  - Build wiki ingestion scaffold to crawl `Special:AllPages`, cache article metadata (title, summary, license, last updated), and produce an investigation report that cross-references segments with wiki suggestions.
+  - Build wiki ingestion scaffold using the MediaWiki API (e.g., `action=query&list=allpages`, `prop=extracts|info`) to cache article metadata (title, summary, license, last updated) and produce an investigation report that cross-references segments with wiki suggestions.
   - Ensure serialization tests cover round-trip validation for the new models and their artifacts.
