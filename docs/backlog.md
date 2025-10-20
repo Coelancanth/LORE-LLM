@@ -56,22 +56,32 @@
   - Index entries include `title`, tokenized `keywords`, and `isRedirect` flag; redirect-only pages can be skipped downstream.
   - Updated crawler docs with resume semantics and indexing flow.
 
-- [ ] VS-0012 Pluggable chat provider configuration (config folder).
+- [ ] VS-0012 CLI command presets (config-driven arguments).
+  - Introduce `config/cli.presets.json` (or TOML) so commands like `crawl-wiki` can load default options (pages, throttling, project) without long flag lists.
+  - Support `--preset <name>` plus implicit defaults per sanitized project; allow overrides on the command line.
+  - Update docs/backlog to explain preset workflow and add tests covering config loading + precedence (CLI overrides > preset > hardcoded defaults).
+
+- [ ] VS-0013 Pluggable chat provider configuration (config folder).
   - Introduce `config/chat.providers.json` to declare providers (DeepSeek/OpenAI/Claude/etc.), default model, temperature, maxTokens, and API key env var mapping.
   - Precedence: CLI > environment variables > config file defaults.
-  - Validate configuration against the official provider API specs (DeepSeek Chat Completions, OpenAI responses, Anthropic Messages) and surface actionable errors on misconfig.
+  - Validate configuration against the official provider API specs (DeepSeek Chat Completions, OpenAI responses, Anthropic Messages) and surface actionable errors on misconfig. (Focus only on DeepSeek for now)
   - Wire DI to construct providers from config; keep `DEEPSEEK_API_KEY` compatibility.
 
-- [ ] VS-0013 Knowledge-aware clustering prompt enrichment.
+- [ ] VS-0014 Knowledge-aware clustering prompt enrichment.
   - Add `--with-knowledge` (and caps like `--knowledge-max`) to inject top-N relevant concepts from `knowledge/wiki_keyword_index.json` and/or `knowledge_base.json` into clustering prompts.
   - Keep prompts within token budgets; document guidance and add tests.
 
-- [ ] VS-0014 Crawler resume for tab-only variant outputs.
+- [ ] VS-0015 Crawler resume for tab-only variant outputs.
   - When `EmitBaseDocument = false` with configured `TabOutputs`, skip pages where all expected variant files already exist (unless `--force-refresh`).
   - Add deterministic tests and doc updates.
 
-- [ ] VS-0015 Cluster CLI options: temperature/model overrides.
+- [ ] VS-0016 Cluster CLI options: temperature/model overrides.
   - Add `--temperature` and `--model` to the `cluster` command; flow through to selected provider.
   - Document safe ranges per provider and defaults sourced from config.
+
+- [ ] VS-0017 Global context plugin/prompt.
+  - Provide a project-level, pluggable global context (e.g., surreal stage-play tone for Pathologic) injected into clustering/translation prompts.
+  - Support per-project files (e.g., `config/<project>/global.context.md`) or preset keys; allow CLI override `--global-context <file>`.
+  - Document guidance for concise, stable system prompts and add tests verifying presence in transcripts.
 
 

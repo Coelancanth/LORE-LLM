@@ -222,6 +222,7 @@ Sample corpus: `english.txt` (Pathologic 2 dialogue export). The extractor treat
   - Call a user-selected LLM provider (Cursor, OpenAI, Claude, DeepSeek, etc.) via a pluggable chat protocol (`IChatProvider` abstraction resolved by `ChatProviderResolver`).
   - Persist `clusters_llm.json` alongside raw conversation transcripts (`clusters_llm_transcript.md`) for auditing.
   - Implemented `local` provider for offline/deterministic testing; external providers (API-based) register via DI with their own credentials/config.
+  - Near-term additions: configuration-driven providers (DeepSeek first), global context plugin/prompt, and knowledge-aware prompt enrichment using `knowledge/wiki_keyword_index.json` or `knowledge_base.json`.
 - Implement glossary ingestion, disambiguation helpers, lemmatization (spaCy via Python interop or ONNX model).
   - Create preprocessing pipeline and artifact persistence.
   - Ship initial `AITranslator` with prompt templates, batching, and glossary enforcement heuristics.

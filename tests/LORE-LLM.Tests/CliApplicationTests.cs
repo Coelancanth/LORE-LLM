@@ -51,6 +51,50 @@ public class CliApplicationTests
         scenario.AssertPostConditions();
     }
 
+    [Fact]
+    public async Task Cluster_without_provider_uses_config_default()
+    {
+        const string projectDisplayName = "Pathologic2 Marble Nest";
+        var sanitizer = new ProjectNameSanitizer();
+        var sanitizedProject = sanitizer.Sanitize(projectDisplayName);
+        var workspace = CreateTempDirectory();
+        var projectFolder = Path.Combine(workspace, sanitizedProject);
+        Directory.CreateDirectory(projectFolder);
+
+        var jsonOptions = new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            WriteIndented = true
+        };
+
+        var sourceDocument = new SourceTextRawDocument(
+            SourcePath: "input.txt",
+            GeneratedAt: DateTimeOffset.UtcNow,
+            Project: sanitizedProject,
+            ProjectDisplayName: projectDisplayName,
+            InputHash: "abc123",
+            Segments: new List<SourceSegment>
+            {
+                new("seg-1", "Hello", false, 1)
+            });
+
+        File.WriteAllText(
+            Path.Combine(projectFolder, "source_text_raw.json"),
+            JsonSerializer.Serialize(sourceDocument, jsonOptions));
+
+        var args = new[]
+        {
+            "cluster",
+            "--workspace", workspace,
+            "--project", projectDisplayName,
+            "--batch-size", "1"
+        };
+
+        var cli = CreateCliApplication();
+        var exit = await cli.RunAsync(args);
+        exit.ShouldBe(0);
+    }
+
     private static CommandScenario BuildExtractScenario()
     {
         var inputFile = CreateTempFile("1111 Sample line", "2222");

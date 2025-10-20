@@ -102,7 +102,27 @@ public sealed class ClusterWorkflow : IClusterWorkflow
                 return Result.Failure<int>($"Failed to parse clusters from LLM response: {parseResult.Error}");
             }
 
-            allClusters.AddRange(parseResult.Value);
+            var clustersFromBatch = parseResult.Value;
+            if (options.MaxClusters > 0)
+            {
+                var remaining = options.MaxClusters - allClusters.Count;
+                if (remaining <= 0)
+                {
+                    break;
+                }
+
+                if (clustersFromBatch.Count > remaining)
+                {
+                    allClusters.AddRange(clustersFromBatch.Take(remaining));
+                    break;
+                }
+
+                allClusters.AddRange(clustersFromBatch);
+            }
+            else
+            {
+                allClusters.AddRange(clustersFromBatch);
+            }
         }
 
         var clusterDoc = new ClusterDocument(

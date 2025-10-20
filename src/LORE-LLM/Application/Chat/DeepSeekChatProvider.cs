@@ -13,22 +13,28 @@ public sealed class DeepSeekChatProvider : IChatProvider
 {
     private readonly HttpClient _httpClient;
     private readonly string _apiKey;
+    private readonly string _apiKeyEnvName;
     private readonly string _model;
+    private readonly double? _temperature;
+    private readonly int? _maxTokens;
 
     public string Name => "deepseek";
 
-    public DeepSeekChatProvider(HttpClient httpClient, string apiKey, string model = "deepseek-chat")
+    public DeepSeekChatProvider(HttpClient httpClient, string apiKey, string model = "deepseek-chat", double? temperature = null, int? maxTokens = null, string apiKeyEnvName = "DEEPSEEK_API_KEY")
     {
         _httpClient = httpClient;
         _apiKey = apiKey;
+        _apiKeyEnvName = apiKeyEnvName;
         _model = model;
+        _temperature = temperature;
+        _maxTokens = maxTokens;
     }
 
     public async Task<Result<string>> CompleteAsync(string prompt, CancellationToken cancellationToken)
     {
         if (string.IsNullOrWhiteSpace(_apiKey))
         {
-            return Result.Failure<string>("DeepSeek API key not configured. Set DEEPSEEK_API_KEY environment variable.");
+            return Result.Failure<string>($"DeepSeek API key not configured. Set {_apiKeyEnvName} environment variable.");
         }
 
         try
@@ -40,8 +46,8 @@ public sealed class DeepSeekChatProvider : IChatProvider
                 {
                     new DeepSeekMessage { Role = "user", Content = prompt }
                 },
-                Temperature = 0.7,
-                MaxTokens = 4096
+                Temperature = _temperature ?? 0.7,
+                MaxTokens = _maxTokens ?? 4096
             };
 
             var httpRequest = new HttpRequestMessage(HttpMethod.Post, "https://api.deepseek.com/v1/chat/completions")

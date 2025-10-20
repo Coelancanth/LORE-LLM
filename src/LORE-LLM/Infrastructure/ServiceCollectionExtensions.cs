@@ -18,6 +18,8 @@ using LORE_LLM.Application.Wiki;
 using LORE_LLM.Application.PostProcessing;
 using LORE_LLM.Presentation;
 using Microsoft.Extensions.DependencyInjection;
+using System.Text.Json;
+using System.IO;
 
 namespace LORE_LLM.Infrastructure;
 
@@ -79,10 +81,21 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IClusterWorkflow, ClusterWorkflow>();
         services.AddSingleton<ChatProviderResolver>();
         services.AddSingleton<IChatProvider, LocalChatProvider>();
-        
-        // Register DeepSeek provider if API key is configured
-        var deepseekApiKey = Environment.GetEnvironmentVariable("DEEPSEEK_API_KEY") ?? string.Empty;
-        if (!string.IsNullOrWhiteSpace(deepseekApiKey))
+
+        // Load chat providers configuration (optional)
+        var chatConfig = LoadChatProvidersConfiguration();
+        services.AddSingleton(chatConfig);
+
+        // Load cluster configuration (optional)
+        var clusterConfig = LoadClusterConfiguration();
+        services.AddSingleton(clusterConfig);
+
+        // Register DeepSeek provider based on config and/or environment variables
+        var deepSeekConfig = chatConfig.Providers.DeepSeek;
+        var deepSeekApiKeyEnv = deepSeekConfig?.ApiKeyEnvVar ?? "DEEPSEEK_API_KEY";
+        var deepSeekApiKey = Environment.GetEnvironmentVariable(deepSeekApiKeyEnv) ?? deepSeekConfig?.ApiKey ?? string.Empty;
+
+        if (deepSeekConfig is not null || !string.IsNullOrWhiteSpace(deepSeekApiKey))
         {
             services.AddHttpClient<DeepSeekChatProvider>(client =>
             {
@@ -93,7 +106,10 @@ public static class ServiceCollectionExtensions
             {
                 var httpClientFactory = sp.GetRequiredService<IHttpClientFactory>();
                 var httpClient = httpClientFactory.CreateClient(nameof(DeepSeekChatProvider));
-                return new DeepSeekChatProvider(httpClient, deepseekApiKey);
+                var model = deepSeekConfig?.Model ?? "deepseek-chat";
+                var temperature = deepSeekConfig?.Temperature;
+                var maxTokens = deepSeekConfig?.MaxTokens;
+                return new DeepSeekChatProvider(httpClient, deepSeekApiKey, model, temperature, maxTokens, deepSeekApiKeyEnv);
             });
         }
 
@@ -110,5 +126,57 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<ICommandHandler<ClusterCommandOptions>, ClusterCommandHandler>();
 
         return services;
+    }
+
+    private static ChatProvidersConfiguration LoadChatProvidersConfiguration()
+    {
+        try
+        {
+            var configDir = Environment.GetEnvironmentVariable("LORE_LLM_CONFIG_DIR");
+            var baseDir = string.IsNullOrWhiteSpace(configDir) ? Directory.GetCurrentDirectory() : configDir!;
+            var path = Path.Combine(baseDir, "config", "chat.providers.json");
+            if (!File.Exists(path))
+            {
+                return new ChatProvidersConfiguration();
+            }
+
+            var json = File.ReadAllText(path);
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+            var cfg = JsonSerializer.Deserialize<ChatProvidersConfiguration>(json, options);
+            return cfg ?? new ChatProvidersConfiguration();
+        }
+        catch
+        {
+            return new ChatProvidersConfiguration();
+        }
+    }
+
+    private static ClusterConfiguration LoadClusterConfiguration()
+    {
+        try
+        {
+            var configDir = Environment.GetEnvironmentVariable("LORE_LLM_CONFIG_DIR");
+            var baseDir = string.IsNullOrWhiteSpace(configDir) ? Directory.GetCurrentDirectory() : configDir!;
+            var path = Path.Combine(baseDir, "config", "cluster.json");
+            if (!File.Exists(path))
+            {
+                return new ClusterConfiguration();
+            }
+
+            var json = File.ReadAllText(path);
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+            var cfg = JsonSerializer.Deserialize<ClusterConfiguration>(json, options);
+            return cfg ?? new ClusterConfiguration();
+        }
+        catch
+        {
+            return new ClusterConfiguration();
+        }
     }
 }

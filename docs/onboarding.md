@@ -138,9 +138,12 @@ Stick to vertical slices: Domain → Application → Presentation. Infrastructur
        --save-transcript
      ```
    - The workflow automatically calls the API, parses the response, and persists artifacts.
+   - Optional: configure providers via `config/chat.providers.json` (see below) and override with environment variables.
+   - Optional clustering caps and defaults can be configured via `config/cluster.json`.
 
-   **d) Custom Prompt Templates**
+   **d) Custom Prompt Templates & Global Context**
    - Create a custom prompt template file (e.g., `my_cluster_prompt.txt`) with your instructions. Use `{{projectDisplayName}}` as a placeholder.
+   - You can also keep a global context file per project (e.g., `config/<project>/global.context.md`) that captures tone/themes (e.g., Pathologic’s surreal, stage-play framing) and paste/include it into your template.
    - Supply it via `--prompt-template`:
      ```bash
      dotnet run --project src/LORE-LLM -- cluster \
@@ -154,7 +157,8 @@ Stick to vertical slices: Domain → Application → Presentation. Infrastructur
    **Notes:**
    - The `--provider` flag is pluggable; `local` is included for offline testing.
    - External providers (OpenAI, Claude, DeepSeek) require API credentials and must be registered in DI.
-   - The workflow batches segments to stay within token limits; adjust `--batch-size` as needed.
+   - The workflow batches segments to stay within token limits; adjust `--batch-size` and `--max-segments` as needed.
+   - Clustering currently reads only `source_text_raw.json` segments by default; it does not automatically read wiki markdown or the KB unless you inject context via templates/presets.
    - Always use `--save-transcript` for auditing and manual review workflows.
 
 7. **Build the wiki keyword index**  
@@ -198,4 +202,50 @@ If you get stuck, drop questions in the team’s chat channel or open a draft PR
 - Consider automating setup (scripts, sample workspace) once the onboarding steps stabilize.
 
 Welcome again—happy shipping! 🎉
+
+### Appendix: Chat Provider Configuration
+
+You can configure chat providers via a JSON file at `config/chat.providers.json` (relative to the working directory) or by setting `LORE_LLM_CONFIG_DIR` to point to a base directory that contains `config/chat.providers.json`.
+
+Example file:
+
+```
+{
+  "defaultProvider": "local",
+  "providers": {
+    "deepseek": {
+      "model": "deepseek-chat",
+      "temperature": 0.7,
+      "maxTokens": 4096,
+      "apiKeyEnvVar": "DEEPSEEK_API_KEY"
+    }
+  }
+}
+```
+
+Precedence rules (highest wins):
+- CLI `--provider` flag
+- Environment variables (e.g., `DEEPSEEK_API_KEY` or the name given in `apiKeyEnvVar`)
+- Config file values
+
+Notes:
+- If the DeepSeek provider is configured but no API key is available from env or config, the clustering command will surface an actionable error referencing the expected env var name.
+
+### Appendix: Clustering Limits & Batching
+
+You can cap clustering results by clusters (not lines) using `config/cluster.json` or the CLI flag `--max-clusters`.
+
+Example `config/cluster.json`:
+
+```
+{
+  "maxClusters": 100
+}
+```
+
+Semantics:
+- `--max-clusters` (or `maxClusters` in config) is a cluster-based upper bound. If set to 100, only the first 100 clusters parsed across batches are persisted.
+- `--batch-size` controls input batching by number of segments per API call. Clusters are accumulated across batches. If a cluster would exceed the cap mid-batch, the workflow truncates the final batch’s clusters to fit the cap and stops.
+- `--max-segments` is independent and caps how many input segments are considered before batching.
+
 

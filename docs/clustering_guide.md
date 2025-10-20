@@ -62,6 +62,8 @@ dotnet run --project src/LORE-LLM -- cluster \
 
 Tip: Improve prompts by injecting relevant concepts from the wiki keyword index (`knowledge/wiki_keyword_index.json`) and `knowledge_base.json` (from the `investigate` stage). Keep total prompt tokens reasonable and prefer bullet lists of concept IDs (e.g., `wiki:executor`) with one-line summaries.
 
+Global context: Consider a short system-style preamble reflecting the project's ethos (e.g., Pathologic’s surreal, stage-play tone). Keep it stable across batches. You can place this text in a reusable file (e.g., `config/<project>/global.context.md`) and include it at the top of your prompt template.
+
 ### 3. DeepSeek API (Automatic)
 
 **Setup:**
@@ -193,7 +195,7 @@ public sealed class MyCustomProvider : IChatProvider
 }
 ```
 
-Register in `ServiceCollectionExtensions.cs`:
+Register in `ServiceCollectionExtensions.cs` (or via future `config/chat.providers.json` once implemented):
 
 ```csharp
 services.AddSingleton<IChatProvider, MyCustomProvider>();

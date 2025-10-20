@@ -98,6 +98,52 @@ public class ClusterCommandTests
         updatedManifest!.Artifacts.ContainsKey("clustersLlm").ShouldBeTrue();
     }
 
+    [Fact]
+    public async Task Cluster_command_uses_default_provider_from_config_when_not_specified()
+    {
+        // Arrange: ensure no provider flag provided, config defaultProvider is local via repo file
+        const string projectDisplayName = "Pathologic2 Marble Nest";
+        var sanitizer = new ProjectNameSanitizer();
+        var sanitizedProject = sanitizer.Sanitize(projectDisplayName);
+        var workspace = CreateTempDirectory();
+        var projectFolder = Path.Combine(workspace, sanitizedProject);
+        Directory.CreateDirectory(projectFolder);
+
+        var jsonOptions = new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            WriteIndented = true
+        };
+
+        var sourceDocument = new SourceTextRawDocument(
+            SourcePath: "input.txt",
+            GeneratedAt: DateTimeOffset.UtcNow,
+            Project: sanitizedProject,
+            ProjectDisplayName: projectDisplayName,
+            InputHash: "abc123",
+            Segments: new List<SourceSegment>
+            {
+                new("seg-1", "Executor, stay your blade.", false, 1)
+            });
+
+        File.WriteAllText(
+            Path.Combine(projectFolder, "source_text_raw.json"),
+            JsonSerializer.Serialize(sourceDocument, jsonOptions));
+
+        var args = new[]
+        {
+            "cluster",
+            "--workspace", workspace,
+            "--project", projectDisplayName,
+            "--batch-size", "1",
+            "--max-segments", "1"
+        };
+
+        var cli = CreateCliApplication();
+        var exitCode = await cli.RunAsync(args);
+        exitCode.ShouldBe(0);
+    }
+
     private static ICliApplication CreateCliApplication()
     {
         var services = new ServiceCollection();

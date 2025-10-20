@@ -12,6 +12,7 @@ public sealed record ClusterCommandOptions(
     bool SaveTranscript)
 {
     public int MaxSegments { get; init; } = 0;
+    public int MaxClusters { get; init; } = 0;
 }
 
 

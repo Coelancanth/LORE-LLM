@@ -113,12 +113,16 @@ dotnet run --project src/LORE-LLM -- cluster \
   --provider deepseek \
   --batch-size 25 \
   --max-segments 100 \
+  --max-clusters 50 \
   --save-transcript
 ```
 
 - Outputs:
   - `clusters_llm.json` – `ClusterDocument` with `clusters` array
   - `clusters_llm_transcript.md` – full prompt/response
+  - Caps:
+    - `--max-segments` limits input lines considered pre-batching (line-based)
+    - `--max-clusters` limits number of clusters written (cluster-based)
 
 Transcript prompt excerpt:
 ```text

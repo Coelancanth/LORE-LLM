@@ -4,6 +4,7 @@ using System.IO;
 using LORE_LLM.Application.Commands;
 using LORE_LLM.Application.Commands.Cluster;
 using Microsoft.Extensions.DependencyInjection;
+using LORE_LLM.Application.Chat;
 
 namespace LORE_LLM.Presentation.Commands.Cluster;
 
@@ -57,6 +58,12 @@ internal static class ClusterCommandDefinition
             Required = false
         };
 
+        var maxClustersOption = new Option<int>("--max-clusters")
+        {
+            Description = "Upper limit on number of clusters to persist (cluster-based cap).",
+            Required = false
+        };
+
         var command = new Command("cluster", "Cluster segments via LLM with a pluggable chat provider.");
         command.Options.Add(workspaceOption);
         command.Options.Add(projectOption);
@@ -66,21 +73,35 @@ internal static class ClusterCommandDefinition
         command.Options.Add(promptTemplateOption);
         command.Options.Add(saveTranscriptOption);
         command.Options.Add(maxSegmentsOption);
+        command.Options.Add(maxClustersOption);
 
         command.SetAction(async (parseResult, cancellationToken) =>
         {
             var workspace = parseResult.GetValue(workspaceOption)!;
             var project = parseResult.GetValue(projectOption) ?? "default";
-            var provider = parseResult.GetValue(providerOption) ?? "local";
+            var provider = parseResult.GetValue(providerOption);
+            if (string.IsNullOrWhiteSpace(provider))
+            {
+                var cfg = services.GetRequiredService<ChatProvidersConfiguration>();
+                provider = string.IsNullOrWhiteSpace(cfg.DefaultProvider) ? "local" : cfg.DefaultProvider;
+            }
             var batchSize = parseResult.GetValue(batchSizeOption);
             var includeEmpty = parseResult.GetValue(includeEmptyOption);
             var promptTemplate = parseResult.GetValue(promptTemplateOption);
             var saveTranscript = parseResult.GetValue(saveTranscriptOption);
             var maxSegments = parseResult.GetValue(maxSegmentsOption);
+            var maxClusters = parseResult.GetValue(maxClustersOption);
+
+            // Fill defaults from config if not provided
+            if (maxClusters == 0)
+            {
+                var clusterCfg = services.GetRequiredService<LORE_LLM.Application.Clustering.ClusterConfiguration>();
+                maxClusters = clusterCfg.MaxClusters ?? 0;
+            }
 
             var handler = services.GetRequiredService<ICommandHandler<ClusterCommandOptions>>();
             var result = await handler.HandleAsync(
-                new ClusterCommandOptions(workspace, project, provider, batchSize == 0 ? 25 : batchSize, includeEmpty, promptTemplate, saveTranscript) with { MaxSegments = maxSegments },
+                new ClusterCommandOptions(workspace, project, provider, batchSize == 0 ? 25 : batchSize, includeEmpty, promptTemplate, saveTranscript) with { MaxSegments = maxSegments, MaxClusters = maxClusters },
                 cancellationToken);
 
             if (result.IsSuccess)
