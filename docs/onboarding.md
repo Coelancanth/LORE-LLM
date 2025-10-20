@@ -83,7 +83,7 @@ Stick to vertical slices: Domain → Application → Presentation. Infrastructur
 
 5. **(Optional) Cache wiki markdown**  
    - Use `dotnet run --project src/LORE-LLM -- crawl-wiki --workspace <workspace> --project <name> --page "Page Title"` to save MediaWiki content as markdown under `knowledge/raw/`.  
-   - Advanced projects can register crawl post-processing plugins to strip UI fragments (infoboxes, galleries) without touching shared crawler code.
+   - Advanced projects can register crawl post-processing plugins to strip UI fragments (infoboxes, galleries) without touching shared crawler code—see `docs/wiki_crawler.md` for configuration details.
 
 ---
 

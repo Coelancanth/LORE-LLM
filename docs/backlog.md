@@ -32,11 +32,12 @@
 - [x] VS-0007 Crawl wiki pages to Markdown via API.
   - Implemented `crawl-wiki` CLI command with pluggable `IMediaWikiCrawler`, caching of `allpages`, markdown conversion, throttling, and deterministic tests.
   - Stored outputs under `knowledge/raw/*.md`; seeded Daniil Dankovsky/Bachelor entries as verification.
-  - Remaining follow-up: strip wiki UI artifacts (tables/infoboxes), add per-project post-processing knobs, and refine multi-tab rendering (tracked under VS-0008).
-- [ ] VS-0008 MediaWiki crawler post-processing plugins.
-  - Introduce a configurable post-processing pipeline (similar to `IPostExtractionProcessor`) so each project can register site-specific HTML cleanup (e.g., strip infoboxes, game maps, official art galleries).
-  - Provide a Pathologic-specific plugin that removes decorative tables, screenshot galleries, and other UI fragments, yielding concise markdown sections per tab.
-  - Allow overrides via configuration/DI so additional fandoms can supply their own sanitizers without touching the core crawler.
+  - Added HTML post-processing pipeline with project-specific sanitizers that strip wiki UI artifacts and flatten multi-tab layouts into Markdown sections.
+- [] VS-0008 MediaWiki crawler post-processing plugins.
+  - Introduced configuration-driven HTML pipeline backed by `MediaWikiCrawlerOptions`, letting each sanitized project map to its API base and ordered post-processor list.
+  - Added Pathologic-specific processor that strips infoboxes, tab chrome, galleries, and other decorative elements while flattening tabs into Markdown headings.
+  - Documented extension guidance (`docs/wiki_crawler.md`) so new fandoms can register processors through DI without touching core crawler logic.
+  - Tab-aware exports currently write per-variant Markdown files (e.g., `*-pathologic-2.md`) alongside the combined output; follow-up work will slot these into project-specific subfolders and add a crawler indexing command so plugins can emit searchable catalogs.
 - [ ] VS-0009 LLM-assisted clustering (chat protocol).
   - Introduce a `cluster` CLI experience that batches segments and formats Markdown prompts for a user-selected chat provider (Cursor, OpenAI, Claude, etc.).
   - Define a lightweight prompt/response contract so the LLM returns structured cluster metadata (`clusterId`, member IDs, synopsis, confidence).

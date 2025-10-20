@@ -25,6 +25,33 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IProjectNameSanitizer, ProjectNameSanitizer>();
         services.AddSingleton<IRawTextExtractor, RawTextExtractor>();
         services.AddSingleton<PostProcessingPipeline>();
+        services.AddSingleton<MediaWikiHtmlPostProcessingPipeline>();
+        services.AddSingleton<IMediaWikiHtmlPostProcessor, CommonMediaWikiHtmlPostProcessor>();
+        services.AddSingleton<IMediaWikiHtmlPostProcessor, PathologicMarbleNestHtmlPostProcessor>();
+        services.Configure<MediaWikiCrawlerOptions>(options =>
+        {
+            var projectOptions = new MediaWikiCrawlerProjectOptions
+            {
+                ApiBase = "https://pathologic.fandom.com/api.php"
+            };
+            projectOptions.HtmlPostProcessors.Add(MediaWikiHtmlPostProcessorIds.Common);
+            projectOptions.HtmlPostProcessors.Add(MediaWikiHtmlPostProcessorIds.PathologicMarbleNest);
+            projectOptions.TabOutputs.Add(new MediaWikiTabOutputOptions
+            {
+                TabName = "Pathologic 2",
+                TabSlug = "pathologic-2",
+                FileSuffix = "-pathologic-2",
+                TitleFormat = "{title} (Pathologic 2)"
+            });
+            projectOptions.TabOutputs.Add(new MediaWikiTabOutputOptions
+            {
+                TabName = "Pathologic",
+                TabSlug = "pathologic",
+                FileSuffix = "-pathologic",
+                TitleFormat = "{title} (Pathologic)"
+            });
+            options.Projects["pathologic2-marble-nest"] = projectOptions;
+        });
         services.AddSingleton<IPostExtractionProcessor, MarbleNestPostProcessor>();
         services.AddHttpClient<IMediaWikiIngestionService, MediaWikiIngestionService>(client =>
         {

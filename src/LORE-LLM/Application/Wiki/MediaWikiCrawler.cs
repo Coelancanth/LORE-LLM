@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using CSharpFunctionalExtensions;
 using LORE_LLM.Application.Investigation;
 using LORE_LLM.Application.PostProcessing;
+using Microsoft.Extensions.Options;
 using ReverseMarkdown;
 
 namespace LORE_LLM.Application.Wiki;
@@ -26,11 +27,19 @@ public sealed class MediaWikiCrawler : IMediaWikiCrawler
     private readonly HttpClient _httpClient;
     private readonly Converter _markdownConverter = new Converter();
     private readonly IProjectNameSanitizer _projectNameSanitizer;
+    private readonly MediaWikiHtmlPostProcessingPipeline _htmlPipeline;
+    private readonly MediaWikiCrawlerOptions _options;
 
-    public MediaWikiCrawler(HttpClient httpClient, IProjectNameSanitizer projectNameSanitizer)
+    public MediaWikiCrawler(
+        HttpClient httpClient,
+        IProjectNameSanitizer projectNameSanitizer,
+        MediaWikiHtmlPostProcessingPipeline htmlPipeline,
+        IOptions<MediaWikiCrawlerOptions> options)
     {
         _httpClient = httpClient;
         _projectNameSanitizer = projectNameSanitizer;
+        _htmlPipeline = htmlPipeline;
+        _options = options.Value;
     }
 
     public async Task<Result<int>> CrawlAsync(
@@ -53,11 +62,12 @@ public sealed class MediaWikiCrawler : IMediaWikiCrawler
             return Result.Failure<int>($"Project directory not found: {projectDirectory.FullName}");
         }
 
-        var apiBase = ResolveApiBase(sanitizedProject);
-        if (apiBase is null)
+        var projectOptions = _options.GetProjectOptions(sanitizedProject);
+        if (projectOptions is null || string.IsNullOrWhiteSpace(projectOptions.ApiBase))
         {
             return Result.Failure<int>($"No MediaWiki configuration available for project '{sanitizedProject}'.");
         }
+        var apiBase = projectOptions.ApiBase;
 
         var targetDirectory = new DirectoryInfo(Path.Combine(projectDirectory.FullName, "knowledge", "raw"));
         if (!targetDirectory.Exists)
@@ -83,7 +93,14 @@ public sealed class MediaWikiCrawler : IMediaWikiCrawler
         foreach (var title in titles)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            var result = await CrawlSinglePageAsync(apiBase, title, targetDirectory, forceRefresh, cancellationToken);
+            var result = await CrawlSinglePageAsync(
+                apiBase,
+                sanitizedProject,
+                projectOptions,
+                title,
+                targetDirectory,
+                forceRefresh,
+                cancellationToken);
             if (result)
             {
                 processed++;
@@ -94,12 +111,6 @@ public sealed class MediaWikiCrawler : IMediaWikiCrawler
 
         return Result.Success(processed);
     }
-
-    private static string? ResolveApiBase(string sanitizedProject) => sanitizedProject switch
-    {
-        "pathologic2-marble-nest" => "https://pathologic.fandom.com/api.php",
-        _ => null
-    };
 
     private async Task<List<string>> FetchAllPageTitlesAsync(string apiBase, CancellationToken cancellationToken)
     {
@@ -153,6 +164,8 @@ public sealed class MediaWikiCrawler : IMediaWikiCrawler
 
     private async Task<bool> CrawlSinglePageAsync(
         string apiBase,
+        string sanitizedProject,
+        MediaWikiCrawlerProjectOptions projectOptions,
         string title,
         DirectoryInfo targetDirectory,
         bool forceRefresh,
@@ -187,23 +200,222 @@ public sealed class MediaWikiCrawler : IMediaWikiCrawler
             return false;
         }
 
-        var markdownBody = _markdownConverter.Convert(html);
-        markdownBody = Regex.Replace(markdownBody, "<!--.*?-->", string.Empty, RegexOptions.Singleline).Trim();
+        var configuredProcessors = projectOptions.HtmlPostProcessors;
+        var processedResult = _htmlPipeline.Process(sanitizedProject, title, html, configuredProcessors);
+        var markdownBody = ConvertHtmlToMarkdown(processedResult.Html);
+        if (processedResult.RedirectTargets.Count > 0)
+        {
+            var redirectMarkdown = BuildRedirectMarkdown(processedResult.RedirectTargets);
+            if (string.IsNullOrWhiteSpace(markdownBody))
+            {
+                markdownBody = redirectMarkdown;
+            }
+            else
+            {
+                markdownBody = $"{redirectMarkdown}{Environment.NewLine}{Environment.NewLine}{markdownBody}".Trim();
+            }
+        }
         var baseUri = new Uri(apiBase);
         var pageUrl = $"{baseUri.Scheme}://{baseUri.Host}/wiki/{Uri.EscapeDataString(title.Replace(' ', '_'))}";
+        var retrievedAt = DateTimeOffset.UtcNow;
 
         var builder = new StringBuilder();
         builder.AppendLine($"# {title}");
         builder.AppendLine();
         builder.AppendLine($"> Source: {pageUrl}");
         builder.AppendLine($"> License: CC-BY-SA 3.0");
-        builder.AppendLine($"> Retrieved: {DateTimeOffset.UtcNow:O}");
+        builder.AppendLine($"> Retrieved: {retrievedAt:O}");
         builder.AppendLine();
         builder.AppendLine(markdownBody);
         builder.AppendLine();
 
         await File.WriteAllTextAsync(outputPath, builder.ToString(), cancellationToken);
+
+        if (projectOptions.TabOutputs.Count > 0 && processedResult.TabSections.Count > 0)
+        {
+            await WriteTabVariantsAsync(
+                projectOptions,
+                processedResult.TabSections,
+                slug,
+                title,
+                pageUrl,
+                retrievedAt,
+                targetDirectory,
+                cancellationToken);
+        }
+
         return true;
+    }
+
+    private async Task WriteTabVariantsAsync(
+        MediaWikiCrawlerProjectOptions projectOptions,
+        IReadOnlyList<MediaWikiTabSection> tabSections,
+        string baseSlug,
+        string pageTitle,
+        string pageUrl,
+        DateTimeOffset retrievedAt,
+        DirectoryInfo targetDirectory,
+        CancellationToken cancellationToken)
+    {
+        foreach (var tabOutput in projectOptions.TabOutputs)
+        {
+            var section = FindMatchingSection(tabSections, tabOutput);
+            if (section is null)
+            {
+                continue;
+            }
+
+            var markdown = ConvertHtmlToMarkdown(section.Html);
+            markdown = StripLeadingHeading(markdown, section.Name).Trim();
+
+            var heading = BuildTabHeading(pageTitle, section.Name, tabOutput);
+
+            var builder = new StringBuilder();
+            builder.AppendLine($"# {heading}");
+            builder.AppendLine();
+            builder.AppendLine($"> Source: {pageUrl}");
+            builder.AppendLine($"> License: CC-BY-SA 3.0");
+            builder.AppendLine($"> Variant: {section.Name}");
+            builder.AppendLine($"> Retrieved: {retrievedAt:O}");
+            builder.AppendLine();
+
+            if (!string.IsNullOrWhiteSpace(markdown))
+            {
+                builder.AppendLine(markdown);
+                builder.AppendLine();
+            }
+
+            var fileName = BuildTabFileName(baseSlug, section, tabOutput);
+            var outputPath = Path.Combine(targetDirectory.FullName, fileName);
+            await File.WriteAllTextAsync(outputPath, builder.ToString(), cancellationToken);
+        }
+    }
+
+    private string ConvertHtmlToMarkdown(string html)
+    {
+        var markdownBody = _markdownConverter.Convert(html);
+        return Regex.Replace(markdownBody, "<!--.*?-->", string.Empty, RegexOptions.Singleline).Trim();
+    }
+
+    private static string StripLeadingHeading(string markdown, string heading)
+    {
+        if (string.IsNullOrWhiteSpace(markdown) || string.IsNullOrWhiteSpace(heading))
+        {
+            return markdown;
+        }
+
+        var pattern = $"^##\\s*{Regex.Escape(heading)}\\s*\\r?\\n";
+        return Regex.Replace(markdown, pattern, string.Empty, RegexOptions.IgnoreCase);
+    }
+
+    private static string BuildTabHeading(string pageTitle, string tabName, MediaWikiTabOutputOptions tabOutput)
+    {
+        if (!string.IsNullOrWhiteSpace(tabOutput.TitleFormat))
+        {
+            var heading = tabOutput.TitleFormat;
+            heading = heading.Replace("{title}", pageTitle);
+            heading = heading.Replace("{tab}", tabName);
+            return heading;
+        }
+
+        return $"{pageTitle} ({tabName})";
+    }
+
+    private static string BuildTabFileName(string baseSlug, MediaWikiTabSection section, MediaWikiTabOutputOptions tabOutput)
+    {
+        var suffix = tabOutput.FileSuffix;
+        if (string.IsNullOrWhiteSpace(suffix))
+        {
+            suffix = "-" + section.Slug;
+        }
+        else
+        {
+            suffix = NormalizeSuffix(suffix, section.Slug);
+        }
+
+        return $"{baseSlug}{suffix}.md";
+    }
+
+    private static string BuildRedirectMarkdown(IReadOnlyList<MediaWikiRedirectTarget> targets)
+    {
+        if (targets.Count == 0)
+        {
+            return string.Empty;
+        }
+
+        var builder = new StringBuilder();
+        builder.AppendLine("Redirect to:");
+        builder.AppendLine();
+
+        foreach (var target in targets)
+        {
+            var link = ResolveRedirectLink(target);
+            builder.AppendLine($"- [{target.DisplayText}]({link})");
+        }
+
+        return builder.ToString().TrimEnd();
+    }
+
+    private static string ResolveRedirectLink(MediaWikiRedirectTarget target)
+    {
+        if (string.IsNullOrWhiteSpace(target.Href))
+        {
+            return target.DisplayText;
+        }
+
+        if (Uri.TryCreate(target.Href, UriKind.Absolute, out var absoluteUri))
+        {
+            return absoluteUri.ToString();
+        }
+
+        if (target.Href.StartsWith("/wiki/", StringComparison.OrdinalIgnoreCase))
+        {
+            var page = target.Href.Substring("/wiki/".Length);
+            page = Uri.UnescapeDataString(page);
+            page = page.Replace('_', ' ');
+            var slug = TextSlugger.ToSlug(page);
+            return $"{slug}.md";
+        }
+
+        return target.Href;
+    }
+
+    private static string NormalizeSuffix(string suffix, string defaultSlug)
+    {
+        var trimmed = suffix.Trim();
+        if (trimmed.Length == 0)
+        {
+            return "-" + defaultSlug;
+        }
+
+        if (!trimmed.StartsWith("-", StringComparison.Ordinal))
+        {
+            trimmed = "-" + trimmed.TrimStart('-');
+        }
+
+        return trimmed;
+    }
+
+    private static MediaWikiTabSection? FindMatchingSection(
+        IReadOnlyList<MediaWikiTabSection> sections,
+        MediaWikiTabOutputOptions tabOutput)
+    {
+        foreach (var section in sections)
+        {
+            if (!string.IsNullOrWhiteSpace(tabOutput.TabName) &&
+                string.Equals(section.Name, tabOutput.TabName, StringComparison.OrdinalIgnoreCase))
+            {
+                return section;
+            }
+
+            if (!string.IsNullOrWhiteSpace(tabOutput.TabSlug) &&
+                string.Equals(section.Slug, tabOutput.TabSlug, StringComparison.OrdinalIgnoreCase))
+            {
+                return section;
+            }
+        }
+
+        return null;
     }
 }
 
