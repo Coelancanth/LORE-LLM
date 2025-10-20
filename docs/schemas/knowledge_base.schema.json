@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "KnowledgeBaseDocument",
+  "type": "object",
+  "required": ["project", "projectDisplayName", "generatedAt", "entries"],
+  "properties": {
+    "project": {"type": "string"},
+    "projectDisplayName": {"type": "string"},
+    "generatedAt": {"type": "string", "format": "date-time"},
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["conceptId", "title", "summary", "source"],
+        "properties": {
+          "conceptId": {"type": "string"},
+          "title": {"type": "string"},
+          "summary": {"type": "string"},
+          "source": {
+            "type": "object",
+            "required": ["provider", "url", "license", "retrievedAt"],
+            "properties": {
+              "provider": {"type": "string"},
+              "url": {"type": "string", "format": "uri"},
+              "license": {"type": "string"},
+              "retrievedAt": {"type": "string", "format": "date-time"}
+            },
+            "additionalProperties": false
+          },
+          "aliases": {
+            "type": "array",
+            "items": {"type": "string"}
+          },
+          "categories": {
+            "type": "array",
+            "items": {"type": "string"}
+          },
+          "metadata": {
+            "type": "object",
+            "additionalProperties": {"type": "string"}
+          },
+          "glossaryHints": {
+            "type": "array",
+            "items": {"type": "string"}
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

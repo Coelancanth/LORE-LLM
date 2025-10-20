@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "InvestigationReport",
+  "type": "object",
+  "required": ["project", "projectDisplayName", "generatedAt", "inputHash", "suggestions"],
+  "properties": {
+    "project": {"type": "string"},
+    "projectDisplayName": {"type": "string"},
+    "generatedAt": {"type": "string", "format": "date-time"},
+    "inputHash": {"type": "string"},
+    "suggestions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["segmentId", "tokens", "candidates"],
+        "properties": {
+          "segmentId": {"type": "string"},
+          "tokens": {
+            "type": "array",
+            "items": {"type": "string"}
+          },
+          "candidates": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["conceptId", "source", "confidence"],
+              "properties": {
+                "conceptId": {"type": "string"},
+                "source": {"type": "string"},
+                "confidence": {"type": "number"},
+                "notes": {"type": "string"}
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

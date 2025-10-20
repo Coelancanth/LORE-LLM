@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MetadataInferredDocument",
+  "type": "object",
+  "required": ["project", "projectDisplayName", "generatedAt", "sourceTextHash", "segments"],
+  "properties": {
+    "project": {"type": "string"},
+    "projectDisplayName": {"type": "string"},
+    "generatedAt": {"type": "string", "format": "date-time"},
+    "sourceTextHash": {"type": "string"},
+    "segments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["segmentId"],
+        "properties": {
+          "segmentId": {"type": "string"},
+          "speaker": {"type": "string"},
+          "speakerRole": {"type": "string"},
+          "tone": {"type": "string"},
+          "scope": {"type": "string"},
+          "summary": {"type": "string"},
+          "tags": {
+            "type": "array",
+            "items": {"type": "string"}
+          },
+          "glossaryTerms": {
+            "type": "array",
+            "items": {"type": "string"}
+          },
+          "confidence": {"type": "number"},
+          "knowledgeReferences": {
+            "type": "array",
+            "items": {"type": "string"}
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

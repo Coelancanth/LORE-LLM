@@ -1,0 +1,21 @@
+{
+  "project": "pathologic2-marble-nest",
+  "projectDisplayName": "Pathologic 2: Marble Nest",
+  "generatedAt": "2025-10-20T13:35:00Z",
+  "sourceTextHash": "8f4c3d9...",
+  "clusters": [
+    {
+      "clusterId": "scene:executor_farewell",
+      "memberIds": [
+        "conv:6192355001750781",
+        "conv:6192355001750784"
+      ],
+      "sharedContext": [
+        "Final exchange with the Executor inside the theatre",
+        "Sets up the confrontation with Death"
+      ],
+      "knowledgeReferences": ["character:executor"],
+      "confidence": 0.71
+    }
+  ]
+}

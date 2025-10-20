@@ -1,0 +1,25 @@
+{
+  "project": "pathologic2-marble-nest",
+  "projectDisplayName": "Pathologic 2: Marble Nest",
+  "generatedAt": "2025-10-20T13:32:00Z",
+  "inputHash": "8f4c3d9...",
+  "suggestions": [
+    {
+      "segmentId": "conv:6192355001750781",
+      "tokens": ["Daniil", "death", "Executor"],
+      "candidates": [
+        {
+          "conceptId": "character:executor",
+          "source": "https://pathologic.fandom.com/wiki/Executor",
+          "confidence": 0.91,
+          "notes": "Name appears explicitly."
+        },
+        {
+          "conceptId": "concept:death_personification",
+          "source": "https://pathologic.fandom.com/wiki/Death",
+          "confidence": 0.66
+        }
+      ]
+    }
+  ]
+}

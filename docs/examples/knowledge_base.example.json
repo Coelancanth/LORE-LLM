@@ -1,0 +1,25 @@
+{
+  "project": "pathologic2-marble-nest",
+  "projectDisplayName": "Pathologic 2: Marble Nest",
+  "generatedAt": "2025-10-19T18:00:00Z",
+  "entries": [
+    {
+      "conceptId": "character:daniil_dankovsky",
+      "title": "Daniil Dankovsky",
+      "summary": "A thanatologist who believes death can be defeated by rational inquiry.",
+      "source": {
+        "provider": "pathologic.fandom.com",
+        "url": "https://pathologic.fandom.com/wiki/Daniil_Dankovsky",
+        "license": "CC-BY-SA 3.0",
+        "retrievedAt": "2025-10-18T21:12:00Z"
+      },
+      "aliases": ["Bachelor", "Dankovsky"],
+      "categories": ["Characters", "Thanatologists"],
+      "metadata": {
+        "affiliation": "Kains",
+        "firstAppearance": "Pathologic"
+      },
+      "glossaryHints": ["Keep proper noun capitalization"]
+    }
+  ]
+}

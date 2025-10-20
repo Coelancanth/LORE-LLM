@@ -14,7 +14,7 @@
   - Added `RawTextExtractor` service + `SourceSegment`/`SourceTextRawDocument` models; command now writes project-scoped `source_text_raw.json` and `workspace.json` with SHA-256 manifest data.
   - Handles ID-only lines by emitting empty segments and skips blank rows; fails gracefully on missing input/no segments.
   - Added integration tests for CLI extract verb plus dedicated unit tests validating JSON/manifest output.
-- [ ] VS-0004 Define schemas for metadata, clusters, knowledge, and investigation.
+- [x] VS-0004 Define schemas for metadata, clusters, knowledge, and investigation.
   - Add strongly typed records for `SegmentMetadata`, `ClusterContext`, `KnowledgeEntry`, and `InvestigationSuggestion` (linkage between segments and indexed wiki articles).
   - Document JSON schemas in `docs/schemas/` and provide examples in `docs/examples/` for metadata, clusters, wiki knowledge entries, and investigation reports.
   - Build wiki ingestion scaffold using the MediaWiki API (e.g., `action=query&list=allpages`, `prop=extracts|info`) to cache article metadata (title, summary, license, last updated) and produce an investigation report that cross-references segments with wiki suggestions.
