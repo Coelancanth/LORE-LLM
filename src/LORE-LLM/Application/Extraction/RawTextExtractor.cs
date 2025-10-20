@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
-using System.Text;
 using System.Text.Json;
 using CSharpFunctionalExtensions;
+using LORE_LLM.Application.PostProcessing;
 using LORE_LLM.Domain.Extraction;
 
 namespace LORE_LLM.Application.Extraction;
@@ -16,6 +16,13 @@ public sealed class RawTextExtractor : IRawTextExtractor
         WriteIndented = true
     };
 
+    private readonly IProjectNameSanitizer _projectNameSanitizer;
+
+    public RawTextExtractor(IProjectNameSanitizer projectNameSanitizer)
+    {
+        _projectNameSanitizer = projectNameSanitizer;
+    }
+
     public async Task<Result<int>> ExtractAsync(FileInfo inputFile, DirectoryInfo workspace, string project, CancellationToken cancellationToken)
     {
         if (!inputFile.Exists)
@@ -23,7 +30,7 @@ public sealed class RawTextExtractor : IRawTextExtractor
             return Result.Failure<int>($"Input file not found: {inputFile.FullName}");
         }
 
-        var sanitizedProject = SanitizeProjectName(project);
+        var sanitizedProject = _projectNameSanitizer.Sanitize(project);
         var projectDirectory = Path.Combine(workspace.FullName, sanitizedProject);
         Directory.CreateDirectory(projectDirectory);
 
@@ -81,7 +88,7 @@ public sealed class RawTextExtractor : IRawTextExtractor
     private static async IAsyncEnumerable<SourceSegment?> ReadSegmentsAsync(FileInfo file, [EnumeratorCancellation] CancellationToken cancellationToken)
     {
         await using var stream = file.OpenRead();
-        using var reader = new StreamReader(stream, Encoding.UTF8, detectEncodingFromByteOrderMarks: true);
+        using var reader = new StreamReader(stream, System.Text.Encoding.UTF8, detectEncodingFromByteOrderMarks: true);
 
         var lineNumber = 0;
         while (!reader.EndOfStream)
@@ -136,31 +143,5 @@ public sealed class RawTextExtractor : IRawTextExtractor
         await using var stream = file.OpenRead();
         var hash = await SHA256.HashDataAsync(stream, cancellationToken);
         return Convert.ToHexString(hash).ToLowerInvariant();
-    }
-
-    private static string SanitizeProjectName(string project)
-    {
-        if (string.IsNullOrWhiteSpace(project))
-        {
-            return "default";
-        }
-
-        var invalid = new HashSet<char>(Path.GetInvalidFileNameChars());
-        var builder = new StringBuilder();
-        foreach (var ch in project.Trim())
-        {
-            var normalized = char.IsWhiteSpace(ch) ? '-' : char.ToLowerInvariant(ch);
-            if (invalid.Contains(normalized) || normalized == Path.DirectorySeparatorChar || normalized == Path.AltDirectorySeparatorChar)
-            {
-                builder.Append('-');
-            }
-            else
-            {
-                builder.Append(normalized);
-            }
-        }
-
-        var sanitized = builder.ToString().Trim('-');
-        return string.IsNullOrEmpty(sanitized) ? "default" : sanitized;
     }
 }

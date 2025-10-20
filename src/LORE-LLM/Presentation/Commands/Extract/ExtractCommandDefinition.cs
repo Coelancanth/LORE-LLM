@@ -27,19 +27,26 @@ internal static class ExtractCommandDefinition
             Required = false
         };
 
+        var skipPostProcessOption = new Option<bool>("--skip-post-process", "--no-post-process")
+        {
+            Description = "Skip post-processing of extracted artifacts."
+        };
+
         var command = new Command("extract", "Extract raw text and produce source artifacts ready for the pipeline.");
         command.Options.Add(inputOption);
         command.Options.Add(outputOption);
         command.Options.Add(projectOption);
+        command.Options.Add(skipPostProcessOption);
 
         command.SetAction(async (parseResult, cancellationToken) =>
         {
             var input = parseResult.GetValue(inputOption)!;
             var output = parseResult.GetValue(outputOption)!;
             var project = parseResult.GetValue(projectOption) ?? "default";
+            var skipPostProcessing = parseResult.GetValue(skipPostProcessOption);
 
             var handler = services.GetRequiredService<ICommandHandler<ExtractCommandOptions>>();
-            var result = await handler.HandleAsync(new ExtractCommandOptions(input, output, project), cancellationToken);
+            var result = await handler.HandleAsync(new ExtractCommandOptions(input, output, project, !skipPostProcessing), cancellationToken);
 
             if (result.IsSuccess)
             {

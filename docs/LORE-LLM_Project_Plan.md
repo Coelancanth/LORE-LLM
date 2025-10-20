@@ -164,14 +164,15 @@ Sample corpus: `english.txt` (Pathologic 2 dialogue export). The extractor treat
 ## 4. End-to-End Workflow (Holistic Flow)
 1. **Configure**: Define providers, templates, locales in `config.yaml`.
 2. **Extract**: `SourceExtractor` walks source assets, normalizes text, and emits minimal `source_text_raw.json`; if authored metadata exists, it is stored separately for later merge.
-3. **Augment Metadata**: `MetadataSynthesizer` merges authored hints with knowledge-base lookups and LLM/heuristic inference to generate per-string metadata, then groups related strings into clusters (`clusters.json`) with confidence scores; low-confidence clusters automatically fall back to per-string context.
-4. **Glossary Build**: `GlossaryManager` merges manual lore terms with LLM-assisted discovery, handles disambiguation, and translates the glossary.
-5. **Preprocess**: `PreProcessor` replaces ambiguous tokens, performs lemmatization, prepares translation batches, and persists `preprocessed_text`.
-6. **Translate**: `AITranslator` assembles prompts (leveraging cluster context, per-string metadata, and knowledge-base excerpts), calls the chosen LLM, enforces glossary usage, and outputs `translation_raw_{lang}.json`.
-7. **Validate**: `Validator` runs consistency checks (placeholders, glossary coverage, length budgets) and produces human-readable reports.
-8. **Human Review**: Initial MVP supports local markup review; later versions sync with Paratranz for collaborative approval.
-9. **Integrate**: `Integrator` converts approved translations into engine-ready packages (e.g., CSV, JSON, binary bundles) and triggers regression tests.
-10. **Feedback Loop**: Capture reviewer notes, in-game QA issues, and player feedback to update glossary, prompts, metadata inference rules, and context hints.
+3. **Post-Process**: `PostProcessingPipeline` runs project-specific processors (e.g., Marble Nest cleanup) to mutate extracted artifacts before downstream stages.
+4. **Augment Metadata**: `MetadataSynthesizer` merges authored hints with knowledge-base lookups and LLM/heuristic inference to generate per-string metadata, then groups related strings into clusters (`clusters.json`) with confidence scores; low-confidence clusters automatically fall back to per-string context.
+5. **Glossary Build**: `GlossaryManager` merges manual lore terms with LLM-assisted discovery, handles disambiguation, and translates the glossary.
+6. **Preprocess**: `PreProcessor` replaces ambiguous tokens, performs lemmatization, prepares translation batches, and persists `preprocessed_text`.
+7. **Translate**: `AITranslator` assembles prompts (leveraging cluster context, per-string metadata, and knowledge-base excerpts), calls the chosen LLM, enforces glossary usage, and outputs `translation_raw_{lang}.json`.
+8. **Validate**: `Validator` runs consistency checks (placeholders, glossary coverage, length budgets) and produces human-readable reports.
+9. **Human Review**: Initial MVP supports local markup review; later versions sync with Paratranz for collaborative approval.
+10. **Integrate**: `Integrator` converts approved translations into engine-ready packages (e.g., CSV, JSON, binary bundles) and triggers regression tests.
+11. **Feedback Loop**: Capture reviewer notes, in-game QA issues, and player feedback to update glossary, prompts, metadata inference rules, post-processing rules, and context hints.
 
 ## 5. Architecture Overview
   - **Architectural Style**: Clean Architecture principles applied within a consolidated executable that is organized via Vertical Slice Architecture. Each CLI verb (extract, augment, translate, validate, integrate) resides in an isolated feature folder with its own request/response models, validators, and pipeline wiring; shared contracts are expressed through dedicated namespaces.
@@ -179,7 +180,8 @@ Sample corpus: `english.txt` (Pathologic 2 dialogue export). The extractor treat
     - `LORE-LLM` (.NET 8 console app): Contains presentation (CLI), application services, domain abstractions, and infrastructure adapters separated by namespaces (`Presentation`, `Application`, `Domain`, `Infrastructure`) and internal interfaces.
     - `LORE-LLM.Tests` (xUnit): Exercises domain logic, pipeline orchestration, and CLI integration with test doubles for external systems.
 - **Vertical Slices**: Each command registers its own request handler, validators, and pipeline configuration via feature modules (e.g., `ExtractFeature.ConfigureServices`). Shared behaviors (telemetry, exception handling) are implemented as middleware so slices stay independent.
-- **Processing Core**: Stateless services operating on versioned JSON artifacts stored in `.LORE-LLM/{phase}`; deterministic outputs enable caching and diffing. Serialization uses `System.Text.Json` (with custom converters) for performance and source generator support.
+- **Processing Core**: Stateless services operating on versioned JSON artifacts stored in `.lore-llm/{phase}`; deterministic outputs enable caching and diffing. Serialization uses `System.Text.Json` (with custom converters) for performance and source generator support.
+- **Post-Processing Pipeline**: `PostProcessingPipeline` coordinates project-specific processors (`IPostExtractionProcessor`), allowing per-lore cleanup (e.g., removing empty segments) immediately after extraction.
 - **Fluent Pipeline API**: Developers compose workflows through a fluent interface (e.g., `Pipeline.For(source).AugmentMetadata().BuildGlossary().Translate().Validate().Integrate()`), enabling concise yet expressive orchestration in commercial or scripted deployments.
 - **Observability**: Structured logging via `Serilog` (console/file/Seq sinks) and `OpenTelemetry` hooks capture command invocations, LLM call metadata, and clustering confidence for auditing.
 - **Coding Practices**: Target .NET 8/C# 12, favor `record` types for immutable models, embrace async streams for large text batches, and enforce analyzers (StyleCop/IDisposable analyzers) via Roslyn rulesets.
@@ -251,6 +253,14 @@ Sample corpus: `english.txt` (Pathologic 2 dialogue export). The extractor treat
 3. Build the knowledge-ingestion script for Fandom wiki summaries, document attribution requirements, and seed initial key concepts.
 4. Draft prompt templates for metadata synthesis, clustering, and translation, plus glossary enforcement logic; run small translation spike using chosen LLM.
 5. Establish repository structure (Domain/Application/Infrastructure/Cli projects), fluent pipeline skeleton, vertical-slice command modules, dependency-injected services, and CI (lint + unit tests) to anchor contributions.
+
+
+
+
+
+
+
+
 
 
 

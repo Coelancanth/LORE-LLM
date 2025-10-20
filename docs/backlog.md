@@ -19,7 +19,7 @@
   - Document JSON schemas in `docs/schemas/` and provide examples in `docs/examples/` for metadata, clusters, wiki knowledge entries, and investigation reports.
   - Build wiki ingestion scaffold using the MediaWiki API (e.g., `action=query&list=allpages`, `prop=extracts|info`) to cache article metadata (title, summary, license, last updated) and produce an investigation report that cross-references segments with wiki suggestions.
   - Ensure serialization tests cover round-trip validation for the new models and their artifacts.
-- [ ] VS-0005 Introduce post-processing pipeline.
+- [x] VS-0005 Introduce post-processing pipeline.
   - Define `IPostExtractionProcessor` (or similar) and register per-project processors via DI/config.
   - Implement Marble Nest processor that removes empty segments or other quest-specific quirks after extraction.
   - Add CLI wiring (e.g., optional `--post-process` flag or default run) and tests verifying processors mutate workspace artifacts correctly.

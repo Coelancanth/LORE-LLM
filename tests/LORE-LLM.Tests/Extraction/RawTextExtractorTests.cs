@@ -1,5 +1,11 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Text.Json;
+using System.Threading;
+using System.Threading.Tasks;
 using LORE_LLM.Application.Extraction;
+using LORE_LLM.Application.PostProcessing;
 using LORE_LLM.Domain.Extraction;
 using Shouldly;
 using Xunit;
@@ -16,7 +22,7 @@ public class RawTextExtractorTests
     [Fact]
     public async Task ExtractAsync_emits_json_and_manifest()
     {
-        var extractor = new RawTextExtractor();
+        var extractor = new RawTextExtractor(new ProjectNameSanitizer());
         var inputFile = CreateInputFile(
             "1111 First line",
             "2222",
@@ -71,7 +77,7 @@ public class RawTextExtractorTests
     [Fact]
     public async Task ExtractAsync_fails_when_file_missing()
     {
-        var extractor = new RawTextExtractor();
+        var extractor = new RawTextExtractor(new ProjectNameSanitizer());
         var workspace = CreateTempDirectory();
 
         var result = await extractor.ExtractAsync(new FileInfo(Path.Combine(workspace, "missing.txt")), new DirectoryInfo(workspace), "project", CancellationToken.None);
@@ -82,7 +88,7 @@ public class RawTextExtractorTests
     [Fact]
     public async Task ExtractAsync_fails_when_no_segments()
     {
-        var extractor = new RawTextExtractor();
+        var extractor = new RawTextExtractor(new ProjectNameSanitizer());
         var inputFile = CreateInputFile("   ", "\t");
         var workspace = CreateTempDirectory();
 
@@ -106,3 +112,6 @@ public class RawTextExtractorTests
         return path;
     }
 }
+
+
+

@@ -1,4 +1,7 @@
+using System.Linq;
+using System.Text.Json;
 using LORE_LLM.Application.Abstractions;
+using LORE_LLM.Domain.Extraction;
 using LORE_LLM.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
@@ -61,6 +64,14 @@ public class CliApplicationTests
 
             File.Exists(rawPath).ShouldBeTrue("Expected extractor to create source_text_raw.json");
             File.Exists(manifestPath).ShouldBeTrue("Expected extractor to create workspace.json");
+
+            var document = JsonSerializer.Deserialize<SourceTextRawDocument>(
+                File.ReadAllText(rawPath),
+                new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+            document.ShouldNotBeNull();
+            document!.Segments.ShouldNotBeEmpty();
+            document.Segments.Any(segment => segment.IsEmpty).ShouldBeFalse("Post-processing should remove empty segments.");
         });
     }
 
@@ -93,3 +104,4 @@ public class CliApplicationTests
 
     public sealed record CommandScenario(string[] Arguments, Action AssertPostConditions);
 }
+
