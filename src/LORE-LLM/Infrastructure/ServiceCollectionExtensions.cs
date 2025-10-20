@@ -3,6 +3,7 @@ using LORE_LLM.Application.Abstractions;
 using LORE_LLM.Application.Commands;
 using LORE_LLM.Application.Commands.Augment;
 using LORE_LLM.Application.Commands.Crawl;
+using LORE_LLM.Application.Commands.Cluster;
 using LORE_LLM.Application.Commands.Extract;
 using LORE_LLM.Application.Commands.Integrate;
 using LORE_LLM.Application.Commands.Investigate;
@@ -10,6 +11,8 @@ using LORE_LLM.Application.Commands.Translate;
 using LORE_LLM.Application.Commands.Validate;
 using LORE_LLM.Application.Extraction;
 using LORE_LLM.Application.Investigation;
+using LORE_LLM.Application.Clustering;
+using LORE_LLM.Application.Chat;
 using LORE_LLM.Application.PostProcessing;
 using LORE_LLM.Application.Wiki;
 using LORE_LLM.Presentation;
@@ -72,6 +75,9 @@ public static class ServiceCollectionExtensions
         });
         services.AddSingleton<InvestigationReportGenerator>();
         services.AddSingleton<IInvestigationWorkflow, InvestigationWorkflow>();
+        services.AddSingleton<IClusterWorkflow, ClusterWorkflow>();
+        services.AddSingleton<ChatProviderResolver>();
+        services.AddSingleton<IChatProvider, LocalChatProvider>();
 
         services.AddSingleton<ICommandHandler<ExtractCommandOptions>, ExtractCommandHandler>();
         services.AddSingleton<ICommandHandler<AugmentCommandOptions>, AugmentCommandHandler>();
@@ -80,6 +86,7 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<ICommandHandler<IntegrateCommandOptions>, IntegrateCommandHandler>();
         services.AddSingleton<ICommandHandler<InvestigationCommandOptions>, InvestigationCommandHandler>();
         services.AddSingleton<ICommandHandler<WikiCrawlCommandOptions>, WikiCrawlCommandHandler>();
+        services.AddSingleton<ICommandHandler<ClusterCommandOptions>, ClusterCommandHandler>();
 
         return services;
     }

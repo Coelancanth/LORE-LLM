@@ -1,0 +1,117 @@
+using System.Text.Json;
+using CSharpFunctionalExtensions;
+using LORE_LLM.Application.Abstractions;
+using LORE_LLM.Application.Chat;
+using LORE_LLM.Domain.Clusters;
+using LORE_LLM.Domain.Extraction;
+using LORE_LLM.Infrastructure;
+using Microsoft.Extensions.DependencyInjection;
+using Shouldly;
+using Xunit;
+using LORE_LLM.Application.PostProcessing;
+
+namespace LORE_LLM.Tests.Clustering;
+
+public class ClusterCommandTests
+{
+    [Fact]
+    public async Task Cluster_command_generates_clusters_and_updates_manifest()
+    {
+        const string projectDisplayName = "Pathologic2 Marble Nest";
+        var sanitizer = new ProjectNameSanitizer();
+        var sanitizedProject = sanitizer.Sanitize(projectDisplayName);
+        var workspace = CreateTempDirectory();
+        var projectFolder = Path.Combine(workspace, sanitizedProject);
+        Directory.CreateDirectory(projectFolder);
+
+        var jsonOptions = new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            WriteIndented = true
+        };
+
+        var sourceDocument = new SourceTextRawDocument(
+            SourcePath: "input.txt",
+            GeneratedAt: DateTimeOffset.UtcNow,
+            Project: sanitizedProject,
+            ProjectDisplayName: projectDisplayName,
+            InputHash: "abc123",
+            Segments: new List<SourceSegment>
+            {
+                new("seg-1", "Executor, stay your blade.", false, 1),
+                new("seg-2", "Good evening.", false, 2)
+            });
+
+        File.WriteAllText(
+            Path.Combine(projectFolder, "source_text_raw.json"),
+            JsonSerializer.Serialize(sourceDocument, jsonOptions));
+
+        var manifest = new WorkspaceManifest(
+            GeneratedAt: DateTimeOffset.UtcNow,
+            Project: sanitizedProject,
+            ProjectDisplayName: projectDisplayName,
+            InputPath: "input.txt",
+            InputHash: sourceDocument.InputHash,
+            Artifacts: new Dictionary<string, string>
+            {
+                ["sourceTextRaw"] = "source_text_raw.json"
+            });
+
+        File.WriteAllText(
+            Path.Combine(projectFolder, "workspace.json"),
+            JsonSerializer.Serialize(manifest, jsonOptions));
+
+        var args = new[]
+        {
+            "cluster",
+            "--workspace", workspace,
+            "--project", projectDisplayName,
+            "--provider", "local",
+            "--batch-size", "1",
+            "--save-transcript"
+        };
+
+        var cli = CreateCliApplication();
+        var exitCode = await cli.RunAsync(args);
+        exitCode.ShouldBe(0);
+
+        var clustersPath = Path.Combine(projectFolder, "clusters_llm.json");
+        File.Exists(clustersPath).ShouldBeTrue();
+        var doc = JsonSerializer.Deserialize<ClusterDocument>(
+            File.ReadAllText(clustersPath),
+            new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+        doc.ShouldNotBeNull();
+        doc!.Clusters.ShouldNotBeEmpty();
+        doc.Clusters[0].MemberIds.ShouldContain("seg-1");
+
+        var transcriptPath = Path.Combine(projectFolder, "clusters_llm_transcript.md");
+        File.Exists(transcriptPath).ShouldBeTrue();
+
+        var manifestPath = Path.Combine(projectFolder, "workspace.json");
+        var updatedManifest = JsonSerializer.Deserialize<WorkspaceManifest>(
+            File.ReadAllText(manifestPath),
+            new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+        updatedManifest.ShouldNotBeNull();
+        updatedManifest!.Artifacts.ContainsKey("clustersLlm").ShouldBeTrue();
+    }
+
+    private static ICliApplication CreateCliApplication()
+    {
+        var services = new ServiceCollection();
+        services.AddLoreLlmServices();
+        // Ensure local provider exists
+        services.AddSingleton<IChatProvider, LocalChatProvider>();
+        return services.BuildServiceProvider().GetRequiredService<ICliApplication>();
+    }
+
+    private static string CreateTempDirectory()
+    {
+        var path = Path.Combine(Path.GetTempPath(), "lore-llm-tests", "cli", Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(path);
+        return path;
+    }
+}
+
+

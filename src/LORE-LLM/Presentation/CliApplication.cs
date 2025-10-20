@@ -6,6 +6,7 @@ using LORE_LLM.Presentation.Commands.Integrate;
 using LORE_LLM.Presentation.Commands.Investigate;
 using LORE_LLM.Presentation.Commands.Translate;
 using LORE_LLM.Presentation.Commands.Validate;
+using LORE_LLM.Presentation.Commands.Cluster;
 using System.CommandLine;
 
 namespace LORE_LLM.Presentation;
@@ -35,6 +36,7 @@ public sealed class CliApplication : ICliApplication
         root.Add(IntegrateCommandDefinition.Build(_services));
         root.Add(InvestigateCommandDefinition.Build(_services));
         root.Add(WikiCrawlCommandDefinition.Build(_services));
+        root.Add(ClusterCommandDefinition.Build(_services));
         return root;
     }
 }

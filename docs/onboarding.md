@@ -11,7 +11,7 @@ Welcome aboard! This guide gives new contributors the minimum context and repeat
 | **Purpose** | CLI-driven localization pipeline that extracts raw text, enriches it with context (metadata, clusters, knowledge), and prepares machine-translation workflows. |
 | **Tech stack** | .NET 8 (C#), `CSharpFunctionalExtensions`, `Microsoft.Extensions.Hosting`, `System.CommandLine`, xUnit + Shouldly + NSubstitute. |
 | **Artifacts** | JSON/TOML files under a per-project workspace (`source_text_raw.json`, `knowledge_base.json`, `investigation.json`, etc.). |
-| **CLI verbs** | `extract`, `augment`, `translate`, `validate`, `integrate`, `investigate`, `crawl-wiki`. Each lives in `src/LORE-LLM/Presentation/Commands/<Verb>`. |
+| **CLI verbs** | `extract`, `augment`, `translate`, `validate`, `integrate`, `investigate`, `crawl-wiki`, `cluster`. Each lives in `src/LORE-LLM/Presentation/Commands/<Verb>`. |
 
 ---
 
@@ -84,6 +84,71 @@ Stick to vertical slices: Domain → Application → Presentation. Infrastructur
 5. **(Optional) Cache wiki markdown**  
    - Use `dotnet run --project src/LORE-LLM -- crawl-wiki --workspace <workspace> --project <name> --page "Page Title"` to save MediaWiki content as markdown under `knowledge/raw/`.  
    - Advanced projects can register crawl post-processing plugins to strip UI fragments (infoboxes, galleries) without touching shared crawler code—see `docs/wiki_crawler.md` for configuration details.
+
+6. **LLM-assisted clustering**  
+   The `cluster` command batches segments and formats structured prompts for LLM-based clustering. Multiple workflows are supported:
+
+   **a) Offline/Local Testing (deterministic, no API calls)**
+   ```bash
+   dotnet run --project src/LORE-LLM -- cluster \
+     --workspace <workspace> \
+     --project <name> \
+     --provider local \
+     --batch-size 25 \
+     --save-transcript
+   ```
+   - Uses the built-in `local` provider that groups each batch into a single cluster (for testing/validation).
+   - Outputs `clusters_llm.json` and `clusters_llm_transcript.md` under the project folder.
+   - Updates `workspace.json` manifest with `clustersLlm` artifact reference.
+
+   **b) Manual Workflow with Cursor or Browser-Based Chat (ChatGPT, Claude, etc.)**
+   1. Run the cluster command with `--save-transcript` to generate the formatted prompt:
+      ```bash
+      dotnet run --project src/LORE-LLM -- cluster \
+        --workspace <workspace> \
+        --project <name> \
+        --provider local \
+        --batch-size 10 \
+        --save-transcript
+      ```
+   2. Open the generated `<workspace>/<project>/clusters_llm_transcript.md` file.
+   3. Copy the **last Prompt section** (everything under `# Prompt` until the next heading).
+   4. Paste it into **Cursor Chat** (⌘+L / Ctrl+L), **ChatGPT**, **Claude**, or any other chat interface.
+   5. Ask the LLM to return **only JSON** in the shape shown in the prompt template (array of cluster objects with `clusterId`, `memberIds`, optional `sharedContext`, `knowledgeReferences`, `confidence`, `notes`).
+   6. Copy the LLM's JSON response and replace the content under `# Response` in the transcript file.
+   7. Re-run the cluster command with the same arguments—it will parse the updated transcript and persist the clusters to `clusters_llm.json`.
+
+   **c) API-Based Workflow (DeepSeek, OpenAI, Claude, etc.)**
+   - Register a provider implementation (e.g., `DeepSeekChatProvider`) via DI in `ServiceCollectionExtensions.cs`.
+   - Configure API keys via environment variables or `appsettings.json`.
+   - Run:
+     ```bash
+     dotnet run --project src/LORE-LLM -- cluster \
+       --workspace <workspace> \
+       --project <name> \
+       --provider deepseek \
+       --batch-size 25 \
+       --save-transcript
+     ```
+   - The workflow automatically calls the API, parses the response, and persists artifacts.
+
+   **d) Custom Prompt Templates**
+   - Create a custom prompt template file (e.g., `my_cluster_prompt.txt`) with your instructions. Use `{{projectDisplayName}}` as a placeholder.
+   - Supply it via `--prompt-template`:
+     ```bash
+     dotnet run --project src/LORE-LLM -- cluster \
+       --workspace <workspace> \
+       --project <name> \
+       --provider deepseek \
+       --prompt-template my_cluster_prompt.txt \
+       --save-transcript
+     ```
+
+   **Notes:**
+   - The `--provider` flag is pluggable; `local` is included for offline testing.
+   - External providers (OpenAI, Claude, DeepSeek) require API credentials and must be registered in DI.
+   - The workflow batches segments to stay within token limits; adjust `--batch-size` as needed.
+   - Always use `--save-transcript` for auditing and manual review workflows.
 
 ---
 

@@ -96,21 +96,30 @@ Sample corpus: `english.txt` (Pathologic 2 dialogue export). The extractor treat
 ### 3.6 Cluster Contexts (`clusters_llm.json`)
 ```json
 {
-  "cluster_id": "scene:bachelor_vs_executor",
-  "members": [
-    "conv:6192355001750784",
-    "conv:6192355001750785",
-    "conv:6192355001750786"
-  ],
-  "summary": "Climactic exchange between Daniil Dankovsky and the Executor inside the Theatre. Outcome hinges on confronting Death; tone is fatalistic and confrontational.",
-  "glossary_hits": ["Executor", "Daniil Dankovsky"],
-  "llm_notes": "LLM-generated synopsis based on chat prompt context and operator-provided segments.",
-  "confidence": 0.72,
-  "source_conversation": "logs/chat/cluster_001.md"
+  "project": "pathologic2-marble-nest",
+  "projectDisplayName": "Pathologic 2: Marble Nest",
+  "generatedAt": "2025-10-20T13:35:00Z",
+  "sourceTextHash": "8f4c3d9...",
+  "clusters": [
+    {
+      "clusterId": "scene:executor_farewell",
+      "memberIds": [
+        "conv:6192355001750781",
+        "conv:6192355001750784"
+      ],
+      "sharedContext": [
+        "Final exchange with the Executor inside the theatre",
+        "Sets up the confrontation with Death"
+      ],
+      "knowledgeReferences": ["character:executor"],
+      "confidence": 0.71,
+      "notes": "LLM-generated synopsis based on chat prompt context and operator-provided segments."
+    }
+  ]
 }
 ```
 
-- Cluster contexts are synthesized via a chat-based LLM workflow. Operators provide segment batches + glossary cues, and the model responds with structured JSON adhering to our prompt contract. Low-confidence responses fall back to per-string metadata.
+- Cluster contexts are synthesized via a chat-based LLM workflow (`cluster` CLI command). Operators select a provider (local/API-based), batch segments, and the model responds with structured JSON adhering to the prompt contract. The workflow persists both `clusters_llm.json` and an optional transcript (`clusters_llm_transcript.md`) for auditing. Low-confidence responses can be manually reviewed and re-clustered.
 
 ### 3.7 Knowledge Base (`knowledge/key_concepts.json`)
 ```json
@@ -210,8 +219,9 @@ Sample corpus: `english.txt` (Pathologic 2 dialogue export). The extractor treat
   - `investigate` command reuses cached knowledge to annotate segments.
 - Stand up the chat-based clustering workflow:
   - Format Markdown prompts that batch segments + glossary context.
-  - Call a user-selected LLM provider (Cursor, OpenAI, Claude, etc.) via a pluggable chat protocol.
-  - Persist `clusters_llm.json` alongside raw conversation transcripts for auditing.
+  - Call a user-selected LLM provider (Cursor, OpenAI, Claude, DeepSeek, etc.) via a pluggable chat protocol (`IChatProvider` abstraction resolved by `ChatProviderResolver`).
+  - Persist `clusters_llm.json` alongside raw conversation transcripts (`clusters_llm_transcript.md`) for auditing.
+  - Implemented `local` provider for offline/deterministic testing; external providers (API-based) register via DI with their own credentials/config.
 - Implement glossary ingestion, disambiguation helpers, lemmatization (spaCy via Python interop or ONNX model).
   - Create preprocessing pipeline and artifact persistence.
   - Ship initial `AITranslator` with prompt templates, batching, and glossary enforcement heuristics.

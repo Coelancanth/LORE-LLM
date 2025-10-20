@@ -1,10 +1,11 @@
 {
-  "generatedAt": "2025-10-20T09:01:01.6813037+00:00",
+  "generatedAt": "2025-10-20T12:33:05.2525983+00:00",
   "project": "pathologic2-marble-nest",
   "projectDisplayName": "pathologic2-marble-nest",
   "inputPath": "C:\\Users\\Coel\\Documents\\Godot\\LORE-LLM\\raw-input\\pathologic2-marble-nest\\english.txt",
   "inputHash": "3b0692684b225b90e903b3dbb076f99d27fdf4536958dc6e09c0a3e9cd9b597b",
   "artifacts": {
-    "sourceTextRaw": "source_text_raw.json"
+    "sourceTextRaw": "source_text_raw.json",
+    "clustersLlm": "clusters_llm.json"
   }
 }
