@@ -78,6 +78,23 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IClusterWorkflow, ClusterWorkflow>();
         services.AddSingleton<ChatProviderResolver>();
         services.AddSingleton<IChatProvider, LocalChatProvider>();
+        
+        // Register DeepSeek provider if API key is configured
+        var deepseekApiKey = Environment.GetEnvironmentVariable("DEEPSEEK_API_KEY") ?? string.Empty;
+        if (!string.IsNullOrWhiteSpace(deepseekApiKey))
+        {
+            services.AddHttpClient<DeepSeekChatProvider>(client =>
+            {
+                client.Timeout = TimeSpan.FromSeconds(60);
+                client.DefaultRequestHeaders.UserAgent.ParseAdd("LORE-LLM/0.1");
+            });
+            services.AddSingleton<IChatProvider>(sp =>
+            {
+                var httpClientFactory = sp.GetRequiredService<IHttpClientFactory>();
+                var httpClient = httpClientFactory.CreateClient(nameof(DeepSeekChatProvider));
+                return new DeepSeekChatProvider(httpClient, deepseekApiKey);
+            });
+        }
 
         services.AddSingleton<ICommandHandler<ExtractCommandOptions>, ExtractCommandHandler>();
         services.AddSingleton<ICommandHandler<AugmentCommandOptions>, AugmentCommandHandler>();

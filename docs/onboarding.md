@@ -119,8 +119,15 @@ Stick to vertical slices: Domain → Application → Presentation. Infrastructur
    7. Re-run the cluster command with the same arguments—it will parse the updated transcript and persist the clusters to `clusters_llm.json`.
 
    **c) API-Based Workflow (DeepSeek, OpenAI, Claude, etc.)**
-   - Register a provider implementation (e.g., `DeepSeekChatProvider`) via DI in `ServiceCollectionExtensions.cs`.
-   - Configure API keys via environment variables or `appsettings.json`.
+   - **DeepSeek** is included out-of-the-box. Set the `DEEPSEEK_API_KEY` environment variable:
+     ```bash
+     # Windows (PowerShell)
+     $env:DEEPSEEK_API_KEY="your-api-key-here"
+     
+     # macOS/Linux
+     export DEEPSEEK_API_KEY="your-api-key-here"
+     ```
+   - Other providers (OpenAI, Claude) require custom implementations registered in `ServiceCollectionExtensions.cs`.
    - Run:
      ```bash
      dotnet run --project src/LORE-LLM -- cluster \
