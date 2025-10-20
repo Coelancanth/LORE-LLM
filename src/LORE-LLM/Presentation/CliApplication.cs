@@ -1,12 +1,36 @@
 using LORE_LLM.Application.Abstractions;
+using LORE_LLM.Presentation.Commands.Augment;
+using LORE_LLM.Presentation.Commands.Extract;
+using LORE_LLM.Presentation.Commands.Integrate;
+using LORE_LLM.Presentation.Commands.Translate;
+using LORE_LLM.Presentation.Commands.Validate;
+using System.CommandLine;
 
 namespace LORE_LLM.Presentation;
 
 public sealed class CliApplication : ICliApplication
 {
+    private readonly IServiceProvider _services;
+
+    public CliApplication(IServiceProvider services)
+    {
+        _services = services;
+    }
+
     public Task<int> RunAsync(string[] args)
     {
-        Console.WriteLine("LORE-LLM CLI scaffolding pending implementation.");
-        return Task.FromResult(0);
+        var root = BuildRootCommand();
+        return root.Parse(args).InvokeAsync();
+    }
+
+    private RootCommand BuildRootCommand()
+    {
+        var root = new RootCommand("LORE-LLM localization workflow CLI.");
+        root.Add(ExtractCommandDefinition.Build(_services));
+        root.Add(AugmentCommandDefinition.Build(_services));
+        root.Add(TranslateCommandDefinition.Build(_services));
+        root.Add(ValidateCommandDefinition.Build(_services));
+        root.Add(IntegrateCommandDefinition.Build(_services));
+        return root;
     }
 }
