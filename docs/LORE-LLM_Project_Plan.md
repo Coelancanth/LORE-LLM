@@ -131,6 +131,35 @@ Sample corpus: `english.txt` (Pathologic 2 dialogue export). The extractor treat
 ```
 
 - Knowledge entries seed metadata synthesis and glossary generation. When referenced, attribution is retained for compliance.
+### 3.8 Investigation Report (`investigation.json`)
+```json
+{
+  "project": "pathologic2-marble-nest",
+  "generated_at": "2025-10-20T13:18:44Z",
+  "input_hash": "8f4c3d9...",
+  "suggestions": [
+    {
+      "segment_id": "conv:6192355001750781",
+      "tokens": ["Daniil", "death"],
+      "candidates": [
+        {
+          "concept_id": "character:daniil_dankovsky",
+          "source": "wiki/pathologic2/daniil_dankovsky",
+          "confidence": 0.92,
+          "notes": "Name match and thematic alignment."
+        },
+        {
+          "concept_id": "concept:death_personification",
+          "source": "wiki/pathologic2/death",
+          "confidence": 0.64
+        }
+      ]
+    }
+  ]
+}
+```
+
+- Generated during the investigate stage to highlight which wiki entries or knowledge records should be referenced for each segment prior to metadata synthesis.
 
 ## 4. End-to-End Workflow (Holistic Flow)
 1. **Configure**: Define providers, templates, locales in `config.yaml`.
@@ -156,7 +185,7 @@ Sample corpus: `english.txt` (Pathologic 2 dialogue export). The extractor treat
 - **Coding Practices**: Target .NET 8/C# 12, favor `record` types for immutable models, embrace async streams for large text batches, and enforce analyzers (StyleCop/IDisposable analyzers) via Roslyn rulesets.
 - **Error & Testing Toolkit**: Adopt `CSharpFunctionalExtensions` for result/Maybe workflows, `Shouldly` for expressive assertions, and `NSubstitute` for lightweight test doubles.
 - **LLM Adapter Layer**: Pluggable providers (Gemini, Azure OpenAI, Claude) implementing a shared interface with retry, rate limiting, telemetry.
-- **Knowledge & Glossary Services**: Lore ingestion layer consuming curated wiki-derived `knowledge/key_concepts.json`, enforcing attribution, and feeding both metadata synthesis and glossary generation.
+- **Knowledge & Investigation Services**: Introduce a wiki ingestion layer capable of crawling `Special:AllPages`, caching article metadata (title, summary, license, last updated), and an investigation pass that cross-references segments with the wiki index to propose relevant entries.
 - **Persistence**: Local workspace using structured directories; optional PostgreSQL/SQLite backing for large teams in commercial deployments.
 - **Distribution**: Ship as a .NET 8 global tool (self-contained option for Windows/macOS/Linux) with packaging scripts for future MSI/Docker releases.
 - **Integration Bridges**: REST adapters for Paratranz and other localization platforms; optional Web UI for quick reviews.
@@ -222,3 +251,6 @@ Sample corpus: `english.txt` (Pathologic 2 dialogue export). The extractor treat
 3. Build the knowledge-ingestion script for Fandom wiki summaries, document attribution requirements, and seed initial key concepts.
 4. Draft prompt templates for metadata synthesis, clustering, and translation, plus glossary enforcement logic; run small translation spike using chosen LLM.
 5. Establish repository structure (Domain/Application/Infrastructure/Cli projects), fluent pipeline skeleton, vertical-slice command modules, dependency-injected services, and CI (lint + unit tests) to anchor contributions.
+
+
+
