@@ -6,18 +6,19 @@
   "suggestions": [
     {
       "segmentId": "conv:6192355001750781",
-      "tokens": ["Daniil", "death", "Executor"],
+      "tokens": ["Executor"],
       "candidates": [
         {
-          "conceptId": "character:executor",
+          "conceptId": "wiki:executor",
           "source": "https://pathologic.fandom.com/wiki/Executor",
-          "confidence": 0.91,
-          "notes": "Name appears explicitly."
+          "confidence": 0.95,
+          "notes": "Exact token match for \"Executor\""
         },
         {
-          "conceptId": "concept:death_personification",
+          "conceptId": "wiki:death",
           "source": "https://pathologic.fandom.com/wiki/Death",
-          "confidence": 0.66
+          "confidence": 0.66,
+          "notes": "Token appears within \"Death\" title"
         }
       ]
     }

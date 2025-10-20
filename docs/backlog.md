@@ -24,8 +24,17 @@
   - Implement Marble Nest processor that removes empty segments or other quest-specific quirks after extraction.
   - Add CLI wiring (e.g., optional `--post-process` flag or default run) and tests verifying processors mutate workspace artifacts correctly.
   - Document processor extension points and add an example config entry in the docs.
-- [ ] VS-0006 Implement investigation stage.
-  - Create `investigate` CLI verb (or augment existing one) that reads `source_text_raw.json`, runs token/entity detection, and produces project-scoped `investigation.json` using the schema.
-  - Build MediaWiki ingestion service leveraging the API to fetch page indices, summaries, and metadata; cache locally with attribution.
-  - Match segments to knowledge entries (scoring with heuristics/LLM), generate candidate suggestions, and integrate with the new domain models.
-  - Add tests covering MediaWiki ingestion (mocked), investigation matching logic, and CLI integration; update docs/examples with generated artifacts.
+- [x] VS-0006 Implement investigation stage.
+  - Added `investigate` CLI command that reads `source_text_raw.json`, generates `investigation.json`, and refreshes the workspace manifest.
+  - Implemented token heuristics and candidate matching backed by a MediaWiki ingestion service (opensearch + parse) with on-disk caching and knowledge base emission.
+  - Investigation workflow now persists `knowledge_base.json`, updates manifest artifacts, and surfaces wiki-backed candidates per segment.
+  - Expanded unit and CLI coverage around the pipeline and refreshed docs/examples for the new artifacts.
+- [ ] VS-0007 Prefilter wiki ingestion via keyword index.
+  - Cache MediaWiki `allpages` listings (titles, aliases) under the workspace and normalize to a keyword index.
+  - Map extracted segment tokens to indexed pages to prioritize ingestion requests and avoid unnecessary API calls.
+  - Thread the filtered candidate list into `EnsureKnowledgeBaseAsync`, falling back to configurable top-N when matches are sparse.
+  - Update investigation tests/docs to cover the narrowed fetch path and cache lifecycle options (`--force-refresh`, offline mode).
+- [ ] VS-0008 Investigate integration pipeline consumes wiki context.
+  - Merge `investigation.json` and `knowledge_base.json` insights back into the augmentation stage (e.g., enrich metadata with matched concepts, confidence scores, excerpt snippets).
+  - Surface annotated lore in downstream artifacts/previews so translation prompt assembly can leverage it.
+  - Add CLI parameterization for enabling/disabling lore injection and document the expectations in the onboarding guide.

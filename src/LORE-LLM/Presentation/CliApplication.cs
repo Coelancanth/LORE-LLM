@@ -2,6 +2,7 @@ using LORE_LLM.Application.Abstractions;
 using LORE_LLM.Presentation.Commands.Augment;
 using LORE_LLM.Presentation.Commands.Extract;
 using LORE_LLM.Presentation.Commands.Integrate;
+using LORE_LLM.Presentation.Commands.Investigate;
 using LORE_LLM.Presentation.Commands.Translate;
 using LORE_LLM.Presentation.Commands.Validate;
 using System.CommandLine;
@@ -31,6 +32,7 @@ public sealed class CliApplication : ICliApplication
         root.Add(TranslateCommandDefinition.Build(_services));
         root.Add(ValidateCommandDefinition.Build(_services));
         root.Add(IntegrateCommandDefinition.Build(_services));
+        root.Add(InvestigateCommandDefinition.Build(_services));
         return root;
     }
 }
