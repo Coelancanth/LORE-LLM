@@ -19,3 +19,8 @@
   - Document JSON schemas in `docs/schemas/` and provide examples in `docs/examples/` for metadata, clusters, wiki knowledge entries, and investigation reports.
   - Build wiki ingestion scaffold using the MediaWiki API (e.g., `action=query&list=allpages`, `prop=extracts|info`) to cache article metadata (title, summary, license, last updated) and produce an investigation report that cross-references segments with wiki suggestions.
   - Ensure serialization tests cover round-trip validation for the new models and their artifacts.
+- [ ] VS-0005 Implement investigation stage.
+  - Create `investigate` CLI verb (or augment existing one) that reads `source_text_raw.json`, runs token/entity detection, and produces project-scoped `investigation.json` using the schema.
+  - Build MediaWiki ingestion service leveraging the API to fetch page indices, summaries, and metadata; cache locally with attribution.
+  - Match segments to knowledge entries (scoring with heuristics/LLM), generate candidate suggestions, and integrate with the new domain models.
+  - Add tests covering MediaWiki ingestion (mocked), investigation matching logic, and CLI integration; update docs/examples with generated artifacts.
