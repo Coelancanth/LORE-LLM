@@ -49,12 +49,13 @@
 - [ ] VS-0010 Glossary-aware enrichment from clusters.
   - Use LLM-generated clusters to detect glossary terms, flag gaps, and push cluster summaries back onto member segments for the augmentation/translation pipeline.
   - Extend augmentation to consume `clusters_current.json` and `cluster_context.json`, merging cluster synopses, snippets, and glossary highlights into segment metadata.
+  - Introduce an Aho–Corasick matcher for deterministic term tagging across preprocessing, prompt assembly, and post-translation validation; emit `glossary_consistency.json` for QA tooling.
   - Provide CLI toggles for enabling the enrichment path and update docs/tests to reflect glossary + cluster interplay.
 
-- [x] VS-0011 Wiki keyword indexing + redirect detection.
-  - Added `index-wiki` CLI command to generate `knowledge/wiki_keyword_index.json` from crawled markdown.
-  - Index entries include `title`, tokenized `keywords`, and `isRedirect` flag; redirect-only pages can be skipped downstream.
-  - Updated crawler docs with resume semantics and indexing flow.
+- [x] VS-0011 Pluggable retrieval index pipeline.
+  - Added `index-wiki` CLI command to materialize the default keyword dictionary and emit `knowledge/index.manifest.json`.
+  - Established `IRetrievalIndex` interface so keyword, vector, or graph providers can plug in; manifest records active providers for downstream consumers.
+  - Updated docs to describe how context selection/investigation resolve snippets via the registered retrieval backend(s).
 
 - [ ] VS-0012 CLI command presets (config-driven arguments).
   - Introduce `config/cli.presets.json` (or TOML) so commands like `crawl-wiki` can load default options (pages, throttling, project) without long flag lists.

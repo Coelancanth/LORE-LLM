@@ -62,7 +62,7 @@ dotnet run --project src/LORE-LLM -- crawl-wiki \
 
 ---
 
-## 3) Build the wiki keyword index
+## 3) Build retrieval index(es)
 
 ```bash
 dotnet run --project src/LORE-LLM -- index-wiki \
@@ -71,9 +71,10 @@ dotnet run --project src/LORE-LLM -- index-wiki \
   --force-refresh
 ```
 
-- Output: `knowledge/wiki_keyword_index.json`
-  - Each entry: `{ title, keywords: [..], isRedirect: bool, redirectTargets?: [{title, slug}] }`
-  - Redirect-only pages are flagged and include `redirectTargets` for downstream skipping/resolution
+- Output: `knowledge/index.manifest.json` plus provider-specific artifacts (default keyword dictionary under `knowledge/wiki_keyword_index.json`)
+  - Manifest lists active retrieval providers (e.g., `keyword`, `vector`) and their configuration hashes
+  - Keyword provider sample entry: `{ title, keywords: [...], isRedirect: bool, redirectTargets?: [{title, slug}] }`
+  - Additional providers (vector, graph) can be registered via config and will materialize their own cache files
 
 ---
 
@@ -90,6 +91,7 @@ dotnet run --project src/LORE-LLM -- investigate \
   - `investigation.json` – token matches and wiki candidates per segment
   - `knowledge_base.json` – curated knowledge entries (with provenance)
   - Updates `workspace.json` manifest
+- Uses the active retrieval providers declared in `knowledge/index.manifest.json`; keyword lookup remains the default fallback
 
 ---
 
@@ -180,8 +182,8 @@ dotnet run --project src/LORE-LLM -- translate \
 ```
 
 - Category-specific prompt templates load the cluster ledger, context snippets, translation notes, global cultural guidance, and per-segment source strings.
-- Single LLM pass per cluster emits enriched metadata (speaker, entities, tone) plus translations in `translation_raw_ru.json`.
-- Deterministic fallbacks ensure critical annotations (e.g., glossary matches) persist even if the LLM call is retried offline.
+- Glossary terms tagged via deterministic dictionary matching are injected as hard requirements; the LLM returns enriched metadata (speaker, entities, tone) plus translations in `translation_raw_ru.json`.
+- Deterministic fallbacks ensure critical annotations (e.g., glossary matches) persist even if the LLM call is retried offline, with violations written to `glossary_consistency.json`.
 
 ---
 

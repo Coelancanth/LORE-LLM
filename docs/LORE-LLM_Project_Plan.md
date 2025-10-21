@@ -214,18 +214,54 @@ Sample corpus: `english.txt` (Pathologic 2 dialogue export). The extractor treat
 
 - Generated during the investigate stage to highlight which wiki entries or knowledge records should be referenced for each segment prior to metadata synthesis.
 
+### 3.10 Glossary Consistency (`glossary_consistency.json`)
+```json
+{
+  "project": "pathologic2-marble-nest",
+  "generatedAt": "2025-10-21T07:12:34Z",
+  "terms": [
+    {
+      "termId": "lore:mother_boddho",
+      "sourceTerm": "Mother Boddho",
+      "targetTerm": "博多母神",
+      "matches": [
+        {
+          "segmentId": "conv:6192355001877199",
+          "clusterId": "scene:boddho_ritual",
+          "occurrence": "Mother Boddho",
+          "status": "enforced"
+        }
+      ]
+    }
+  ],
+  "violations": [
+    {
+      "segmentId": "conv:6192355001963681",
+      "clusterId": "scene:condolences",
+      "termId": "ritual:condolence",
+      "expected": "慰问",
+      "actual": "致意",
+      "severity": "warning"
+    }
+  ]
+}
+```
+
+- Glossary consistency is enforced by an Aho–Corasick matcher that tags term occurrences during preprocessing, propagates requirements into cluster metadata and translation prompts, and records post-translation compliance for QA feedback loops.
+
 ## 4. End-to-End Workflow (Holistic Flow)
 1. **Configure**: Define providers, templates, locales in `config.yaml`.
 2. **Extract**: `SourceExtractor` walks source assets, normalizes text, and emits minimal `source_text_raw.json` (id, text, line number, isEmpty). Authored metadata is stored separately for later merge.
 3. **Sanitize**: `PostProcessingPipeline` runs project-specific processors (e.g., Marble Nest cleanup) immediately after extraction.
-4. **Crawl & Index**: `crawl-wiki` caches Markdown under `knowledge/raw/`, while `index-wiki` produces `knowledge/wiki_keyword_index.json` for deterministic keyword → page lookups.
-5. **Seed Knowledge (Optional)**: `investigate` leverages the keyword dictionary to emit per-segment suggestions (`investigation.json`, `knowledge_base.json`). Teams focused on cluster-first enrichment can skip this step when caches are already warm.
+4. **Crawl & Index**: `crawl-wiki` caches Markdown under `knowledge/raw/`. A pluggable indexing pipeline (`index-*` commands) materializes retrieval stores—keyword dictionaries by default, with optional vector/graph providers—that expose a unified `IRetrievalIndex` contract (`knowledge/index.manifest.json` records active providers).
+5. **Seed Knowledge (Optional)**: `investigate` leverages the active retrieval index to emit per-segment suggestions (`investigation.json`, `knowledge_base.json`). Teams focused on cluster-first enrichment can skip this step when caches are already warm.
 6. **Cluster**: The incremental `cluster` workflow batches unassigned segments, feeds the current ledger + overlap window into the LLM, and updates `clusters_current.json` alongside per-batch checkpoints and transcripts.
-7. **Context Selection**: A deterministic job resolves each cluster’s wiki snippets, builds `cluster_context.json`, and captures reusable translation notes or cultural guidance per cluster.
-8. **Enrich & Translate**: Category-aware prompt templates combine cluster context, cached snippets, global cultural guidance, and per-segment strings in a single LLM pass that can emit both enriched metadata and translations (`translation_raw_{lang}.json`). Deterministic fallbacks persist critical annotations even when LLM output is unavailable.
-9. **Validate**: `Validator` runs consistency checks (placeholders, glossary coverage, cluster completeness) and produces human-readable reports.
-10. **Human Review**: Initial MVP supports local markup review; later versions sync with Paratranz for collaborative approval.
-11. **Integrate**: `Integrator` converts approved translations into engine-ready packages (e.g., CSV, JSON, binary bundles), triggers regression tests, and feeds the feedback loop (glossary, prompts, metadata rules).
+7. **Context Selection**: A deterministic job queries the retrieval index(es) to resolve each cluster’s wiki snippets, builds `cluster_context.json`, and captures reusable translation notes or cultural guidance per cluster.
+8. **Glossary Enforcement**: A deterministic glossary matcher (Aho–Corasick) annotates source occurrences, injects required target terms and style notes into cluster metadata, and prepares enforcement hints for translation prompts.
+9. **Enrich & Translate**: Category-aware prompt templates combine cluster context, cached snippets, glossary directives, global cultural guidance, and per-segment strings in a single LLM pass that can emit both enriched metadata and translations (`translation_raw_{lang}.json`). Deterministic fallbacks persist critical annotations even when LLM output is unavailable.
+10. **Validate**: `Validator` runs consistency checks (placeholders, glossary coverage, cluster completeness) and produces human-readable reports, emitting `glossary_consistency.json` for downstream review.
+11. **Human Review**: Initial MVP supports local markup review; later versions sync with Paratranz for collaborative approval.
+12. **Integrate**: `Integrator` converts approved translations into engine-ready packages (e.g., CSV, JSON, binary bundles), triggers regression tests, and feeds the feedback loop (glossary, prompts, metadata rules).
 
 ## 5. Architecture Overview
   - **Architectural Style**: Clean Architecture principles applied within a consolidated executable that is organized via Vertical Slice Architecture. Each CLI verb (extract, augment, translate, validate, integrate) resides in an isolated feature folder with its own request/response models, validators, and pipeline wiring; shared contracts are expressed through dedicated namespaces.
@@ -319,10 +355,5 @@ Sample corpus: `english.txt` (Pathologic 2 dialogue export). The extractor treat
 4. Wire the glossary ingestion pipeline to surface glossary cues inside the clustering prompts.
 5. Draft prompt templates for metadata synthesis, clustering, and translation, plus glossary enforcement logic; run a small translation spike using the updated context.
 6. Introduce category-aware translation templates and a reusable global cultural-guidance module, ensuring translation notes produced in `cluster_context.json` flow consistently into prompts and QA tooling.
+7. Implement deterministic glossary tagging and validation (Aho–Corasick matcher, prompt injection, `glossary_consistency.json`) and update unit/integration tests to cover enforcement.
 6. Establish repository structure (Domain/Application/Infrastructure/Cli projects), fluent pipeline skeleton, vertical-slice command modules, dependency-injected services, and CI (lint + unit tests) to anchor contributions.
-
-
-
-
-
-
