@@ -50,7 +50,7 @@ We follow a vertical-slice architecture. Each CLI verb lives in its own feature 
    ```
 
 3. **First-day checklist**
-   - Read `docs/backlog.md` for the latest feature status.
+   - Read `docs/backlog.md` for the latest feature status and `docs/roadmap.md` for strategic context.
    - Skim JSON schemas in `docs/schemas/` to understand artifact contracts.
    - Optional: run `extract`, `crawl-wiki`, and `cluster` on a sample project (see §5).
 
@@ -366,7 +366,7 @@ Use this manifest to drive context selection, investigation, or any component th
 
 ## 7. Roadmap Snapshot
 
-Refer to `docs/backlog.md` for full details. Key upcoming items:
+Refer to `docs/roadmap.md` for strategic phasing and `docs/backlog.md` for execution detail. Key upcoming items:
 
 - **VS-0008**: Expand MediaWiki post-processing plugins.
 - **VS-0010**: Glossary-aware enrichment drawing from clusters and `cluster_context.json`.
