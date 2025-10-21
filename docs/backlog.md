@@ -36,7 +36,7 @@
 - [] VS-0008 MediaWiki crawler post-processing plugins.
   - Introduced configuration-driven HTML pipeline backed by `MediaWikiCrawlerOptions`, letting each sanitized project map to its API base and ordered post-processor list.
   - Added Pathologic-specific processor that strips infoboxes, tab chrome, galleries, and other decorative elements while flattening tabs into Markdown headings.
-  - Documented extension guidance (`docs/wiki_crawler.md`) so new fandoms can register processors through DI without touching core crawler logic.
+  - Documented extension guidance in `docs/LORE-LLM_Handbook.md` so new fandoms can register processors through DI without touching core crawler logic.
   - Tab-aware exports now emit only per-variant Markdown when configured (Pathologic disables the combined document via `EmitBaseDocument = false`); follow-up work will slot these into project-specific subfolders and add a CLI indexing command so plugins can emit searchable catalogs.
 - [x] VS-0009 LLM-assisted clustering (chat protocol).
   - Introduced `cluster` CLI command with pluggable `IChatProvider` abstraction, `ChatProviderResolver`, and `ClusterWorkflow`.
@@ -45,17 +45,17 @@
   - Optional `--save-transcript` flag emits `clusters_llm_transcript.md` capturing full prompt/response conversation for auditing.
   - Updates `workspace.json` manifest with `clusters` artifact references.
   - Added CLI integration tests with stub provider validating end-to-end artifact generation and manifest updates.
-  - Documented usage in onboarding with practical workflows for Cursor, browser-based chat, and future API providers.
+  - Documented usage in the handbook with practical workflows for Cursor, browser-based chat, and future API providers.
 - [ ] VS-0010 Glossary-aware enrichment from clusters.
   - Use LLM-generated clusters to detect glossary terms, flag gaps, and push cluster summaries back onto member segments for the augmentation/translation pipeline.
   - Extend augmentation to consume `clusters_current.json` and `cluster_context.json`, merging cluster synopses, snippets, and glossary highlights into segment metadata.
   - Introduce an Aho–Corasick matcher for deterministic term tagging across preprocessing, prompt assembly, and post-translation validation; emit `glossary_consistency.json` for QA tooling.
   - Provide CLI toggles for enabling the enrichment path and update docs/tests to reflect glossary + cluster interplay.
 
-- [x] VS-0011 Pluggable retrieval index pipeline.
+- [] VS-0011 Pluggable retrieval index pipeline.
   - Added `index-wiki` CLI command to materialize the default keyword dictionary and emit `knowledge/index.manifest.json`.
   - Established `IRetrievalIndex` interface so keyword, vector, or graph providers can plug in; manifest records active providers for downstream consumers.
-  - Updated docs to describe how context selection/investigation resolve snippets via the registered retrieval backend(s).
+  - Updated the handbook to describe how context selection/investigation resolve snippets via the registered retrieval backend(s).
 
 - [ ] VS-0012 CLI command presets (config-driven arguments).
   - Introduce `config/cli.presets.json` (or TOML) so commands like `crawl-wiki` can load default options (pages, throttling, project) without long flag lists.
