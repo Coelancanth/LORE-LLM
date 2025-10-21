@@ -41,14 +41,14 @@
 - [x] VS-0009 LLM-assisted clustering (chat protocol).
   - Introduced `cluster` CLI command with pluggable `IChatProvider` abstraction, `ChatProviderResolver`, and `ClusterWorkflow`.
   - Implemented `local` provider (offline deterministic clustering for testing) and registered via DI.
-  - Workflow batches segments, formats Markdown prompts (with optional custom templates via `--prompt-template`), invokes provider, parses JSON response (supports both full `ClusterDocument` and bare array shapes), and persists `clusters_llm.json`.
+  - Workflow batches segments, formats Markdown prompts (with optional custom templates via `--prompt-template`), invokes provider, parses JSON response, and maintains `clusters_current.json` plus immutable `clusters_llm_part_*.json` snapshots.
   - Optional `--save-transcript` flag emits `clusters_llm_transcript.md` capturing full prompt/response conversation for auditing.
-  - Updates `workspace.json` manifest with `clustersLlm` artifact reference.
+  - Updates `workspace.json` manifest with `clusters` artifact references.
   - Added CLI integration tests with stub provider validating end-to-end artifact generation and manifest updates.
   - Documented usage in onboarding with practical workflows for Cursor, browser-based chat, and future API providers.
 - [ ] VS-0010 Glossary-aware enrichment from clusters.
   - Use LLM-generated clusters to detect glossary terms, flag gaps, and push cluster summaries back onto member segments for the augmentation/translation pipeline.
-  - Extend augmentation to consume `clusters_llm.json`, merging cluster synopses and glossary highlights into segment metadata.
+  - Extend augmentation to consume `clusters_current.json` and `cluster_context.json`, merging cluster synopses, snippets, and glossary highlights into segment metadata.
   - Provide CLI toggles for enabling the enrichment path and update docs/tests to reflect glossary + cluster interplay.
 
 - [x] VS-0011 Wiki keyword indexing + redirect detection.

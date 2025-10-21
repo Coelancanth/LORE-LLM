@@ -95,83 +95,103 @@ dotnet run --project src/LORE-LLM -- investigate \
 
 ## 5) Cluster segments with an LLM
 
-### a) Offline/local provider
-```bash
-dotnet run --project src/LORE-LLM -- cluster \
-  --workspace workspace \
-  --project "Pathologic2 Marble Nest" \
-  --provider local \
-  --batch-size 25 \
-  --save-transcript
-```
-
-### b) DeepSeek provider
 ```bash
 dotnet run --project src/LORE-LLM -- cluster \
   --workspace workspace \
   --project "Pathologic2 Marble Nest" \
   --provider deepseek \
-  --batch-size 25 \
-  --max-segments 100 \
-  --max-clusters 50 \
+  --batch-size 800 \
+  --overlap 80 \
   --save-transcript
 ```
 
+- The command processes unassigned segments in batches, appending a summary of existing clusters (from `clusters_current.json`) plus the last `--overlap` segments so the LLM can extend prior groupings. Resume runs reuse the persisted ledger.
 - Outputs:
-  - `clusters_llm.json` – `ClusterDocument` with `clusters` array
-  - `clusters_llm_transcript.md` – full prompt/response
-  - Caps:
-    - `--max-segments` limits input lines considered pre-batching (line-based)
-    - `--max-clusters` limits number of clusters written (cluster-based)
+  - `clusters_current.json` – authoritative ledger listing every cluster, category, shared context, and ordered members
+  - `clusters_llm_part_*.json` – immutable per-batch snapshots for rollback/auditing
+  - `clusters_llm_transcript.md` – concatenated prompts/responses for review
 
-Transcript prompt excerpt:
-```text
-You are an assistant that clusters related dialogue lines for Pathologic 2: Marble Nest.
-Return ONLY JSON as an array under key 'clusters' or a bare array of objects with: clusterId, memberIds, sharedContext (optional array), knowledgeReferences (optional array), confidence (0..1), notes (optional).
-
-Segments:
-- id: conv:6192355001750781
-  text: "Executor, stay your blade."
-- id: conv:6192355001750784
-  text: "Well, you are going to die now..."
-```
-
-Expected JSON (bare array) excerpt:
+Ledger excerpt:
 ```json
-[
-  {
-    "clusterId": "scene:executor_farewell",
-    "memberIds": ["conv:6192355001750781", "conv:6192355001750784"],
-    "sharedContext": ["Final exchange in theatre"],
-    "knowledgeReferences": ["wiki:executor"],
-    "confidence": 0.71
-  }
-]
+{
+  "clusterId": "scene:executor_farewell",
+  "category": "dialogue",
+  "sharedContext": [
+    "Final exchange with the Executor inside the theatre",
+    "Sets up the confrontation with Death"
+  ],
+  "knowledgeReferences": ["wiki:executor"],
+  "members": [
+    {"segmentId": "conv:6192355001750781", "ordinal": 0},
+    {"segmentId": "conv:6192355001750784", "ordinal": 1}
+  ],
+  "confidence": 0.71
+}
 ```
 
 ---
 
-## 6) Next steps (enrichment & translation)
+## 6) Build cluster context & translation notes
 
-- Enrich segment metadata from clusters (planned VS-0010):
-  - Push `sharedContext`, `knowledgeReferences`, and synopsis back into per-segment metadata
-- Translate (sample):
+```bash
+dotnet run --project src/LORE-LLM -- cluster-context \
+  --workspace workspace \
+  --project "Pathologic2 Marble Nest"
+```
+
+- Deterministically resolves wiki Markdown via `knowledge/wiki_keyword_index.json`, trims reusable snippets, and records them in `cluster_context.json` alongside optional translation notes/cultural guidance.
+- Multiple clusters can point to the same snippet; prompts deduplicate at runtime.
+
+Context excerpt:
+```json
+{
+  "clusterId": "scene:executor_farewell",
+  "knowledgeSnippets": [
+    {
+      "title": "Executor cloak (Pathologic 2)",
+      "summary": [
+        "Executor escorts the Bachelor toward the theatre exit.",
+        "Tone: fatalistic, ritualistic."
+      ],
+      "sourcePath": "knowledge/raw/executor-cloak-pathologic-2.md"
+    }
+  ],
+  "translationNotes": {
+    "tone": "Surreal stage-play gravitas with fatalistic inevitability.",
+    "speakerVoices": {
+      "Executor": "Measured, ritualistic; guardian of the threshold.",
+      "Bachelor": "Rational veneer cracking into incredulity."
+    }
+  }
+}
+```
+
+---
+
+## 7) Enrich metadata & translate
+
 ```bash
 dotnet run --project src/LORE-LLM -- translate \
   --workspace workspace \
   --project "Pathologic2 Marble Nest" \
-  --language ru
+  --language ru \
+  --with-metadata \
+  --with-translation-notes
 ```
+
+- Category-specific prompt templates load the cluster ledger, context snippets, translation notes, global cultural guidance, and per-segment source strings.
+- Single LLM pass per cluster emits enriched metadata (speaker, entities, tone) plus translations in `translation_raw_ru.json`.
+- Deterministic fallbacks ensure critical annotations (e.g., glossary matches) persist even if the LLM call is retried offline.
 
 ---
 
-## 7) Troubleshooting quick hits
+## 8) Troubleshooting quick hits
 
 - Missing wiki config: ensure `MediaWikiCrawlerOptions` registers your project
-- Rate limits: lower `--batch-size`, use `--save-transcript` and manual Cursor flow
-- Parse errors: validate JSON in transcript; re-run clustering
+- Rate limits: lower `--batch-size`, use `--save-transcript`, and rerun only the failed `clusters_llm_part_*`
+- Parse errors: validate JSON in the offending part snapshot; append a corrected rerun instead of rerunning everything
 - Redirect loops: index shows `isRedirect: true` so downstream can skip
 
 ---
 
-This flow demonstrates how to go from raw text to crawled context, keyword index, knowledge base, and clustered segments ready for enrichment and translation.
+This flow demonstrates how to go from raw text to crawled context, keyword index, clustered scenes, deterministic wiki snippets, and category-aware translation with rich metadata.

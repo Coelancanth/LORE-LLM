@@ -93,7 +93,7 @@ Sample corpus: `english.txt` (Pathologic 2 dialogue export). The extractor treat
 }
 ```
 
-### 3.6 Cluster Contexts (`clusters_llm.json`)
+### 3.6 Cluster Ledger (`clusters_current.json`)
 ```json
 {
   "project": "pathologic2-marble-nest",
@@ -103,15 +103,25 @@ Sample corpus: `english.txt` (Pathologic 2 dialogue export). The extractor treat
   "clusters": [
     {
       "clusterId": "scene:executor_farewell",
-      "memberIds": [
-        "conv:6192355001750781",
-        "conv:6192355001750784"
-      ],
+      "category": "dialogue",
       "sharedContext": [
         "Final exchange with the Executor inside the theatre",
         "Sets up the confrontation with Death"
       ],
-      "knowledgeReferences": ["character:executor"],
+      "knowledgeReferences": [
+        "wiki:executor",
+        "wiki:stone_yard"
+      ],
+      "members": [
+        {
+          "segmentId": "conv:6192355001750781",
+          "ordinal": 0
+        },
+        {
+          "segmentId": "conv:6192355001750784",
+          "ordinal": 1
+        }
+      ],
       "confidence": 0.71,
       "notes": "LLM-generated synopsis based on chat prompt context and operator-provided segments."
     }
@@ -119,9 +129,45 @@ Sample corpus: `english.txt` (Pathologic 2 dialogue export). The extractor treat
 }
 ```
 
-- Cluster contexts are synthesized via a chat-based LLM workflow (`cluster` CLI command). Operators select a provider (local/API-based), batch segments, and the model responds with structured JSON adhering to the prompt contract. The workflow persists both `clusters_llm.json` and an optional transcript (`clusters_llm_transcript.md`) for auditing. Low-confidence responses can be manually reviewed and re-clustered.
+- Clusters are produced incrementally via the `cluster` CLI command. The workflow maintains an authoritative ledger (`clusters_current.json`) that is updated after every batch, alongside immutable checkpoints (`clusters_llm_part_*.json`) and transcripts (`clusters_llm_transcript.md`) for auditing and reruns. Each batch receives a summary of existing clusters plus an overlap window of recently processed segments so the LLM can extend prior clusters without a heavy reconciliation pass.
 
-### 3.7 Knowledge Base (`knowledge/key_concepts.json`)
+### 3.7 Cluster Context Cache (`cluster_context.json`)
+```json
+{
+  "clusterId": "scene:executor_farewell",
+  "segmentIds": [
+    "conv:6192355001750781",
+    "conv:6192355001750784"
+  ],
+  "category": "dialogue",
+  "knowledgeSnippets": [
+    {
+      "title": "Executor cloak (Pathologic 2)",
+      "slug": "executor-cloak-pathologic-2",
+      "summary": [
+        "Executor escorts the Bachelor toward the theatre exit.",
+        "Tone: fatalistic, ritualistic."
+      ],
+      "sourcePath": "knowledge/raw/executor-cloak-pathologic-2.md"
+    }
+  ],
+  "translationNotes": {
+    "tone": "Surreal stage-play gravitas with fatalistic inevitability.",
+    "speakerVoices": {
+      "Executor": "Measured, ritualistic; speaks as guardian of the threshold.",
+      "Bachelor": "Rational veneer slipping into incredulity and defiance."
+    },
+    "culturalAdaptation": [
+      "Preserve the theatre motif and stagecraft cadence.",
+      "Highlight the ritual nature of death to avoid literal medical phrasing."
+    ]
+  }
+}
+```
+
+- After clustering, a deterministic context-selection job resolves the cached Markdown pages (via `knowledge/wiki_keyword_index.json`) into reusable snippets and persists them with optional translation notes. Multiple clusters can reference the same snippet; downstream consumers deduplicate at prompt time.
+
+### 3.8 Knowledge Base (`knowledge/key_concepts.json`)
 ```json
 {
   "concept_id": "character:daniil_dankovsky",
@@ -138,7 +184,7 @@ Sample corpus: `english.txt` (Pathologic 2 dialogue export). The extractor treat
 ```
 
 - Knowledge entries seed metadata synthesis and glossary generation. When referenced, attribution is retained for compliance.
-### 3.8 Investigation Report (`investigation.json`)
+### 3.9 Investigation Report (`investigation.json`)
 ```json
 {
   "project": "pathologic2-marble-nest",
@@ -170,16 +216,16 @@ Sample corpus: `english.txt` (Pathologic 2 dialogue export). The extractor treat
 
 ## 4. End-to-End Workflow (Holistic Flow)
 1. **Configure**: Define providers, templates, locales in `config.yaml`.
-2. **Extract**: `SourceExtractor` walks source assets, normalizes text, and emits minimal `source_text_raw.json`; if authored metadata exists, it is stored separately for later merge.
-3. **Post-Process**: `PostProcessingPipeline` runs project-specific processors (e.g., Marble Nest cleanup) to mutate extracted artifacts before downstream stages.
-4. **Augment Metadata**: `MetadataSynthesizer` merges authored hints with knowledge-base lookups and LLM/heuristic inference to generate per-string metadata, then groups related strings into clusters (`clusters.json`) with confidence scores; low-confidence clusters automatically fall back to per-string context.
-5. **Glossary Build**: `GlossaryManager` merges manual lore terms with LLM-assisted discovery, handles disambiguation, and translates the glossary.
-6. **Preprocess**: `PreProcessor` replaces ambiguous tokens, performs lemmatization, prepares translation batches, and persists `preprocessed_text`.
-7. **Translate**: `AITranslator` assembles prompts (leveraging cluster context, per-string metadata, and knowledge-base excerpts), calls the chosen LLM, enforces glossary usage, and outputs `translation_raw_{lang}.json`.
-8. **Validate**: `Validator` runs consistency checks (placeholders, glossary coverage, length budgets) and produces human-readable reports.
-9. **Human Review**: Initial MVP supports local markup review; later versions sync with Paratranz for collaborative approval.
-10. **Integrate**: `Integrator` converts approved translations into engine-ready packages (e.g., CSV, JSON, binary bundles) and triggers regression tests.
-11. **Feedback Loop**: Capture reviewer notes, in-game QA issues, and player feedback to update glossary, prompts, metadata inference rules, post-processing rules, and context hints.
+2. **Extract**: `SourceExtractor` walks source assets, normalizes text, and emits minimal `source_text_raw.json` (id, text, line number, isEmpty). Authored metadata is stored separately for later merge.
+3. **Sanitize**: `PostProcessingPipeline` runs project-specific processors (e.g., Marble Nest cleanup) immediately after extraction.
+4. **Crawl & Index**: `crawl-wiki` caches Markdown under `knowledge/raw/`, while `index-wiki` produces `knowledge/wiki_keyword_index.json` for deterministic keyword → page lookups.
+5. **Seed Knowledge (Optional)**: `investigate` leverages the keyword dictionary to emit per-segment suggestions (`investigation.json`, `knowledge_base.json`). Teams focused on cluster-first enrichment can skip this step when caches are already warm.
+6. **Cluster**: The incremental `cluster` workflow batches unassigned segments, feeds the current ledger + overlap window into the LLM, and updates `clusters_current.json` alongside per-batch checkpoints and transcripts.
+7. **Context Selection**: A deterministic job resolves each cluster’s wiki snippets, builds `cluster_context.json`, and captures reusable translation notes or cultural guidance per cluster.
+8. **Enrich & Translate**: Category-aware prompt templates combine cluster context, cached snippets, global cultural guidance, and per-segment strings in a single LLM pass that can emit both enriched metadata and translations (`translation_raw_{lang}.json`). Deterministic fallbacks persist critical annotations even when LLM output is unavailable.
+9. **Validate**: `Validator` runs consistency checks (placeholders, glossary coverage, cluster completeness) and produces human-readable reports.
+10. **Human Review**: Initial MVP supports local markup review; later versions sync with Paratranz for collaborative approval.
+11. **Integrate**: `Integrator` converts approved translations into engine-ready packages (e.g., CSV, JSON, binary bundles), triggers regression tests, and feeds the feedback loop (glossary, prompts, metadata rules).
 
 ## 5. Architecture Overview
   - **Architectural Style**: Clean Architecture principles applied within a consolidated executable that is organized via Vertical Slice Architecture. Each CLI verb (extract, augment, translate, validate, integrate) resides in an isolated feature folder with its own request/response models, validators, and pipeline wiring; shared contracts are expressed through dedicated namespaces.
@@ -207,7 +253,7 @@ Sample corpus: `english.txt` (Pathologic 2 dialogue export). The extractor treat
   - Scaffold single-project solution (`LORE-LLM` console) plus `LORE-LLM.Tests`, with vertical-slice folders and central dependency injection/composition root.
   - Wire baseline test infrastructure (xUnit, Shouldly, NSubstitute) and add shared test utilities.
 
-### 3.8 Raw Wiki Markdown (`knowledge/raw/*.md`)
+### Raw Wiki Markdown (`knowledge/raw/*.md`)
 - One markdown file per MediaWiki page crawled via `crawl-wiki`. Captures cleaned prose, tab sections, and attribution metadata (`Source`, `License`, `Retrieved`).
 - Post-processing removes decorative UI (infoboxes, spoiler banners) using project-specific sanitizers (future work under VS-0008).
 
@@ -220,7 +266,7 @@ Sample corpus: `english.txt` (Pathologic 2 dialogue export). The extractor treat
 - Stand up the chat-based clustering workflow:
   - Format Markdown prompts that batch segments + glossary context.
   - Call a user-selected LLM provider (Cursor, OpenAI, Claude, DeepSeek, etc.) via a pluggable chat protocol (`IChatProvider` abstraction resolved by `ChatProviderResolver`).
-  - Persist `clusters_llm.json` alongside raw conversation transcripts (`clusters_llm_transcript.md`) for auditing.
+  - Persist `clusters_current.json` alongside per-batch checkpoints (`clusters_llm_part_*.json`) and raw conversation transcripts (`clusters_llm_transcript.md`) for auditing.
   - Implemented `local` provider for offline/deterministic testing; external providers (API-based) register via DI with their own credentials/config.
   - Near-term additions: configuration-driven providers (DeepSeek first), global context plugin/prompt, and knowledge-aware prompt enrichment using `knowledge/wiki_keyword_index.json` or `knowledge_base.json`.
 - Implement glossary ingestion, disambiguation helpers, lemmatization (spaCy via Python interop or ONNX model).
@@ -267,17 +313,13 @@ Sample corpus: `english.txt` (Pathologic 2 dialogue export). The extractor treat
 - **Supportability**: Publish SLA-ready documentation, API references, troubleshooting guides, and contact channels.
 
 ## 10. Next Immediate Actions
-1. Finalize schemas for `source_text_raw.json`, optional `source_text_metadata.json`, `metadata_inferred.json`, `clusters_llm.json`, `glossary_translated.json`, `preprocessed_text.json`, and `translation_raw.json`.
+1. Finalize schemas for `source_text_raw.json`, optional `source_text_metadata.json`, `metadata_inferred.json`, `clusters_current.json`, `cluster_context.json`, `glossary_translated.json`, `preprocessed_text.json`, and `translation_raw.json`.
 2. Design and implement the MediaWiki post-processing plugin framework; ship the Pathologic-specific sanitizer that trims infoboxes, maps, and art galleries.
-3. Prototype the chat-based clustering prompt/response flow on a small corpus and check it into `docs/examples/cluster_prompt.md` + `clusters_llm.example.json`.
+3. Prototype the chat-based clustering prompt/response flow on a small corpus and check it into `docs/examples/cluster_prompt.md` + `clusters_current.example.json`.
 4. Wire the glossary ingestion pipeline to surface glossary cues inside the clustering prompts.
 5. Draft prompt templates for metadata synthesis, clustering, and translation, plus glossary enforcement logic; run a small translation spike using the updated context.
+6. Introduce category-aware translation templates and a reusable global cultural-guidance module, ensuring translation notes produced in `cluster_context.json` flow consistently into prompts and QA tooling.
 6. Establish repository structure (Domain/Application/Infrastructure/Cli projects), fluent pipeline skeleton, vertical-slice command modules, dependency-injected services, and CI (lint + unit tests) to anchor contributions.
-
-
-
-
-
 
 
 
