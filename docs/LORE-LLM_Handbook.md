@@ -67,7 +67,9 @@ We follow a vertical-slice architecture. Each CLI verb lives in its own feature 
 ## 3. Core Architecture & Artifacts
 
 ### 3.1 Raw Source (`source_text_raw.json`)
-Minimal extraction output containing `id`, `text`, `lineNumber`, and `isEmpty`, plus project metadata (`project`, `projectDisplayName`, `generatedAt`, `inputHash`). This file is the spine for downstream processing.
+Minimal extraction output containing `id`, `text`, `lineNumber`, and `isEmpty`, plus project metadata (`project`, `projectDisplayName`, `generatedAt`, `inputHash`). This file is the spine for downstream processing. Every project must emit the same canonical structure; deterministic metadata (e.g., `category`, `sourceFile`, project-defined tags) lives in the `metadata` bag attached to each segment. Non-deterministic or review-only fields belong in downstream artifacts (`segments_metadata.json`, `cluster_context.json`, etc.).
+
+Source adapters are intentionally **out-of-process**. Teams may write converters in any language as long as they produce the canonical JSON and pass validation. The repository ships a reference implementation in `tools/AoD_generate_source_text_raw.py` that walks the Age of Decadence raw folder, emits `source_text_raw.json`, and writes helper indexes plus a `metadata.enrichment.suggested.json`. Adapt this script—or roll your own—for other projects and check it into version control alongside your raw asset snapshots.
 
 ### 3.2 Cluster Ledger (`clusters_current.json`)
 Authoritative record of all clusters produced by the incremental `cluster` workflow.
@@ -206,16 +208,32 @@ Enforcement uses an Aho–Corasick matcher to tag source occurrences, propagate 
 
 ### 5.1 Extraction & Post-Processing
 
-```bash
-dotnet run --project src/LORE-LLM -- extract \
-  --input raw-input/pathologic2-marble-nest/english.txt \
-  --output workspace \
-  --project "Pathologic2 Marble Nest"
-```
+Two supported paths:
 
-Key options:
-- `--post-process` (if exposed) toggles project-specific cleanup.
-- Implement new `IPostExtractionProcessor` to normalize unique quirks.
+1. **External adapter → canonical artifact (recommended for large/structured projects)**
+
+   ```bash
+   python tools/AoD_generate_source_text_raw.py \
+     --input raw-input/age-of-decadence \
+     --output workspace \
+     --project "Age of Decadence"
+   ```
+
+   - Adapter can be authored in any language; the only requirement is that it emits the canonical `source_text_raw.json`.
+   - Commit the adapter/configs alongside the project to keep runs reproducible.
+   - Follow up with `validate-source` and `enrich-metadata` to ensure the artifact satisfies the schema and receives deterministic metadata.
+
+2. **Built-in extractor (line-based sources)**
+
+   ```bash
+   dotnet run --project src/LORE-LLM -- extract \
+     --input raw-input/pathologic2-marble-nest/english.txt \
+     --output workspace \
+     --project "Pathologic2 Marble Nest"
+   ```
+
+   - Key options: `--post-process` toggles project-specific cleanup.
+   - Implement new `IPostExtractionProcessor` to normalize unique quirks.
 
 ### 5.2 MediaWiki Crawl
 
@@ -334,7 +352,28 @@ dotnet run --project src/LORE-LLM -- translate \
 - Glossary matches (via Aho–Corasick) are injected as hard requirements; violations recorded in `glossary_consistency.json`.
 - Deterministic fallbacks ensure glossary annotations persist even if LLM calls are retried or replaced.
 
-### 5.8 Validation & Integration
+### 5.8 Source Validation & Metadata Enrichment
+
+```bash
+dotnet run --project src/LORE-LLM -- validate-source \
+  --workspace workspace \
+  --project "Pathologic2 Marble Nest"
+```
+
+Validates `source_text_raw.json` against the canonical contract (see `docs/schemas/source_text_raw.schema.json`). Fails fast on structural problems and prints actionable errors.
+
+Deterministic metadata enrichment:
+
+```bash
+dotnet run --project src/LORE-LLM -- enrich-metadata \
+  --workspace workspace \
+  --project "Pathologic2 Marble Nest" \
+  --config config/pathologic2-marble-nest/metadata.enrichment.json
+```
+
+Layered config precedence: repo default → project override → workspace override → `--config`. Base enrichers include: id-prefix, id-lookup, and path-pattern rules. Enrichment updates segment `metadata` bags without mutating IDs or text.
+
+### 5.9 Validation & Integration
 
 `validate` performs placeholder checks, glossary coverage enforcement, and cluster completeness audits. `integrate` packages approved translations, runs regression hooks, and writes deployment-ready outputs.
 
@@ -403,17 +442,7 @@ Use this manifest to drive context selection, investigation, or any component th
 
 ---
 
-## 7. Roadmap Snapshot
 
-Refer to `docs/roadmap.md` for strategic phasing and `docs/backlog.md` for execution detail. Key upcoming items:
-
-- **VS-0008**: Expand MediaWiki post-processing plugins.
-- **VS-0010**: Glossary-aware enrichment drawing from clusters and `cluster_context.json`.
-- **VS-0012**: CLI command presets for ergonomic defaults.
-- **VS-0013**: Pluggable chat provider configuration (config-driven).
-- **VS-0014**: Knowledge-aware clustering prompts leveraging retrieval providers.
-- **VS-0015**: Resume semantics for tab-only wiki outputs.
-- **VS-0017**: Global context plugins for clustering/translation prompts.
 
 ---
 

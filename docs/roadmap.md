@@ -30,7 +30,7 @@ Strategic view of the platform’s evolution. Use this alongside the backlog (ex
 - Ship sample workspace(s) and smoke-test scripts.
 
 ### Phase 1 – Core Pipeline
-- **Extract & Sanitize** – Normalize raw text and apply project-specific cleanups right after ingestion.
+- **Extract & Sanitize** – Normalize raw text and apply project-specific cleanups right after ingestion. Projects may ship external adapters (Python/other) that emit the canonical `source_text_raw.json`; the pipeline validates/enriches the artifact but does not mandate a single in-process extractor.
 - **Curate Knowledge Base** – Harvest glossary sources (tables, MediaWiki pages, bespoke docs), extract canonical keywords, and generate rich Markdown summaries—falling back to LLM-assisted notes when source content is sparse.
 - **Index (Pluggable Retrieval)** – Run `index-*` commands to build retrieval providers and record them in `knowledge/index.manifest.json`. Implemented: keyword index plus vector (Qdrant) baseline with deterministic embeddings and artifact hashing.
 - **Investigate (Optional)** – Query active retrieval providers to produce per-segment lore candidates (`investigation.json`, `knowledge_base.json`).
