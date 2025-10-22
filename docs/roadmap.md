@@ -79,8 +79,9 @@ Strategic view of the platform’s evolution. Use this alongside the backlog (ex
 4. Enrich the Qdrant vector index payload with markdown slugs and normalized keyword metadata for deterministic lookups.
 5. Add a Qdrant search abstraction that supports keyword filters and powers a shared retrieval orchestration layer.
 6. Land Aho–Corasick glossary tagging and feed the normalized tokens into retrieval and prompt construction flows.
-7. Build the cluster context resolver that queries Qdrant (vector + keyword filters) and persists curated snippets into `cluster_context.json`.
-8. Land category-aware translation templates with reusable cultural guidance.
+7. Deliver deterministic, config-driven metadata enrichment (string-ID adapters: enrichment pipeline, layered config, AoD profiles) so segments carry quest/category context before clustering without rebuilding binaries.
+8. Build the cluster context resolver that queries Qdrant (vector + keyword filters) and persists curated snippets into `cluster_context.json`.
+9. Land category-aware translation templates with reusable cultural guidance.
 
 ---
 

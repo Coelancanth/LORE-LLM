@@ -13,6 +13,8 @@ Shared terminology for the localization pipeline. Keep this file close to the co
 - **Provider** – Pluggable component registered in a manifest (e.g., retrieval provider `keyword`, vector provider `vector:qdrant`, chat provider `local`). Providers expose common interfaces so features can swap implementations without changing orchestration code.
 - **Pipeline** – Ordered set of CLI verbs (`extract`, `crawl-wiki`, `index-wiki`, `investigate`, `cluster`, `translate`, `validate`, `integrate`) that produce and mutate artifacts inside a workspace.
 - **Knowledge Base Curation** – Process of turning unstructured lore sources (tables, wikis, bespoke docs) into structured Markdown with extracted keywords and optional LLM-enriched summaries. Output feeds the retrieval indexes.
+- **Deterministic Metadata** – Context derived repeatably from source inputs (file paths, string IDs, quest mappings, speaker IDs). Stored alongside segments because rerunning the pipeline reproduces it byte-for-byte.
+- **Non-Deterministic Metadata** – Annotations that may change between runs (LLM summaries, reviewer notes, tone suggestions). Lives in downstream ledgers/artifacts rather than `source_text_raw.json` so provenance is explicit.
 
 ## Retrieval Terminology
 

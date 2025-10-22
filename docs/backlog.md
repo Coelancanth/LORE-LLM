@@ -72,5 +72,23 @@
   - Resolves hits into `knowledge/raw/{slug}.md` paths via payload fields and writes `cluster_context.json` with snippet entries.
   - Tests added with stubbed HTTP to validate behavior without external dependencies.
   - Documentation updated to include command usage and manifest payload expectations.
+- [] VS-0015 Deterministic metadata enrichment (string ID adapters).
+  - Define contracts
+    - Document canonical `source_text_raw.json` schema (segments with deterministic metadata bag) and ship validation CLI (`lore-llm validate-source`) to enforce shape.
+  - External adapters
+    - Supply `tools/AoD_generate_source_text_raw.py` as a reference Python script that reads Age of Decadence raw files `raw-input\age-of-decadence` and emits the canonical artifact; treat it as a template other projects can copy/modify.
+    - Publish sample fixtures in `docs/examples/<project>/source_text_raw.json` illustrating expected output.
+  - Metadata enrichment (in-pipeline)
+    - Introduce lightweight deterministic metadata enrichment hook that runs on the canonical artifact if teams opt-in (reads JSON config for path/id mappings).
+    - Config layering: repo default → project override → workspace override with deterministic precedence; log when no rule matches.
+    - Provide base enrichers (path pattern, string-id prefix, lookup table) that operate purely on the canonical metadata emitted by external adapters.
+  - Project example: Age of Decadence
+    - Ship a metadata config + Python adapter demonstrating dialogues/slides → canonical segments, including quest/category mapping.
+    - Document end-to-end flow in handbook (run adapter → validate → run pipeline).
+  - Validation & tests
+    - Unit tests for config parsing and enrichment (ensure deterministic outputs, conflict warnings).
+    - Integration test invoking the Python adapter on fixture data and validating the produced artifact against the schema + enrichment pipeline.
+    - Regression test ensuring the canonical artifact hash remains stable across reruns with identical input.
+    - Add docs/handbook entry that clearly separates “adapter generation (external)” from “metadata enrichment (in-pipeline)” responsibilities.
 
 

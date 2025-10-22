@@ -22,3 +22,6 @@ Desktop.ini
 .raw-input/
 .references/workspace/
 workspace/pathologic2-marble-nest/knowledge/raw/
+
+raw-input/*
+
