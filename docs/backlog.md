@@ -57,13 +57,13 @@
   - After `crawl-wiki` and before indexing, run an Aho–Corasick matcher over raw segments to annotate metadata, e.g., `contains_glossary_terms: ["Mother Boddho", "Executor"]`.
   - Persist per-segment annotations into workspace artifacts to inform investigation, clustering prompts, and glossary enforcement.
   - Add CLI toggle and tests; wire into the pipeline as an optional post-processor.
-- [] VS-0012 Enrich Qdrant payloads for deterministic lookups.
+- [x] VS-0012 Enrich Qdrant payloads for deterministic lookups.
   - Extend `WikiIndexService` vector upserts to include markdown slug/relative path plus normalized keyword tokens in each payload.
   - Record the additional metadata in `RetrievalIndexManifest` config so downstream consumers can rely on a single source of truth.
   - Reuse the existing `KnowledgeKeywordIndexEntry.NormalizeToken` output (title-derived tokens) so glossary filters line up without a new tokenizer.
   - Cover the new payload contract with unit tests (index builder + manifest) and refresh documentation examples if shapes change.
   - Manual verification focuses on payload/manifest inspection; end-to-end cluster retrieval waits for VS-0013 and VS-0014.
-- [] VS-0013 Qdrant search abstraction with keyword filters.
+- [x] VS-0013 Qdrant search abstraction with keyword filters.
   - Add a `SearchAsync` method to `QdrantClient` that accepts query vectors, top-k, and optional keyword filters derived from glossary/Aho tagging.
   - Surface a retrieval orchestrator that maps keywords → filter clauses and falls back cleanly when no tags exist.
   - Provide integration tests (stub HTTP) proving filter JSON, error handling, and deterministic ranking behaviour.

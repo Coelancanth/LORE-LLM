@@ -58,17 +58,27 @@ public sealed class ClusterContextWorkflow : IClusterContextWorkflow
 		}
 
 		var entries = new List<ClusterContextEntry>();
-		foreach (var ctx in clusters.Clusters)
+        foreach (var ctx in clusters.Clusters)
 		{
 			cancellationToken.ThrowIfCancellationRequested();
 			// Query vector store using a simple query text: clusterId + shared context joined.
 			var queryText = string.Join("\n", new[] { ctx.ClusterId }.Concat(ctx.SharedContext ?? Array.Empty<string>()));
+            var normalizedFilters = (ctx.KnowledgeReferences ?? Array.Empty<string>())
+                .Select(r =>
+                {
+                    var idx = r.IndexOf(':');
+                    return idx >= 0 && idx + 1 < r.Length ? r[(idx + 1)..] : r;
+                })
+                .Select(LORE_LLM.Domain.Knowledge.KnowledgeKeywordIndexEntry.NormalizeToken)
+                .Where(t => !string.IsNullOrWhiteSpace(t) && t.Length >= 3)
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .ToArray();
 			var search = await _orchestrator.SearchAsync(
 				collection: "lore_llm_wiki",
 				queryText: queryText,
 				dimension: 384,
 				topK: Math.Max(1, options.TopK),
-				keywordFilters: ctx.KnowledgeReferences,
+                keywordFilters: normalizedFilters,
 				cancellationToken: cancellationToken);
 			if (search.IsFailure)
 			{

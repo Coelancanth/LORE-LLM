@@ -267,8 +267,8 @@ dotnet run --project src/LORE-LLM -- index-wiki \
 ```
 
 Notes:
-- Embeddings use a deterministic local provider by default (for reproducibility). Swap to a semantic model later without changing CLI or service boundaries.
-- Vector provider is external; it registers in the manifest with configuration and no local artifact path.
+- Embeddings use a deterministic local provider by default (for reproducibility) and include point payload fields (title, slug, path, tokens) to enable deterministic lookups. Swap to a semantic model later without changing CLI or service boundaries.
+- Vector provider is external; it registers in the manifest with configuration and no local artifact path. The manifest `payload` section documents field names and path pattern.
 
 Additional indexers (vector/graph) can be registered via configuration and will appear alongside the keyword provider.
 
