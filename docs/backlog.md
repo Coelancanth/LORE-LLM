@@ -72,7 +72,7 @@
   - Resolves hits into `knowledge/raw/{slug}.md` paths via payload fields and writes `cluster_context.json` with snippet entries.
   - Tests added with stubbed HTTP to validate behavior without external dependencies.
   - Documentation updated to include command usage and manifest payload expectations.
-- [] VS-0015 Deterministic metadata enrichment (string ID adapters).
+- [x] VS-0015 Deterministic metadata enrichment (string ID adapters).
   - Define contracts
     - Canonical `source_text_raw.json` now includes an optional deterministic `metadata` bag per segment. Added `docs/schemas/source_text_raw.schema.json` and the `validate-source` CLI to enforce shape.
     - Clarified `lineNumber` semantics: always present; for non line-based inputs (JSON/XML) it is a deterministic, per-source-file index (1..N) to keep reproducibility and source anchoring.
@@ -81,9 +81,9 @@
     - Adapter attaches deterministic metadata derived from path, string ID, and filename: `{ sourceKey, sourceRelPath, fileBase }`.
     - Adapter also emits analysis artifacts under the workspace project: `source_files_index.json` (inventory) and `metadata.enrichment.suggested.json` (seed rules inferred from folder names/categories) for review before enrichment.
   - Metadata enrichment (in-pipeline)
-    - Introduced `enrich-metadata` CLI with a layered configuration loader (repo default → project override → workspace override → explicit `--config`).
-    - Shipped base enrichers (id-prefix, id-lookup, path-pattern) that operate purely on the canonical metadata emitted by external adapters.
-    - TODO: extend enrichment rules to support regex/glob/prefix groupings (e.g., dialogue prefixes, NPC names) so projects can map quest arcs without custom code.
+  - Introduced `enrich-metadata` CLI with a layered configuration loader (repo default → project override → workspace override → explicit `--config`).
+  - Shipped enrichers: id-prefix, id-lookup, path-pattern (now supports per-segment `sourceRelPath` and `glob`), file-regex with named groups (e.g., `${prefix}`, `${npc}`), prefix rules (operate on `dialoguePrefix`), and key-prefix rules (operate on `sourceKey`).
+  - Extended enrichment rules to support regex/glob/prefix groupings (e.g., dialogue prefixes, NPC names) so projects can map quest arcs without custom code.
   - Important note on metadata design
     - Previous implicit metadata design was insufficient. We must derive deterministic metadata from the source of truth: path, string ID, and filename. Adapters should NOT invent opaque fields; they should map `{path, stringId, fileName}` to stable keys used by enrichers and downstream validation.
   - Project example: Age of Decadence
@@ -91,5 +91,14 @@
   - Validation & tests
     - Added unit tests for config parsing and enrichment; ensured deterministic outputs and safe merges.
     - Adapter + pipeline validated via `validate-source` and enrichment tests; all tests pass.
+- [x] VS-0016 Heads Will Roll Ren’Py extraction improvements.
+  - Authored `tools/HeadsWillRoll_generate_source_text_raw.py` that walks Ren’Py `.rpy` dumps, parses dialogue, command-only blocks, and `old/new` tables, and emits both aggregate `source_text_raw.json` and per-file slices (`source_text_raw_<file>.json`).
+  - Adapter tracks handled lines, surfaces warnings for unknown constructs, and supports `--strict-unhandled` to fail fast when new translation shapes appear.
+  - Preserves original-language comments, trailing tokens (e.g., `nointeract`), and speaker labels; trims unused flags such as `isEmpty` in the JSON payload.
+  - Regenerated Heads Will Roll workspace artifacts; documentation updated to describe per-file exports and strict parsing expectations.
+- [] VS-0017 Deterministic pre-clustering ahead of LLM workflows.
+  - Teach extraction/CLI pipeline to bucket segments by deterministic metadata (file, translation block, speaker, entry type) and emit `clusters_precomputed.json`.
+  - Extend `cluster` verb with options to (a) consume precomputed clusters as-is, (b) seed LLM clustering with deterministic groups, or (c) bypass pre-grouping.
+  - Add tests validating grouping heuristics and documenting the hand-off to LLM clustering; update handbook with guidance on when to enable pre-clustering.
 
 
