@@ -15,6 +15,11 @@ using LORE_LLM.Application.Clustering;
 using LORE_LLM.Application.Chat;
 using LORE_LLM.Application.Commands.Index;
 using LORE_LLM.Application.Wiki;
+using LORE_LLM.Application.Validation;
+using LORE_LLM.Application.Commands.ValidateSource;
+using LORE_LLM.Application.Commands.EnrichMetadata;
+using LORE_LLM.Application.Enrichment;
+using LORE_LLM.Application.Enrichment.Enrichers;
 using LORE_LLM.Application.PostProcessing;
 using LORE_LLM.Presentation;
 using Microsoft.Extensions.DependencyInjection;
@@ -118,6 +123,8 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<ICommandHandler<AugmentCommandOptions>, AugmentCommandHandler>();
         services.AddSingleton<ICommandHandler<TranslateCommandOptions>, TranslateCommandHandler>();
         services.AddSingleton<ICommandHandler<ValidateCommandOptions>, ValidateCommandHandler>();
+        services.AddSingleton<ICommandHandler<ValidateSourceCommandOptions>, ValidateSourceCommandHandler>();
+        services.AddSingleton<ICommandHandler<EnrichMetadataCommandOptions>, EnrichMetadataCommandHandler>();
         services.AddSingleton<ICommandHandler<IntegrateCommandOptions>, IntegrateCommandHandler>();
         services.AddSingleton<ICommandHandler<InvestigationCommandOptions>, InvestigationCommandHandler>();
         services.AddSingleton<ICommandHandler<WikiCrawlCommandOptions>, WikiCrawlCommandHandler>();
@@ -134,6 +141,12 @@ public static class ServiceCollectionExtensions
             var http = sp.GetRequiredService<IHttpClientFactory>().CreateClient("qdrant");
             return new LORE_LLM.Application.Retrieval.QdrantClient(http, "http://localhost:6333", null);
         });
+
+        services.AddSingleton<ISourceSchemaValidator, SourceSchemaValidator>();
+        services.AddSingleton<IMetadataEnricher, IdPrefixEnricher>();
+        services.AddSingleton<IMetadataEnricher, IdLookupEnricher>();
+        services.AddSingleton<IMetadataEnricher, PathPatternEnricher>();
+        services.AddSingleton<MetadataEnrichmentPipeline>();
         services.AddSingleton<LORE_LLM.Application.Retrieval.VectorRetrievalOrchestrator>();
         services.AddSingleton<ICommandHandler<ClusterCommandOptions>, ClusterCommandHandler>();
         services.AddSingleton<IClusterContextWorkflow, ClusterContextWorkflow>();

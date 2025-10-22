@@ -8,6 +8,8 @@ using LORE_LLM.Presentation.Commands.Translate;
 using LORE_LLM.Presentation.Commands.Validate;
 using LORE_LLM.Presentation.Commands.Cluster;
 using LORE_LLM.Presentation.Commands.Index;
+using LORE_LLM.Presentation.Commands.ValidateSource;
+using LORE_LLM.Presentation.Commands.EnrichMetadata;
 using System.CommandLine;
 
 namespace LORE_LLM.Presentation;
@@ -40,6 +42,8 @@ public sealed class CliApplication : ICliApplication
         root.Add(ClusterCommandDefinition.Build(_services));
         root.Add(LORE_LLM.Presentation.Commands.Cluster.ClusterContextCommandDefinition.Build(_services));
         root.Add(IndexWikiCommandDefinition.Build(_services));
+        root.Add(ValidateSourceCommandDefinition.Build(_services));
+        root.Add(EnrichMetadataCommandDefinition.Build(_services));
         return root;
     }
 }

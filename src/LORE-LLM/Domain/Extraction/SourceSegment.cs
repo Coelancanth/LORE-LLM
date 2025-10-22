@@ -4,4 +4,5 @@ public sealed record SourceSegment(
     string Id,
     string Text,
     bool IsEmpty,
-    int LineNumber);
+    int LineNumber,
+    IReadOnlyDictionary<string, string>? Metadata = null);

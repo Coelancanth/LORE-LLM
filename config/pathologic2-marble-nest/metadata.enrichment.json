@@ -1,0 +1,13 @@
+{
+  "idPrefixRules": {
+    "conv:": { "category": "dialogue" }
+  },
+  "pathPatternRules": [
+    {
+      "contains": "raw-input/pathologic2-marble-nest/english.txt",
+      "metadata": { "source": "marble-nest-main" }
+    }
+  ]
+}
+
+

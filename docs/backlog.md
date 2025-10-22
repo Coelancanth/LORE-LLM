@@ -74,21 +74,21 @@
   - Documentation updated to include command usage and manifest payload expectations.
 - [] VS-0015 Deterministic metadata enrichment (string ID adapters).
   - Define contracts
-    - Document canonical `source_text_raw.json` schema (segments with deterministic metadata bag) and ship validation CLI (`lore-llm validate-source`) to enforce shape.
+    - Canonical `source_text_raw.json` now includes an optional deterministic `metadata` bag per segment. Added `docs/schemas/source_text_raw.schema.json` and the `validate-source` CLI to enforce shape.
+    - Clarified `lineNumber` semantics: always present; for non line-based inputs (JSON/XML) it is a deterministic, per-source-file index (1..N) to keep reproducibility and source anchoring.
   - External adapters
-    - Supply `tools/AoD_generate_source_text_raw.py` as a reference Python script that reads Age of Decadence raw files `raw-input\age-of-decadence` and emits the canonical artifact; treat it as a template other projects can copy/modify.
-    - Publish sample fixtures in `docs/examples/<project>/source_text_raw.json` illustrating expected output.
+    - Implemented `tools/AoD_generate_source_text_raw.py` that RECURSIVELY processes `raw-input\age-of-decadence` (including sub/ subsub folders) and emits a canonical artifact.
+    - Adapter attaches deterministic metadata derived from path, string ID, and filename: `{ category, sourceKey, sourceRelPath, fileBase }`.
+    - Adapter also emits analysis artifacts under the workspace project: `source_files_index.json` (inventory) and `metadata.enrichment.suggested.json` (seed rules inferred from folder names/categories) for review before enrichment.
   - Metadata enrichment (in-pipeline)
-    - Introduce lightweight deterministic metadata enrichment hook that runs on the canonical artifact if teams opt-in (reads JSON config for path/id mappings).
-    - Config layering: repo default → project override → workspace override with deterministic precedence; log when no rule matches.
-    - Provide base enrichers (path pattern, string-id prefix, lookup table) that operate purely on the canonical metadata emitted by external adapters.
+    - Introduced `enrich-metadata` CLI with a layered configuration loader (repo default → project override → workspace override → explicit `--config`).
+    - Shipped base enrichers (id-prefix, id-lookup, path-pattern) that operate purely on the canonical metadata emitted by external adapters.
+  - Important note on metadata design
+    - Previous implicit metadata design was insufficient. We must derive deterministic metadata from the source of truth: path, string ID, and filename. Adapters should NOT invent opaque fields; they should map `{path, stringId, fileName}` to stable keys used by enrichers and downstream validation.
   - Project example: Age of Decadence
-    - Ship a metadata config + Python adapter demonstrating dialogues/slides → canonical segments, including quest/category mapping.
-    - Document end-to-end flow in handbook (run adapter → validate → run pipeline).
+    - End-to-end flow: run adapter → review `source_files_index.json` and `metadata.enrichment.suggested.json` → validate with `validate-source` → apply `enrich-metadata` with reviewed config.
   - Validation & tests
-    - Unit tests for config parsing and enrichment (ensure deterministic outputs, conflict warnings).
-    - Integration test invoking the Python adapter on fixture data and validating the produced artifact against the schema + enrichment pipeline.
-    - Regression test ensuring the canonical artifact hash remains stable across reruns with identical input.
-    - Add docs/handbook entry that clearly separates “adapter generation (external)” from “metadata enrichment (in-pipeline)” responsibilities.
+    - Added unit tests for config parsing and enrichment; ensured deterministic outputs and safe merges.
+    - Adapter + pipeline validated via `validate-source` and enrichment tests; all tests pass.
 
 
