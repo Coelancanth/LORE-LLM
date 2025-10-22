@@ -78,11 +78,12 @@
     - Clarified `lineNumber` semantics: always present; for non line-based inputs (JSON/XML) it is a deterministic, per-source-file index (1..N) to keep reproducibility and source anchoring.
   - External adapters
     - Implemented `tools/AoD_generate_source_text_raw.py` that RECURSIVELY processes `raw-input\age-of-decadence` (including sub/ subsub folders) and emits a canonical artifact.
-    - Adapter attaches deterministic metadata derived from path, string ID, and filename: `{ category, sourceKey, sourceRelPath, fileBase }`.
+    - Adapter attaches deterministic metadata derived from path, string ID, and filename: `{ sourceKey, sourceRelPath, fileBase }`.
     - Adapter also emits analysis artifacts under the workspace project: `source_files_index.json` (inventory) and `metadata.enrichment.suggested.json` (seed rules inferred from folder names/categories) for review before enrichment.
   - Metadata enrichment (in-pipeline)
     - Introduced `enrich-metadata` CLI with a layered configuration loader (repo default → project override → workspace override → explicit `--config`).
     - Shipped base enrichers (id-prefix, id-lookup, path-pattern) that operate purely on the canonical metadata emitted by external adapters.
+    - TODO: extend enrichment rules to support regex/glob/prefix groupings (e.g., dialogue prefixes, NPC names) so projects can map quest arcs without custom code.
   - Important note on metadata design
     - Previous implicit metadata design was insufficient. We must derive deterministic metadata from the source of truth: path, string ID, and filename. Adapters should NOT invent opaque fields; they should map `{path, stringId, fileName}` to stable keys used by enrichers and downstream validation.
   - Project example: Age of Decadence

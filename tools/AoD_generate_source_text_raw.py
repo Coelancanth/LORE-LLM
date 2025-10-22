@@ -40,20 +40,6 @@ def relpath_norm(path: str, root: str) -> str:
     return rel.replace("\\", "/")
 
 
-def infer_category(rel_path: str) -> str:
-    path_lower = rel_path.lower()
-    # Common AoD locations: scripts/data/text/dialogues|journal|slides|text
-    if "/dialogues" in path_lower:
-        return "dialogue"
-    if "/slides" in path_lower:
-        return "slide"
-    if "/journal" in path_lower:
-        return "journal"
-    if "/text" in path_lower:
-        return "text"
-    return "misc"
-
-
 def file_base_without_multi_ext(path: str) -> str:
     base = os.path.basename(path)
     # Strip multiple extensions like .xml.json or .english.cs.json
@@ -78,8 +64,8 @@ def load_segments(file_paths, input_root: str):
             continue
 
         rel = relpath_norm(path, input_root)
-        category = infer_category(rel)
         file_base = file_base_without_multi_ext(path)
+        normalized_rel = rel.replace("/", ":")
         local_index = 0
 
         for entry in data:
@@ -90,9 +76,8 @@ def load_segments(file_paths, input_root: str):
             if not key:
                 continue
             local_index += 1
-            seg_id = f"{category}:{file_base}:{key}"
+            seg_id = f"{normalized_rel}:{key}"
             metadata = {
-                "category": category,
                 "sourceKey": str(key),
                 "sourceRelPath": rel,
                 "fileBase": file_base
@@ -105,12 +90,13 @@ def load_segments(file_paths, input_root: str):
                 "metadata": metadata
             })
 
-        files_index.append({
-            "sourceRelPath": rel,
-            "category": category,
-            "fileBase": file_base,
-            "count": local_index
-        })
+        files_index.append(
+            {
+                "sourceRelPath": rel,
+                "fileBase": file_base,
+                "count": local_index,
+            }
+        )
 
     return segments, files_index
 
@@ -157,26 +143,10 @@ def main():
         json.dump({"files": files_index}, f, ensure_ascii=False, indent=2)
 
     # Build suggested enrichment config
-    categories = sorted({fi["category"] for fi in files_index})
-    id_prefix_rules = {f"{cat}:": {"category": cat} for cat in categories if cat}
-    path_rules = []
-    for cat in categories:
-        if not cat:
-            continue
-        if cat == "dialogue":
-            path_rules.append({"contains": "dialogue", "metadata": {"category": "dialogue"}})
-        elif cat == "slide":
-            path_rules.append({"contains": "slides", "metadata": {"category": "slide"}})
-        elif cat == "journal":
-            path_rules.append({"contains": "journal", "metadata": {"category": "journal"}})
-        elif cat == "text":
-            path_rules.append({"contains": "text", "metadata": {"category": "text"}})
-        else:
-            path_rules.append({"contains": cat, "metadata": {"category": cat}})
-
     suggested = {
-        "idPrefixRules": id_prefix_rules,
-        "pathPatternRules": path_rules
+        "pathPatternRules": [],
+        "fileRegexRules": [],
+        "prefixRules": []
     }
     suggested_path = os.path.join(project_dir, "metadata.enrichment.suggested.json")
     with open(suggested_path, "w", encoding="utf-8") as f:
