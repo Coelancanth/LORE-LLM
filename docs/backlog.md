@@ -47,9 +47,10 @@
   - Added CLI integration tests with stub provider validating end-to-end artifact generation and manifest updates.
   - Documented usage in the handbook with practical workflows for Cursor, browser-based chat, and future API providers.
 - [] VS-0010 Pluggable retrieval index pipeline.
-  - Added `index-wiki` CLI command to materialize the default keyword dictionary and emit `knowledge/index.manifest.json`.
-  - Established `IRetrievalIndex` interface so keyword, vector, or graph providers can plug in; manifest records active providers for downstream consumers.
-  - Updated the handbook to describe how context selection/investigation resolve snippets via the registered retrieval backend(s).
+  - Add Qdrant-backed vector provider using `Qdrant.Client` (see https://github.com/qdrant/qdrant-dotnet) alongside the existing keyword index.
+  - Extend `index-wiki` to populate embeddings, create/maintain Qdrant collections, and register both keyword/vector providers in `knowledge/index.manifest.json`.
+  - Update `IRetrievalIndex` implementations to support provider metadata (dimensions, distance metric, filters) and expose hybrid query orchestration.
+  - Document Qdrant setup (Docker compose, config) and update the handbook with vector retrieval usage/examples.
 
 - [] VS-0011 Glossary-aware enrichment from clusters.
   - Use LLM-generated clusters to detect glossary terms, flag gaps, and push cluster summaries back onto member segments for the augmentation/translation pipeline.
