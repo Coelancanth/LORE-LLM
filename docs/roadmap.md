@@ -50,7 +50,7 @@ Strategic view of the platform’s evolution. Use this alongside the backlog (ex
 - Paratranz (or equivalent) bidirectional sync.
 - Lightweight local review UI (Blazor/React).
 - Diff-based QA reports and release notes.
-- Vector/graph retrieval providers for richer context selection.
+- Vector/graph retrieval providers for richer context selection (vector-based cluster context selection shipped, see `cluster-context`).
 
 ### Phase 4 – Commercial Readiness
 - Secrets management abstraction and credential vaults.

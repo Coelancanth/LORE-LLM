@@ -317,7 +317,7 @@ dotnet run --project src/LORE-LLM -- cluster-context \
   --project "Pathologic2 Marble Nest"
 ```
 
-Resolves snippets by querying `IRetrievalIndex` providers (keyword, vector, etc.), dedupes shared snippets, and writes `cluster_context.json` with summaries and translation notes.
+Resolves snippets by querying retrieval providers (vector via Qdrant with keyword filters). The workflow embeds a simple query per cluster (clusterId + shared context), applies any knowledge reference tokens as filters, and writes `cluster_context.json` with snippet entries (title, slug, path). Downstream stages can enrich summaries and translation notes.
 
 ### 5.7 Translation & Glossary Enforcement
 

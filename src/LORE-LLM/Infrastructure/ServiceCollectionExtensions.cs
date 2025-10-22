@@ -136,6 +136,8 @@ public static class ServiceCollectionExtensions
         });
         services.AddSingleton<LORE_LLM.Application.Retrieval.VectorRetrievalOrchestrator>();
         services.AddSingleton<ICommandHandler<ClusterCommandOptions>, ClusterCommandHandler>();
+        services.AddSingleton<IClusterContextWorkflow, ClusterContextWorkflow>();
+        services.AddSingleton<ICommandHandler<ClusterContextCommandOptions>, ClusterContextCommandHandler>();
 
         return services;
     }

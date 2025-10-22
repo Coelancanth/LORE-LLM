@@ -67,10 +67,10 @@
   - Add a `SearchAsync` method to `QdrantClient` that accepts query vectors, top-k, and optional keyword filters derived from glossary/Aho tagging.
   - Surface a retrieval orchestrator that maps keywords → filter clauses and falls back cleanly when no tags exist.
   - Provide integration tests (stub HTTP) proving filter JSON, error handling, and deterministic ranking behaviour.
-- [] VS-0014 Cluster context retrieval powered by Qdrant.
-  - Generate per-cluster query embeddings (segment synopsis + metadata) and combine with glossary tokens to drive filtered Qdrant searches.
-  - Resolve search hits into concrete markdown paths, persist selected snippets into `cluster_context.json`, and update `workspace.json` manifests.
-  - Add coverage that exercises vector + keyword flows end-to-end, including edge cases with empty tags or missing wiki documents.
-  - Capture follow-up notes for potential markdown chunk/section embeddings once higher-fidelity models are available.
+- [x] VS-0014 Cluster context retrieval powered by Qdrant.
+  - Added `cluster-context` CLI command and workflow that embeds per-cluster query text (clusterId + shared context) and executes filtered Qdrant searches.
+  - Resolves hits into `knowledge/raw/{slug}.md` paths via payload fields and writes `cluster_context.json` with snippet entries.
+  - Tests added with stubbed HTTP to validate behavior without external dependencies.
+  - Documentation updated to include command usage and manifest payload expectations.
 
 
