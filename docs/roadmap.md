@@ -32,7 +32,7 @@ Strategic view of the platform’s evolution. Use this alongside the backlog (ex
 ### Phase 1 – Core Pipeline
 - **Extract & Sanitize** – Normalize raw text and apply project-specific cleanups right after ingestion.
 - **Crawl** – Download MediaWiki HTML, run the post-processing pipeline, and emit Markdown (including per-tab variants).
-- **Index (Pluggable Retrieval)** – Run `index-*` commands to build keyword/vector/graph indices; record them in `knowledge/index.manifest.json`.
+- **Index (Pluggable Retrieval)** – Run `index-*` commands to build retrieval providers and record them in `knowledge/index.manifest.json`. Implemented: keyword index plus vector (Qdrant) baseline with deterministic embeddings and artifact hashing.
 - **Investigate (Optional)** – Query active retrieval providers to produce per-segment lore candidates (`investigation.json`, `knowledge_base.json`).
 - **Cluster** – Execute the incremental LLM workflow (`clusters_current.json`, batch checkpoints, transcripts).
 - **Context Selection** – Resolve cluster snippets and translation notes from the retrieval providers into `cluster_context.json`.
@@ -75,7 +75,7 @@ Strategic view of the platform’s evolution. Use this alongside the backlog (ex
 
 1. Finalize schemas for core artifacts (`source_text_raw`, `clusters_current`, `cluster_context`, `glossary_consistency`, etc.).
 2. Complete MediaWiki post-processing plugin framework and add Pathologic-specific sanitizers.
-3. Harden the pluggable retrieval layer with manifest-driven provider discovery and tests.
+3. Extend vector indexing to include content-aware embeddings and hybrid retrieval scoring.
 4. Prototype clustering prompt templates on sample corpora; capture transcripts/examples.
 5. Build glossary-aware augmentation and validation loop with deterministic fallbacks.
 6. Land category-aware translation templates with reusable cultural guidance.

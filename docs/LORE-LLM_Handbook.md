@@ -247,8 +247,27 @@ dotnet run --project src/LORE-LLM -- index-wiki \
 ```
 
 Outputs:
-- `knowledge/index.manifest.json` listing active providers (`keyword`, future `vector`, etc.)
-- Provider artifacts (keyword dictionary under `knowledge/wiki_keyword_index.json` containing `title`, `keywords`, `isRedirect`, `redirectTargets`)
+- `knowledge/index.manifest.json` listing active providers (e.g., `keyword`, `vector:qdrant`).
+- Provider artifacts and metadata:
+  - Keyword dictionary: `knowledge/wiki_keyword_index.json` containing `title`, `keywords`, `isRedirect`, `redirectTargets`.
+  - Manifest records artifact hash (SHA-256) and provider config.
+
+Vector indexing (Qdrant) example:
+```bash
+dotnet run --project src/LORE-LLM -- index-wiki \
+  --workspace workspace \
+  --project "Pathologic2 Marble Nest" \
+  --force-refresh \
+  --with-vector \
+  --qdrant-endpoint http://localhost:6333 \
+  --qdrant-collection lore_llm_wiki \
+  --vector-dimension 384 \
+  --embedding-source none
+```
+
+Notes:
+- Embeddings use a deterministic local provider by default (for reproducibility). Swap to a semantic model later without changing CLI or service boundaries.
+- Vector provider is external; it registers in the manifest with configuration and no local artifact path.
 
 Additional indexers (vector/graph) can be registered via configuration and will appear alongside the keyword provider.
 
@@ -354,6 +373,17 @@ Example:
       "config": {
         "tokenizer": "default",
         "minTokenLength": 3
+      }
+    },
+    {
+      "name": "vector:qdrant",
+      "artifact": null,
+      "hash": null,
+      "config": {
+        "endpoint": "http://localhost:6333",
+        "collection": "lore_llm_wiki",
+        "dimensions": 384,
+        "embeddingSource": "none"
       }
     }
   ]

@@ -8,6 +8,8 @@ namespace LORE_LLM.Application.Wiki;
 public interface IWikiIndexService
 {
     Task<Result<int>> BuildKeywordIndexAsync(DirectoryInfo workspace, string projectDisplayName, bool forceRefresh, CancellationToken cancellationToken);
+
+    Task<Result<int>> BuildRetrievalIndexesAsync(WikiIndexBuildOptions options, CancellationToken cancellationToken);
 }
 
 

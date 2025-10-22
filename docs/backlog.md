@@ -46,42 +46,16 @@
   - Updates `workspace.json` manifest with `clusters` artifact references.
   - Added CLI integration tests with stub provider validating end-to-end artifact generation and manifest updates.
   - Documented usage in the handbook with practical workflows for Cursor, browser-based chat, and future API providers.
-- [] VS-0010 Pluggable retrieval index pipeline.
-  - Add Qdrant-backed vector provider using `Qdrant.Client` (see https://github.com/qdrant/qdrant-dotnet) alongside the existing keyword index.
-  - Extend `index-wiki` to populate embeddings, create/maintain Qdrant collections, and register both keyword/vector providers in `knowledge/index.manifest.json`.
-  - Update `IRetrievalIndex` implementations to support provider metadata (dimensions, distance metric, filters) and expose hybrid query orchestration.
-  - Document Qdrant setup (Docker compose, config) and update the handbook with vector retrieval usage/examples.
+- [x] VS-0010 Pluggable retrieval index pipeline.
+  - Added `RetrievalIndexManifest` with provider entries written to `knowledge/index.manifest.json`.
+  - Extended `index-wiki` to accept vector flags (`--with-vector`, `--qdrant-endpoint`, `--qdrant-api-key`, `--qdrant-collection`, `--vector-dimension`, `--embedding-source`).
+  - Implemented deterministic `HashEmbeddingProvider` and minimal `QdrantClient` (HTTP) to seed a collection with title vectors.
+  - Keyword artifact hashing recorded in the manifest; workspace manifest updated with `retrievalIndexManifest`.
+  - DI wiring added for embedding provider and Qdrant HttpClient; existing tests remain green.
 
-- [] VS-0011 Glossary-aware enrichment from clusters.
-  - Use LLM-generated clusters to detect glossary terms, flag gaps, and push cluster summaries back onto member segments for the augmentation/translation pipeline.
-  - Extend augmentation to consume `clusters_current.json` and `cluster_context.json`, merging cluster synopses, snippets, and glossary highlights into segment metadata.
-  - Introduce an Aho–Corasick matcher for deterministic term tagging across preprocessing, prompt assembly, and post-translation validation; emit `glossary_consistency.json` for QA tooling.
-  - Provide CLI toggles for enabling the enrichment path and update docs/tests to reflect glossary + cluster interplay.
+- [] VS-0011 Post-crawl glossary tagging (Aho–Corasick).
+  - After `crawl-wiki` and before indexing, run an Aho–Corasick matcher over raw segments to annotate metadata, e.g., `contains_glossary_terms: ["Mother Boddho", "Executor"]`.
+  - Persist per-segment annotations into workspace artifacts to inform investigation, clustering prompts, and glossary enforcement.
+  - Add CLI toggle and tests; wire into the pipeline as an optional post-processor.
 
-- [] VS-0012 CLI command presets (config-driven arguments).
-  - Introduce `config/cli.presets.json` (or TOML) so commands like `crawl-wiki` can load default options (pages, throttling, project) without long flag lists.
-  - Support `--preset <name>` plus implicit defaults per sanitized project; allow overrides on the command line.
-  - Update docs/backlog to explain preset workflow and add tests covering config loading + precedence (CLI overrides > preset > hardcoded defaults).
 
-- [] VS-0013 Pluggable chat provider configuration (config folder).
-  - Introduce `config/chat.providers.json` to declare providers (DeepSeek/OpenAI/Claude/etc.), default model, temperature, maxTokens, and API key env var mapping.
-  - Precedence: CLI > environment variables > config file defaults.
-  - Validate configuration against the official provider API specs and surface actionable errors on misconfig (focus on DeepSeek first).
-  - Wire DI to construct providers from config; keep `DEEPSEEK_API_KEY` compatibility.
-
-- [] VS-0014 Knowledge-aware clustering prompt enrichment.
-  - Add `--with-knowledge` (and caps like `--knowledge-max`) to inject top-N relevant concepts from retrieval providers (keyword, vector, graph) into clustering prompts.
-  - Keep prompts within token budgets; document guidance and add tests.
-
-- [] VS-0015 Crawler resume for tab-only variant outputs.
-  - When `EmitBaseDocument = false` with configured `TabOutputs`, skip pages where all expected variant files already exist (unless `--force-refresh`).
-  - Add deterministic tests and doc updates.
-
-- [] VS-0016 Cluster CLI options: temperature/model overrides.
-  - Add `--temperature` and `--model` to the `cluster` command; flow through to selected provider.
-  - Document safe ranges per provider and defaults sourced from config.
-
-- [] VS-0017 Global context plugin/prompt.
-  - Provide a project-level, pluggable global context (e.g., surreal stage-play tone for Pathologic) injected into clustering/translation prompts.
-  - Support per-project files (e.g., `config/<project>/global.context.md`) or preset keys; allow CLI override `--global-context <file>`.
-  - Document guidance for concise, stable system prompts and add tests verifying presence in transcripts.

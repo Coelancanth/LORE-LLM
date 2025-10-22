@@ -20,6 +20,7 @@ using LORE_LLM.Presentation;
 using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json;
 using System.IO;
+using LORE_LLM.Application.Retrieval;
 
 namespace LORE_LLM.Infrastructure;
 
@@ -123,6 +124,11 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<ICommandHandler<IndexWikiCommandOptions>, IndexWikiCommandHandler>();
 
         services.AddSingleton<IWikiIndexService, WikiIndexService>();
+        services.AddSingleton<IDeterministicEmbeddingProvider, HashEmbeddingProvider>();
+        services.AddHttpClient("qdrant", client =>
+        {
+            client.Timeout = TimeSpan.FromSeconds(30);
+        });
         services.AddSingleton<ICommandHandler<ClusterCommandOptions>, ClusterCommandHandler>();
 
         return services;
