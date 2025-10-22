@@ -129,6 +129,12 @@ public static class ServiceCollectionExtensions
         {
             client.Timeout = TimeSpan.FromSeconds(30);
         });
+        services.AddSingleton(sp =>
+        {
+            var http = sp.GetRequiredService<IHttpClientFactory>().CreateClient("qdrant");
+            return new LORE_LLM.Application.Retrieval.QdrantClient(http, "http://localhost:6333", null);
+        });
+        services.AddSingleton<LORE_LLM.Application.Retrieval.VectorRetrievalOrchestrator>();
         services.AddSingleton<ICommandHandler<ClusterCommandOptions>, ClusterCommandHandler>();
 
         return services;
