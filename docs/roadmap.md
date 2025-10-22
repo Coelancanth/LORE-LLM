@@ -31,7 +31,7 @@ Strategic view of the platform’s evolution. Use this alongside the backlog (ex
 
 ### Phase 1 – Core Pipeline
 - **Extract & Sanitize** – Normalize raw text and apply project-specific cleanups right after ingestion.
-- **Crawl** – Download MediaWiki HTML, run the post-processing pipeline, and emit Markdown (including per-tab variants).
+- **Curate Knowledge Base** – Harvest glossary sources (tables, MediaWiki pages, bespoke docs), extract canonical keywords, and generate rich Markdown summaries—falling back to LLM-assisted notes when source content is sparse.
 - **Index (Pluggable Retrieval)** – Run `index-*` commands to build retrieval providers and record them in `knowledge/index.manifest.json`. Implemented: keyword index plus vector (Qdrant) baseline with deterministic embeddings and artifact hashing.
 - **Investigate (Optional)** – Query active retrieval providers to produce per-segment lore candidates (`investigation.json`, `knowledge_base.json`).
 - **Cluster** – Execute the incremental LLM workflow (`clusters_current.json`, batch checkpoints, transcripts).
@@ -75,11 +75,12 @@ Strategic view of the platform’s evolution. Use this alongside the backlog (ex
 
 1. Finalize schemas for core artifacts (`source_text_raw`, `clusters_current`, `cluster_context`, `glossary_consistency`, etc.).
 2. Complete MediaWiki post-processing plugin framework and add Pathologic-specific sanitizers.
-3. Extend vector indexing to include content-aware embeddings and hybrid retrieval scoring.
-4. Prototype clustering prompt templates on sample corpora; capture transcripts/examples.
-5. Build glossary-aware augmentation and validation loop with deterministic fallbacks.
-6. Land category-aware translation templates with reusable cultural guidance.
-7. Expand CLI presets and error telemetry to smooth operator experience.
+3. Implement knowledge base curation that converts raw tables/pages into indexed Markdown, extracting canonical keywords and optionally enriching sparse entries via LLM suggestions.
+4. Enrich the Qdrant vector index payload with markdown slugs and normalized keyword metadata for deterministic lookups.
+5. Add a Qdrant search abstraction that supports keyword filters and powers a shared retrieval orchestration layer.
+6. Land Aho–Corasick glossary tagging and feed the normalized tokens into retrieval and prompt construction flows.
+7. Build the cluster context resolver that queries Qdrant (vector + keyword filters) and persists curated snippets into `cluster_context.json`.
+8. Land category-aware translation templates with reusable cultural guidance.
 
 ---
 
@@ -87,6 +88,7 @@ Strategic view of the platform’s evolution. Use this alongside the backlog (ex
 
 - `docs/backlog.md` – executable task list (vertical slices & details).
 - `docs/LORE-LLM_Handbook.md` – operational guide covering setup, commands, and troubleshooting.
+- `docs/glossary.md` – ubiquitous language reference shared across engineering and operations.
 
 
 
@@ -98,7 +100,7 @@ Strategic view of the platform’s evolution. Use this alongside the backlog (ex
 | Step | Description |
 | --- | --- |
 | **1. Extract & Sanitize** | Run `extract` to produce `source_text_raw.json`, then immediately apply project-specific post processors to normalize formatting quirks. |
-| **2. Crawl** | Execute `crawl-wiki` to fetch MediaWiki HTML, apply the configured post-processing pipeline, and write Markdown (base + tab variants) into `knowledge/raw/`. |
+| **2. Curate Knowledge Base** | Execute `crawl-wiki` (or future adapters) to transform raw glossary sources into curated Markdown, extracting keywords and optionally enriching thin content with LLM suggestions. |
 | **3. Index (Pluggable)** | Invoke `index-*` commands (starting with `index-wiki`) to build retrieval providers. Each provider persists its cache (keyword dictionary, vector store, graph index, etc.) and registers in `knowledge/index.manifest.json` via `IRetrievalIndex`. |
 | **4. Investigate (Optional)** | Query the registered retrieval providers to emit per-segment lore candidates (`investigation.json`, `knowledge_base.json`) for provenance and glossary seeding. |
 | **5. Cluster** | Run the incremental LLM workflow that references the current ledger plus an overlap window, updating `clusters_current.json` while emitting batch checkpoints/transcripts. Providers (`local`, `deepseek`, …) plug into `IChatProvider`. |
@@ -109,6 +111,7 @@ Strategic view of the platform’s evolution. Use this alongside the backlog (ex
 
 **Key Points About the Pluggable Retrieval Flow**
 - *Single manifest of truth* – every provider registers in `knowledge/index.manifest.json`, so downstream stages discover capabilities without hard-coded paths.
+- *Rich payloads* – vector providers persist markdown slugs and keyword tokens so search hits map deterministically to knowledge artifacts and support filtered queries.
 - *Shared abstraction* – `IRetrievalIndex` lets investigation, context selection, and future features query providers in priority order (vector first, keyword fallback, etc.).
 - *Deterministic outputs* – even with vector stores, results are persisted into `cluster_context.json`, keeping translation reproducible.
 - *Extensibility* – new providers (graph, hybrid BM25+vector) only require implementing the interface and wiring configuration; clustering and translation logic remain untouched.

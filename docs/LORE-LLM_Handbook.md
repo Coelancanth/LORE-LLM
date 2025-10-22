@@ -51,6 +51,7 @@ We follow a vertical-slice architecture. Each CLI verb lives in its own feature 
 
 3. **First-day checklist**
    - Read `docs/backlog.md` for the latest feature status and `docs/roadmap.md` for strategic context.
+   - Review `docs/glossary.md` for ubiquitous language so discussions stay aligned.
    - Skim JSON schemas in `docs/schemas/` to understand artifact contracts.
    - Optional: run `extract`, `crawl-wiki`, and `cluster` on a sample project (see §5).
 
@@ -383,7 +384,15 @@ Example:
         "endpoint": "http://localhost:6333",
         "collection": "lore_llm_wiki",
         "dimensions": 384,
-        "embeddingSource": "none"
+        "embeddingSource": "none",
+        "payload": {
+          "titleField": "title",
+          "slugField": "slug",
+          "pathField": "path",
+          "tokensField": "tokens",
+          "basePath": "knowledge/raw",
+          "pathPattern": "{slug}.md"
+        }
       }
     }
   ]

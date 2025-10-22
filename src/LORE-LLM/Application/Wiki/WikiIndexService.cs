@@ -11,6 +11,7 @@ using LORE_LLM.Domain.Knowledge;
 using System.Security.Cryptography;
 using LORE_LLM.Application.Retrieval;
 using LORE_LLM.Domain.Extraction;
+using LORE_LLM.Application.Investigation;
 
 namespace LORE_LLM.Application.Wiki;
 
@@ -163,6 +164,16 @@ public sealed class WikiIndexService : IWikiIndexService
             ["dimensions"] = JsonSerializer.SerializeToElement(options.VectorDimension),
             ["embeddingSource"] = JsonSerializer.SerializeToElement(options.EmbeddingSource)
         };
+        var payloadMeta = new
+        {
+            titleField = "title",
+            slugField = "slug",
+            pathField = "path",
+            tokensField = "tokens",
+            basePath = Path.Combine("knowledge", "raw").Replace('\\', '/'),
+            pathPattern = "{slug}.md"
+        };
+        config["payload"] = JsonSerializer.SerializeToElement(payloadMeta);
 
         var http = _httpClientFactory.CreateClient("qdrant");
         var qdrant = new QdrantClient(http, options.QdrantEndpoint, options.QdrantApiKey);
@@ -185,7 +196,16 @@ public sealed class WikiIndexService : IWikiIndexService
         {
             cancellationToken.ThrowIfCancellationRequested();
             var vector = _embeddingProvider.Embed(entry.Title, options.VectorDimension);
-            points.Add((entry.Title, vector, new { title = entry.Title }));
+            var slug = TextSlugger.ToSlug(entry.Title);
+            var relPath = Path.Combine("knowledge", "raw", $"{slug}.md").Replace('\\', '/');
+            var payload = new
+            {
+                title = entry.Title,
+                slug,
+                path = relPath,
+                tokens = entry.Keywords
+            };
+            points.Add((entry.Title, vector, payload));
         }
 
         var upsert = await qdrant.UpsertPointsAsync(options.QdrantCollection, points, cancellationToken);
