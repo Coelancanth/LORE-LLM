@@ -96,10 +96,11 @@
   - Adapter tracks handled lines, surfaces warnings for unknown constructs, and supports `--strict-unhandled` to fail fast when new translation shapes appear.
   - Preserves original-language comments, trailing tokens (e.g., `nointeract`), and speaker labels; trims unused flags such as `isEmpty` in the JSON payload.
   - Regenerated Heads Will Roll workspace artifacts; documentation updated to describe per-file exports and strict parsing expectations.
-- [] VS-0017 Deterministic pre-clustering ahead of LLM workflows.
-  - Teach extraction/CLI pipeline to bucket segments by deterministic metadata (file, translation block, speaker, entry type) and emit `clusters_precomputed.json`.
-  - Extend `cluster` verb with options to (a) consume precomputed clusters as-is, (b) seed LLM clustering with deterministic groups, or (c) bypass pre-grouping.
-  - Add tests validating grouping heuristics and documenting the hand-off to LLM clustering; update handbook with guidance on when to enable pre-clustering.
+- [] VS-0017 Deterministic pre-clustering ahead of LLM workflows (Heads Will Roll exemplar).
+  - Implement a `cluster-prep` CLI that buckets segments using deterministic metadata (`sourceRelPath`, `translationBlock`, `blockInstance`, `entryType`, `speaker`) and writes `clusters_precomputed.json`.
+  - Encode Heads Will Roll heuristics: keep Ren’Py blocks intact, split `character_line` clusters per speaker, and merge adjacent UI tables when `sourceReference` ranges align.
+  - Update `cluster` verb with flags to ingest precomputed clusters (accept, seed, or ignore) and persist transcripts showing how deterministic + LLM clustering interact.
+  - Provide tests and documentation using Heads Will Roll segments as the worked example; record configuration advice in `raw-input/head-will-roll/metadata.md`.
 - [] VS-0018 Cluster-driven NPC persona synthesis.
   - Consume deterministic/LLM clusters to identify dominant speakers and dialog spans.
   - Prompt LLMs (with human approval checkpoints) to infer personality, tone, sample quotes, and translation guidance per NPC.
