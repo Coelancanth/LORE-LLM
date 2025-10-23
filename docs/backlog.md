@@ -100,5 +100,9 @@
   - Teach extraction/CLI pipeline to bucket segments by deterministic metadata (file, translation block, speaker, entry type) and emit `clusters_precomputed.json`.
   - Extend `cluster` verb with options to (a) consume precomputed clusters as-is, (b) seed LLM clustering with deterministic groups, or (c) bypass pre-grouping.
   - Add tests validating grouping heuristics and documenting the hand-off to LLM clustering; update handbook with guidance on when to enable pre-clustering.
+- [] VS-0018 Cluster-driven NPC persona synthesis.
+  - Consume deterministic/LLM clusters to identify dominant speakers and dialog spans.
+  - Prompt LLMs (with human approval checkpoints) to infer personality, tone, sample quotes, and translation guidance per NPC.
+  - Persist outputs as reviewable knowledge artifacts (e.g., `knowledge/npc_profiles.json`) and integrate them into translation prompts and glossary validation.
 
 

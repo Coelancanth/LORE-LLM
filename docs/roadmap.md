@@ -34,7 +34,7 @@ Strategic view of the platform’s evolution. Use this alongside the backlog (ex
 - **Curate Knowledge Base** – Harvest glossary sources (tables, MediaWiki pages, bespoke docs), extract canonical keywords, and generate rich Markdown summaries—falling back to LLM-assisted notes when source content is sparse.
 - **Index (Pluggable Retrieval)** – Run `index-*` commands to build retrieval providers and record them in `knowledge/index.manifest.json`. Implemented: keyword index plus vector (Qdrant) baseline with deterministic embeddings and artifact hashing.
 - **Investigate (Optional)** – Query active retrieval providers to produce per-segment lore candidates (`investigation.json`, `knowledge_base.json`).
-- **Cluster** – Execute the incremental LLM workflow (`clusters_current.json`, batch checkpoints, transcripts).
+- **Cluster** – Execute deterministic pre-clustering (bucket by file/block/speaker) before invoking the incremental LLM workflow (`clusters_precomputed.json`, `clusters_current.json`, batch checkpoints, transcripts).
 - **Context Selection** – Resolve cluster snippets and translation notes from the retrieval providers into `cluster_context.json`.
 - **Glossary Enforcement** – Tag terms deterministically (Aho–Corasick), propagate expectations into prompts, and prep validation.
 - **Translate** – Apply category-specific prompt templates that blend cluster metadata, snippets, glossary directives, and cultural guidance; emit translations plus enriched metadata.
@@ -104,10 +104,10 @@ Strategic view of the platform’s evolution. Use this alongside the backlog (ex
 | **2. Curate Knowledge Base** | Execute `crawl-wiki` (or future adapters) to transform raw glossary sources into curated Markdown, extracting keywords and optionally enriching thin content with LLM suggestions. |
 | **3. Index (Pluggable)** | Invoke `index-*` commands (starting with `index-wiki`) to build retrieval providers. Each provider persists its cache (keyword dictionary, vector store, graph index, etc.) and registers in `knowledge/index.manifest.json` via `IRetrievalIndex`. |
 | **4. Investigate (Optional)** | Query the registered retrieval providers to emit per-segment lore candidates (`investigation.json`, `knowledge_base.json`) for provenance and glossary seeding. |
-| **5. Cluster** | Run the incremental LLM workflow that references the current ledger plus an overlap window, updating `clusters_current.json` while emitting batch checkpoints/transcripts. Providers (`local`, `deepseek`, …) plug into `IChatProvider`. |
+| **5. Cluster** | Run deterministic pre-clustering to produce `clusters_precomputed.json`, then invoke the incremental LLM workflow that references the pre-groups plus an overlap window, updating `clusters_current.json` while emitting batch checkpoints/transcripts. Providers (`local`, `deepseek`, …) plug into `IChatProvider`. |
 | **6. Context Selection** | Deterministically resolve wiki snippets and translation notes per cluster by querying `IRetrievalIndex` providers; persist results in `cluster_context.json` (shared snippets deduped). |
 | **7. Glossary Enforcement** | Tag glossary terms with Aho–Corasick, propagate required targets into metadata/prompts, and stage validation hooks. |
-| **8. Translate** | Apply category-aware prompt templates that blend cluster metadata, snippets, glossary directives, and cultural guidance; capture translations plus enriched metadata. |
+| **8. Translate** | Apply category-aware prompt templates that blend cluster metadata, snippets, glossary directives, NPC persona knowledge, and cultural guidance; capture translations plus enriched metadata. |
 | **9. Validate → Review → Integrate** | Run placeholder/glossary checks (`glossary_consistency.json`), perform human review (local or Paratranz), then package approved outputs with regression checks and feedback loops. |
 
 **Key Points About the Pluggable Retrieval Flow**
