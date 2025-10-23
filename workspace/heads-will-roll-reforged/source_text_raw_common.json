@@ -1,0 +1,4214 @@
+{
+  "sourcePath": "C:\\Users\\Coel\\Documents\\Godot\\LORE-LLM\\raw-input\\head-will-roll\\common.rpy",
+  "sourceRelPath": "common.rpy",
+  "generatedAt": "2025-10-22T13:40:17.589788+00:00",
+  "project": "heads-will-roll-reforged",
+  "projectDisplayName": "Heads Will Roll Reforged",
+  "inputHash": "1aee97a46e0828b53efd8836b4876a38d904bc3dd98c272e9e98cac57928df38",
+  "blockCount": {
+    "strings": 2
+  },
+  "segmentCount": 300,
+  "segments": [
+    {
+      "id": "common.rpy:strings:1:7",
+      "text": "Self-voicing disabled.",
+      "lineNumber": 1,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00accessibility.rpy:28",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Self-voicing disabled."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:11",
+      "text": "Clipboard voicing enabled. ",
+      "lineNumber": 2,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00accessibility.rpy:29",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Clipboard voicing enabled. "
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:15",
+      "text": "Self-voicing enabled. ",
+      "lineNumber": 3,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00accessibility.rpy:30",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Self-voicing enabled. "
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:19",
+      "text": "bar",
+      "lineNumber": 4,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00accessibility.rpy:32",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "bar"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:23",
+      "text": "selected",
+      "lineNumber": 5,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00accessibility.rpy:33",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "selected"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:27",
+      "text": "viewport",
+      "lineNumber": 6,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00accessibility.rpy:34",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "viewport"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:31",
+      "text": "horizontal scroll",
+      "lineNumber": 7,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00accessibility.rpy:35",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "horizontal scroll"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:35",
+      "text": "vertical scroll",
+      "lineNumber": 8,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00accessibility.rpy:36",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "vertical scroll"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:39",
+      "text": "activate",
+      "lineNumber": 9,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00accessibility.rpy:37",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "activate"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:43",
+      "text": "deactivate",
+      "lineNumber": 10,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00accessibility.rpy:38",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "deactivate"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:47",
+      "text": "increase",
+      "lineNumber": 11,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00accessibility.rpy:39",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "increase"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:51",
+      "text": "decrease",
+      "lineNumber": 12,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00accessibility.rpy:40",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "decrease"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:55",
+      "text": "Font Override",
+      "lineNumber": 13,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00accessibility.rpy:128",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Font Override"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:59",
+      "text": "Default",
+      "lineNumber": 14,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00accessibility.rpy:132",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Default"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:63",
+      "text": "DejaVu Sans",
+      "lineNumber": 15,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00accessibility.rpy:136",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "DejaVu Sans"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:67",
+      "text": "Opendyslexic",
+      "lineNumber": 16,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00accessibility.rpy:140",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Opendyslexic"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:71",
+      "text": "Text Size Scaling",
+      "lineNumber": 17,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00accessibility.rpy:146",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Text Size Scaling"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:75",
+      "text": "Reset",
+      "lineNumber": 18,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00accessibility.rpy:152",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Reset"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:79",
+      "text": "Line Spacing Scaling",
+      "lineNumber": 19,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00accessibility.rpy:157",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Line Spacing Scaling"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:83",
+      "text": "Self-Voicing",
+      "lineNumber": 20,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00accessibility.rpy:169",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Self-Voicing"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:87",
+      "text": "Off",
+      "lineNumber": 21,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00accessibility.rpy:173",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Off"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:91",
+      "text": "Text-to-speech",
+      "lineNumber": 22,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00accessibility.rpy:177",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Text-to-speech"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:95",
+      "text": "Clipboard",
+      "lineNumber": 23,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00accessibility.rpy:181",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Clipboard"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:99",
+      "text": "Debug",
+      "lineNumber": 24,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00accessibility.rpy:185",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Debug"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:103",
+      "text": "The options on this menu are intended to improve accessibility. They may not work with all games, and some combinations of options may render the game unplayable. This is not an issue with the game or engine. For the best results when changing fonts, try to keep the text size the same as it originally was.",
+      "lineNumber": 25,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00accessibility.rpy:191",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "The options on this menu are intended to improve accessibility. They may not work with all games, and some combinations of options may render the game unplayable. This is not an issue with the game or engine. For the best results when changing fonts, try to keep the text size the same as it originally was."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:107",
+      "text": "{#weekday}Monday",
+      "lineNumber": 26,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:26",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "{#weekday}Monday"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:111",
+      "text": "{#weekday}Tuesday",
+      "lineNumber": 27,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:26",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "{#weekday}Tuesday"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:115",
+      "text": "{#weekday}Wednesday",
+      "lineNumber": 28,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:26",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "{#weekday}Wednesday"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:119",
+      "text": "{#weekday}Thursday",
+      "lineNumber": 29,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:26",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "{#weekday}Thursday"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:123",
+      "text": "{#weekday}Friday",
+      "lineNumber": 30,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:26",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "{#weekday}Friday"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:127",
+      "text": "{#weekday}Saturday",
+      "lineNumber": 31,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:26",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "{#weekday}Saturday"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:131",
+      "text": "{#weekday}Sunday",
+      "lineNumber": 32,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:26",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "{#weekday}Sunday"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:135",
+      "text": "{#weekday_short}Mon",
+      "lineNumber": 33,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:37",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "{#weekday_short}Mon"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:139",
+      "text": "{#weekday_short}Tue",
+      "lineNumber": 34,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:37",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "{#weekday_short}Tue"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:143",
+      "text": "{#weekday_short}Wed",
+      "lineNumber": 35,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:37",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "{#weekday_short}Wed"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:147",
+      "text": "{#weekday_short}Thu",
+      "lineNumber": 36,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:37",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "{#weekday_short}Thu"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:151",
+      "text": "{#weekday_short}Fri",
+      "lineNumber": 37,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:37",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "{#weekday_short}Fri"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:155",
+      "text": "{#weekday_short}Sat",
+      "lineNumber": 38,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:37",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "{#weekday_short}Sat"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:159",
+      "text": "{#weekday_short}Sun",
+      "lineNumber": 39,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:37",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "{#weekday_short}Sun"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:163",
+      "text": "{#month}January",
+      "lineNumber": 40,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:47",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "{#month}January"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:167",
+      "text": "{#month}February",
+      "lineNumber": 41,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:47",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "{#month}February"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:171",
+      "text": "{#month}March",
+      "lineNumber": 42,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:47",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "{#month}March"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:175",
+      "text": "{#month}April",
+      "lineNumber": 43,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:47",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "{#month}April"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:179",
+      "text": "{#month}May",
+      "lineNumber": 44,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:47",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "{#month}May"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:183",
+      "text": "{#month}June",
+      "lineNumber": 45,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:47",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "{#month}June"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:187",
+      "text": "{#month}July",
+      "lineNumber": 46,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:47",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "{#month}July"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:191",
+      "text": "{#month}August",
+      "lineNumber": 47,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:47",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "{#month}August"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:195",
+      "text": "{#month}September",
+      "lineNumber": 48,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:47",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "{#month}September"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:199",
+      "text": "{#month}October",
+      "lineNumber": 49,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:47",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "{#month}October"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:203",
+      "text": "{#month}November",
+      "lineNumber": 50,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:47",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "{#month}November"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:207",
+      "text": "{#month}December",
+      "lineNumber": 51,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:47",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "{#month}December"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:211",
+      "text": "{#month_short}Jan",
+      "lineNumber": 52,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:63",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "{#month_short}Jan"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:215",
+      "text": "{#month_short}Feb",
+      "lineNumber": 53,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:63",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "{#month_short}Feb"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:219",
+      "text": "{#month_short}Mar",
+      "lineNumber": 54,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:63",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "{#month_short}Mar"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:223",
+      "text": "{#month_short}Apr",
+      "lineNumber": 55,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:63",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "{#month_short}Apr"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:227",
+      "text": "{#month_short}May",
+      "lineNumber": 56,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:63",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "{#month_short}May"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:231",
+      "text": "{#month_short}Jun",
+      "lineNumber": 57,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:63",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "{#month_short}Jun"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:235",
+      "text": "{#month_short}Jul",
+      "lineNumber": 58,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:63",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "{#month_short}Jul"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:239",
+      "text": "{#month_short}Aug",
+      "lineNumber": 59,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:63",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "{#month_short}Aug"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:243",
+      "text": "{#month_short}Sep",
+      "lineNumber": 60,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:63",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "{#month_short}Sep"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:247",
+      "text": "{#month_short}Oct",
+      "lineNumber": 61,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:63",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "{#month_short}Oct"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:251",
+      "text": "{#month_short}Nov",
+      "lineNumber": 62,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:63",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "{#month_short}Nov"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:255",
+      "text": "{#month_short}Dec",
+      "lineNumber": 63,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:63",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "{#month_short}Dec"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:259",
+      "text": "%b %d, %H:%M",
+      "lineNumber": 64,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:240",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "%b %d, %H:%M"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:263",
+      "text": "Save slot %s: [text]",
+      "lineNumber": 65,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:353",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Save slot %s: [text]"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:267",
+      "text": "Load slot %s: [text]",
+      "lineNumber": 66,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:434",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Load slot %s: [text]"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:271",
+      "text": "Delete slot [text]",
+      "lineNumber": 67,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:487",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Delete slot [text]"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:275",
+      "text": "File page auto",
+      "lineNumber": 68,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:569",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "File page auto"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:279",
+      "text": "File page quick",
+      "lineNumber": 69,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:571",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "File page quick"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:283",
+      "text": "File page [text]",
+      "lineNumber": 70,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:573",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "File page [text]"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:287",
+      "text": "Next file page.",
+      "lineNumber": 71,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:772",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Next file page."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:291",
+      "text": "Previous file page.",
+      "lineNumber": 72,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:845",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Previous file page."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:295",
+      "text": "Quick save complete.",
+      "lineNumber": 73,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:906",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Quick save complete."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:299",
+      "text": "Quick save.",
+      "lineNumber": 74,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:924",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Quick save."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:303",
+      "text": "Quick load.",
+      "lineNumber": 75,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_file.rpy:943",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Quick load."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:307",
+      "text": "Language [text]",
+      "lineNumber": 76,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00action_other.rpy:375",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Language [text]"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:311",
+      "text": "The interactive director is not enabled here.",
+      "lineNumber": 77,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00director.rpy:708",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "The interactive director is not enabled here."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:315",
+      "text": "⬆",
+      "lineNumber": 78,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00director.rpy:1481",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "⬆"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:319",
+      "text": "⬇",
+      "lineNumber": 79,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00director.rpy:1487",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "⬇"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:323",
+      "text": "Done",
+      "lineNumber": 80,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00director.rpy:1551",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Done"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:327",
+      "text": "(statement)",
+      "lineNumber": 81,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00director.rpy:1561",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "(statement)"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:331",
+      "text": "(tag)",
+      "lineNumber": 82,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00director.rpy:1562",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "(tag)"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:335",
+      "text": "(attributes)",
+      "lineNumber": 83,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00director.rpy:1563",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "(attributes)"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:339",
+      "text": "(transform)",
+      "lineNumber": 84,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00director.rpy:1564",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "(transform)"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:343",
+      "text": "(transition)",
+      "lineNumber": 85,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00director.rpy:1589",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "(transition)"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:347",
+      "text": "(channel)",
+      "lineNumber": 86,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00director.rpy:1601",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "(channel)"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:351",
+      "text": "(filename)",
+      "lineNumber": 87,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00director.rpy:1602",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "(filename)"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:355",
+      "text": "Change",
+      "lineNumber": 88,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00director.rpy:1631",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Change"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:359",
+      "text": "Add",
+      "lineNumber": 89,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00director.rpy:1633",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Add"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:363",
+      "text": "Cancel",
+      "lineNumber": 90,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00director.rpy:1636",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Cancel"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:367",
+      "text": "Remove",
+      "lineNumber": 91,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00director.rpy:1639",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Remove"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:371",
+      "text": "Statement:",
+      "lineNumber": 92,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00director.rpy:1674",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Statement:"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:375",
+      "text": "Tag:",
+      "lineNumber": 93,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00director.rpy:1695",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Tag:"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:379",
+      "text": "Attributes:",
+      "lineNumber": 94,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00director.rpy:1711",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Attributes:"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:383",
+      "text": "Transforms:",
+      "lineNumber": 95,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00director.rpy:1729",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Transforms:"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:387",
+      "text": "Behind:",
+      "lineNumber": 96,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00director.rpy:1748",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Behind:"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:391",
+      "text": "Transition:",
+      "lineNumber": 97,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00director.rpy:1767",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Transition:"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:395",
+      "text": "Channel:",
+      "lineNumber": 98,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00director.rpy:1785",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Channel:"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:399",
+      "text": "Audio Filename:",
+      "lineNumber": 99,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00director.rpy:1803",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Audio Filename:"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:403",
+      "text": "Are you sure?",
+      "lineNumber": 100,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gui.rpy:374",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Are you sure?"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:407",
+      "text": "Are you sure you want to delete this save?",
+      "lineNumber": 101,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gui.rpy:375",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Are you sure you want to delete this save?"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:411",
+      "text": "Are you sure you want to overwrite your save?",
+      "lineNumber": 102,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gui.rpy:376",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Are you sure you want to overwrite your save?"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:415",
+      "text": "Loading will lose unsaved progress.\nAre you sure you want to do this?",
+      "lineNumber": 103,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gui.rpy:377",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Loading will lose unsaved progress.\nAre you sure you want to do this?"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:419",
+      "text": "Are you sure you want to quit?",
+      "lineNumber": 104,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gui.rpy:378",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Are you sure you want to quit?"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:423",
+      "text": "Are you sure you want to return to the main menu?\nThis will lose unsaved progress.",
+      "lineNumber": 105,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gui.rpy:379",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Are you sure you want to return to the main menu?\nThis will lose unsaved progress."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:427",
+      "text": "Are you sure you want to end the replay?",
+      "lineNumber": 106,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gui.rpy:380",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Are you sure you want to end the replay?"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:431",
+      "text": "Are you sure you want to begin skipping?",
+      "lineNumber": 107,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gui.rpy:381",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Are you sure you want to begin skipping?"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:435",
+      "text": "Are you sure you want to skip to the next choice?",
+      "lineNumber": 108,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gui.rpy:382",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Are you sure you want to skip to the next choice?"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:439",
+      "text": "Are you sure you want to skip unseen dialogue to the next choice?",
+      "lineNumber": 109,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gui.rpy:383",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Are you sure you want to skip unseen dialogue to the next choice?"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:443",
+      "text": "Failed to save screenshot as %s.",
+      "lineNumber": 110,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00keymap.rpy:267",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Failed to save screenshot as %s."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:447",
+      "text": "Saved screenshot as %s.",
+      "lineNumber": 111,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00keymap.rpy:279",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Saved screenshot as %s."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:451",
+      "text": "Skip Mode",
+      "lineNumber": 112,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00library.rpy:195",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Skip Mode"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:455",
+      "text": "This program contains free software under a number of licenses, including the MIT License and GNU Lesser General Public License. A complete list of software, including links to full source code, can be found {a=https://www.renpy.org/l/license}here{/a}.",
+      "lineNumber": 113,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00library.rpy:281",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "This program contains free software under a number of licenses, including the MIT License and GNU Lesser General Public License. A complete list of software, including links to full source code, can be found {a=https://www.renpy.org/l/license}here{/a}."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:459",
+      "text": "display",
+      "lineNumber": 114,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00preferences.rpy:233",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "display"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:463",
+      "text": "transitions",
+      "lineNumber": 115,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00preferences.rpy:245",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "transitions"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:467",
+      "text": "skip transitions",
+      "lineNumber": 116,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00preferences.rpy:254",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "skip transitions"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:471",
+      "text": "video sprites",
+      "lineNumber": 117,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00preferences.rpy:256",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "video sprites"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:475",
+      "text": "show empty window",
+      "lineNumber": 118,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00preferences.rpy:265",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "show empty window"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:479",
+      "text": "text speed",
+      "lineNumber": 119,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00preferences.rpy:274",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "text speed"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:483",
+      "text": "joystick",
+      "lineNumber": 120,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00preferences.rpy:282",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "joystick"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:487",
+      "text": "joystick...",
+      "lineNumber": 121,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00preferences.rpy:282",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "joystick..."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:491",
+      "text": "skip",
+      "lineNumber": 122,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00preferences.rpy:289",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "skip"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:495",
+      "text": "skip unseen [text]",
+      "lineNumber": 123,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00preferences.rpy:292",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "skip unseen [text]"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:499",
+      "text": "skip unseen text",
+      "lineNumber": 124,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00preferences.rpy:297",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "skip unseen text"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:503",
+      "text": "begin skipping",
+      "lineNumber": 125,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00preferences.rpy:299",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "begin skipping"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:507",
+      "text": "after choices",
+      "lineNumber": 126,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00preferences.rpy:303",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "after choices"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:511",
+      "text": "skip after choices",
+      "lineNumber": 127,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00preferences.rpy:310",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "skip after choices"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:515",
+      "text": "auto-forward time",
+      "lineNumber": 128,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00preferences.rpy:312",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "auto-forward time"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:519",
+      "text": "auto-forward",
+      "lineNumber": 129,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00preferences.rpy:326",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "auto-forward"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:523",
+      "text": "Auto forward",
+      "lineNumber": 130,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00preferences.rpy:333",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Auto forward"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:527",
+      "text": "auto-forward after click",
+      "lineNumber": 131,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00preferences.rpy:336",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "auto-forward after click"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:531",
+      "text": "automatic move",
+      "lineNumber": 132,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00preferences.rpy:345",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "automatic move"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:535",
+      "text": "wait for voice",
+      "lineNumber": 133,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00preferences.rpy:354",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "wait for voice"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:539",
+      "text": "voice sustain",
+      "lineNumber": 134,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00preferences.rpy:363",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "voice sustain"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:543",
+      "text": "self voicing",
+      "lineNumber": 135,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00preferences.rpy:372",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "self voicing"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:547",
+      "text": "clipboard voicing",
+      "lineNumber": 136,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00preferences.rpy:381",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "clipboard voicing"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:551",
+      "text": "debug voicing",
+      "lineNumber": 137,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00preferences.rpy:390",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "debug voicing"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:555",
+      "text": "emphasize audio",
+      "lineNumber": 138,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00preferences.rpy:399",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "emphasize audio"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:559",
+      "text": "rollback side",
+      "lineNumber": 139,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00preferences.rpy:408",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "rollback side"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:563",
+      "text": "gl powersave",
+      "lineNumber": 140,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00preferences.rpy:418",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "gl powersave"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:567",
+      "text": "gl framerate",
+      "lineNumber": 141,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00preferences.rpy:424",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "gl framerate"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:571",
+      "text": "gl tearing",
+      "lineNumber": 142,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00preferences.rpy:427",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "gl tearing"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:575",
+      "text": "font transform",
+      "lineNumber": 143,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00preferences.rpy:430",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "font transform"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:579",
+      "text": "font size",
+      "lineNumber": 144,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00preferences.rpy:433",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "font size"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:583",
+      "text": "font line spacing",
+      "lineNumber": 145,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00preferences.rpy:441",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "font line spacing"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:587",
+      "text": "music volume",
+      "lineNumber": 146,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00preferences.rpy:460",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "music volume"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:591",
+      "text": "sound volume",
+      "lineNumber": 147,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00preferences.rpy:461",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "sound volume"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:595",
+      "text": "voice volume",
+      "lineNumber": 148,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00preferences.rpy:462",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "voice volume"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:599",
+      "text": "mute music",
+      "lineNumber": 149,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00preferences.rpy:463",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "mute music"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:603",
+      "text": "mute sound",
+      "lineNumber": 150,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00preferences.rpy:464",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "mute sound"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:607",
+      "text": "mute voice",
+      "lineNumber": 151,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00preferences.rpy:465",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "mute voice"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:611",
+      "text": "mute all",
+      "lineNumber": 152,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00preferences.rpy:466",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "mute all"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:615",
+      "text": "Clipboard voicing enabled. Press 'shift+C' to disable.",
+      "lineNumber": 153,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00preferences.rpy:547",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Clipboard voicing enabled. Press 'shift+C' to disable."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:619",
+      "text": "Self-voicing would say \"[renpy.display.tts.last]\". Press 'alt+shift+V' to disable.",
+      "lineNumber": 154,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00preferences.rpy:549",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Self-voicing would say \"[renpy.display.tts.last]\". Press 'alt+shift+V' to disable."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:623",
+      "text": "Self-voicing enabled. Press 'v' to disable.",
+      "lineNumber": 155,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00preferences.rpy:551",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Self-voicing enabled. Press 'v' to disable."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:627",
+      "text": "Empty Slot.",
+      "lineNumber": 156,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_compat/gamemenu.rpym:198",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Empty Slot."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:631",
+      "text": "Previous",
+      "lineNumber": 157,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_compat/gamemenu.rpym:355",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Previous"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:635",
+      "text": "Next",
+      "lineNumber": 158,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_compat/gamemenu.rpym:362",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Next"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:639",
+      "text": "Joystick Mapping",
+      "lineNumber": 159,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_compat/preferences.rpym:428",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Joystick Mapping"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:643",
+      "text": "Developer Menu",
+      "lineNumber": 160,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_developer/developer.rpym:38",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Developer Menu"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:647",
+      "text": "Interactive Director (D)",
+      "lineNumber": 161,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_developer/developer.rpym:43",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Interactive Director (D)"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:651",
+      "text": "Reload Game (Shift+R)",
+      "lineNumber": 162,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_developer/developer.rpym:45",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Reload Game (Shift+R)"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:655",
+      "text": "Console (Shift+O)",
+      "lineNumber": 163,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_developer/developer.rpym:47",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Console (Shift+O)"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:659",
+      "text": "Variable Viewer",
+      "lineNumber": 164,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_developer/developer.rpym:49",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Variable Viewer"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:663",
+      "text": "Image Location Picker",
+      "lineNumber": 165,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_developer/developer.rpym:51",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Image Location Picker"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:667",
+      "text": "Filename List",
+      "lineNumber": 166,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_developer/developer.rpym:53",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Filename List"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:671",
+      "text": "Show Image Load Log (F4)",
+      "lineNumber": 167,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_developer/developer.rpym:57",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Show Image Load Log (F4)"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:675",
+      "text": "Hide Image Load Log (F4)",
+      "lineNumber": 168,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_developer/developer.rpym:60",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Hide Image Load Log (F4)"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:679",
+      "text": "Image Attributes",
+      "lineNumber": 169,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_developer/developer.rpym:63",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Image Attributes"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:683",
+      "text": "[name] [attributes] (hidden)",
+      "lineNumber": 170,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_developer/developer.rpym:90",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "[name] [attributes] (hidden)"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:687",
+      "text": "[name] [attributes]",
+      "lineNumber": 171,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_developer/developer.rpym:94",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "[name] [attributes]"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:691",
+      "text": "Nothing to inspect.",
+      "lineNumber": 172,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_developer/developer.rpym:143",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Nothing to inspect."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:695",
+      "text": "Hide deleted",
+      "lineNumber": 173,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_developer/developer.rpym:154",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Hide deleted"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:699",
+      "text": "Show deleted",
+      "lineNumber": 174,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_developer/developer.rpym:154",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Show deleted"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:703",
+      "text": "Return to the developer menu",
+      "lineNumber": 175,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_developer/developer.rpym:278",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Return to the developer menu"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:707",
+      "text": "Rectangle: %r",
+      "lineNumber": 176,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_developer/developer.rpym:443",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Rectangle: %r"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:711",
+      "text": "Mouse position: %r",
+      "lineNumber": 177,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_developer/developer.rpym:448",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Mouse position: %r"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:715",
+      "text": "Right-click or escape to quit.",
+      "lineNumber": 178,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_developer/developer.rpym:453",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Right-click or escape to quit."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:719",
+      "text": "Rectangle copied to clipboard.",
+      "lineNumber": 179,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_developer/developer.rpym:485",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Rectangle copied to clipboard."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:723",
+      "text": "Position copied to clipboard.",
+      "lineNumber": 180,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_developer/developer.rpym:488",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Position copied to clipboard."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:727",
+      "text": "Type to filter: ",
+      "lineNumber": 181,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_developer/developer.rpym:507",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Type to filter: "
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:731",
+      "text": "Textures: [tex_count] ([tex_size_mb:.1f] MB)",
+      "lineNumber": 182,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_developer/developer.rpym:635",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Textures: [tex_count] ([tex_size_mb:.1f] MB)"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:735",
+      "text": "Image cache: [cache_pct:.1f]% ([cache_size_mb:.1f] MB)",
+      "lineNumber": 183,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_developer/developer.rpym:639",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Image cache: [cache_pct:.1f]% ([cache_size_mb:.1f] MB)"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:739",
+      "text": "✔ ",
+      "lineNumber": 184,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_developer/developer.rpym:649",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "✔ "
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:743",
+      "text": "✘ ",
+      "lineNumber": 185,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_developer/developer.rpym:652",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "✘ "
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:747",
+      "text": "\n{color=#cfc}✔ predicted image (good){/color}\n{color=#fcc}✘ unpredicted image (bad){/color}\n{color=#fff}Drag to move.{/color}",
+      "lineNumber": 186,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_developer/developer.rpym:657",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "\n{color=#cfc}✔ predicted image (good){/color}\n{color=#fcc}✘ unpredicted image (bad){/color}\n{color=#fff}Drag to move.{/color}"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:751",
+      "text": "Displayable Inspector",
+      "lineNumber": 187,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_developer/inspector.rpym:38",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Displayable Inspector"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:755",
+      "text": "Size",
+      "lineNumber": 188,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_developer/inspector.rpym:61",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Size"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:759",
+      "text": "Style",
+      "lineNumber": 189,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_developer/inspector.rpym:65",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Style"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:763",
+      "text": "Location",
+      "lineNumber": 190,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_developer/inspector.rpym:71",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Location"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:767",
+      "text": "Inspecting Styles of [displayable_name!q]",
+      "lineNumber": 191,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_developer/inspector.rpym:122",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Inspecting Styles of [displayable_name!q]"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:771",
+      "text": "displayable:",
+      "lineNumber": 192,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_developer/inspector.rpym:139",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "displayable:"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:775",
+      "text": "        (no properties affect the displayable)",
+      "lineNumber": 193,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_developer/inspector.rpym:145",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "        (no properties affect the displayable)"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:779",
+      "text": "        (default properties omitted)",
+      "lineNumber": 194,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_developer/inspector.rpym:147",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "        (default properties omitted)"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:783",
+      "text": "<repr() failed>",
+      "lineNumber": 195,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_developer/inspector.rpym:185",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "<repr() failed>"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:787",
+      "text": "a",
+      "lineNumber": 196,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_layout/classic_load_save.rpym:170",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "a"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:791",
+      "text": "q",
+      "lineNumber": 197,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_layout/classic_load_save.rpym:179",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "q"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:795",
+      "text": "Contacting App Store\nPlease Wait...",
+      "lineNumber": 198,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00iap.rpy:217",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Contacting App Store\nPlease Wait..."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:799",
+      "text": "The Ren'Py Updater is not supported on mobile devices.",
+      "lineNumber": 199,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00updater.rpy:375",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "The Ren'Py Updater is not supported on mobile devices."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:803",
+      "text": "An error is being simulated.",
+      "lineNumber": 200,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00updater.rpy:494",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "An error is being simulated."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:807",
+      "text": "Either this project does not support updating, or the update status file was deleted.",
+      "lineNumber": 201,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00updater.rpy:678",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Either this project does not support updating, or the update status file was deleted."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:811",
+      "text": "This account does not have permission to perform an update.",
+      "lineNumber": 202,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00updater.rpy:692",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "This account does not have permission to perform an update."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:815",
+      "text": "This account does not have permission to write the update log.",
+      "lineNumber": 203,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00updater.rpy:695",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "This account does not have permission to write the update log."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:819",
+      "text": "Could not verify update signature.",
+      "lineNumber": 204,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00updater.rpy:722",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Could not verify update signature."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:823",
+      "text": "The update file was not downloaded.",
+      "lineNumber": 205,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00updater.rpy:997",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "The update file was not downloaded."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:827",
+      "text": "The update file does not have the correct digest - it may have been corrupted.",
+      "lineNumber": 206,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00updater.rpy:1015",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "The update file does not have the correct digest - it may have been corrupted."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:831",
+      "text": "While unpacking {}, unknown type {}.",
+      "lineNumber": 207,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00updater.rpy:1071",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "While unpacking {}, unknown type {}."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:835",
+      "text": "Updater",
+      "lineNumber": 208,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00updater.rpy:1439",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Updater"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:839",
+      "text": "An error has occured:",
+      "lineNumber": 209,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00updater.rpy:1446",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "An error has occured:"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:843",
+      "text": "Checking for updates.",
+      "lineNumber": 210,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00updater.rpy:1448",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Checking for updates."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:847",
+      "text": "This program is up to date.",
+      "lineNumber": 211,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00updater.rpy:1450",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "This program is up to date."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:851",
+      "text": "[u.version] is available. Do you want to install it?",
+      "lineNumber": 212,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00updater.rpy:1452",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "[u.version] is available. Do you want to install it?"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:855",
+      "text": "Preparing to download the updates.",
+      "lineNumber": 213,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00updater.rpy:1454",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Preparing to download the updates."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:859",
+      "text": "Downloading the updates.",
+      "lineNumber": 214,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00updater.rpy:1456",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Downloading the updates."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:863",
+      "text": "Unpacking the updates.",
+      "lineNumber": 215,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00updater.rpy:1458",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Unpacking the updates."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:867",
+      "text": "Finishing up.",
+      "lineNumber": 216,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00updater.rpy:1460",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Finishing up."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:871",
+      "text": "The updates have been installed. The program will restart.",
+      "lineNumber": 217,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00updater.rpy:1462",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "The updates have been installed. The program will restart."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:875",
+      "text": "The updates have been installed.",
+      "lineNumber": 218,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00updater.rpy:1464",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "The updates have been installed."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:879",
+      "text": "The updates were cancelled.",
+      "lineNumber": 219,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00updater.rpy:1466",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "The updates were cancelled."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:883",
+      "text": "Proceed",
+      "lineNumber": 220,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00updater.rpy:1481",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Proceed"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:887",
+      "text": "Image [index] of [count] locked.",
+      "lineNumber": 221,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gallery.rpy:592",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Image [index] of [count] locked."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:891",
+      "text": "prev",
+      "lineNumber": 222,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gallery.rpy:612",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "prev"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:895",
+      "text": "next",
+      "lineNumber": 223,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gallery.rpy:613",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "next"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:899",
+      "text": "slideshow",
+      "lineNumber": 224,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gallery.rpy:614",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "slideshow"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:903",
+      "text": "return",
+      "lineNumber": 225,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gallery.rpy:615",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "return"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:907",
+      "text": "Renderer",
+      "lineNumber": 226,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gltest.rpy:70",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Renderer"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:911",
+      "text": "Automatically Choose",
+      "lineNumber": 227,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gltest.rpy:74",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Automatically Choose"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:915",
+      "text": "Force Angle/DirectX Renderer",
+      "lineNumber": 228,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gltest.rpy:79",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Force Angle/DirectX Renderer"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:919",
+      "text": "Force OpenGL Renderer",
+      "lineNumber": 229,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gltest.rpy:83",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Force OpenGL Renderer"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:923",
+      "text": "Force Software Renderer",
+      "lineNumber": 230,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gltest.rpy:87",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Force Software Renderer"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:927",
+      "text": "NPOT",
+      "lineNumber": 231,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gltest.rpy:93",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "NPOT"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:931",
+      "text": "Enable",
+      "lineNumber": 232,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gltest.rpy:97",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Enable"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:935",
+      "text": "Powersave",
+      "lineNumber": 233,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gltest.rpy:131",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Powersave"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:939",
+      "text": "Framerate",
+      "lineNumber": 234,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gltest.rpy:145",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Framerate"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:943",
+      "text": "Screen",
+      "lineNumber": 235,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gltest.rpy:149",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Screen"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:947",
+      "text": "60",
+      "lineNumber": 236,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gltest.rpy:153",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "60"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:951",
+      "text": "30",
+      "lineNumber": 237,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gltest.rpy:157",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "30"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:955",
+      "text": "Tearing",
+      "lineNumber": 238,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gltest.rpy:163",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Tearing"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:959",
+      "text": "Changes will take effect the next time this program is run.",
+      "lineNumber": 239,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gltest.rpy:179",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Changes will take effect the next time this program is run."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:963",
+      "text": "Performance Warning",
+      "lineNumber": 240,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gltest.rpy:213",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Performance Warning"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:967",
+      "text": "This computer is using software rendering.",
+      "lineNumber": 241,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gltest.rpy:218",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "This computer is using software rendering."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:971",
+      "text": "This computer is not using shaders.",
+      "lineNumber": 242,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gltest.rpy:220",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "This computer is not using shaders."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:975",
+      "text": "This computer is displaying graphics slowly.",
+      "lineNumber": 243,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gltest.rpy:222",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "This computer is displaying graphics slowly."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:979",
+      "text": "This computer has a problem displaying graphics: [problem].",
+      "lineNumber": 244,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gltest.rpy:224",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "This computer has a problem displaying graphics: [problem]."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:983",
+      "text": "Its graphics drivers may be out of date or not operating correctly. This can lead to slow or incorrect graphics display. Updating DirectX could fix this problem.",
+      "lineNumber": 245,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gltest.rpy:229",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Its graphics drivers may be out of date or not operating correctly. This can lead to slow or incorrect graphics display. Updating DirectX could fix this problem."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:987",
+      "text": "Its graphics drivers may be out of date or not operating correctly. This can lead to slow or incorrect graphics display.",
+      "lineNumber": 246,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gltest.rpy:231",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Its graphics drivers may be out of date or not operating correctly. This can lead to slow or incorrect graphics display."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:991",
+      "text": "Update DirectX",
+      "lineNumber": 247,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gltest.rpy:236",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Update DirectX"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:995",
+      "text": "Continue, Show this warning again",
+      "lineNumber": 248,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gltest.rpy:242",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Continue, Show this warning again"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:999",
+      "text": "Continue, Don't show warning again",
+      "lineNumber": 249,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gltest.rpy:246",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Continue, Don't show warning again"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:1003",
+      "text": "Updating DirectX.",
+      "lineNumber": 250,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gltest.rpy:264",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Updating DirectX."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:1007",
+      "text": "DirectX web setup has been started. It may start minimized in the taskbar. Please follow the prompts to install DirectX.",
+      "lineNumber": 251,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gltest.rpy:268",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "DirectX web setup has been started. It may start minimized in the taskbar. Please follow the prompts to install DirectX."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:1011",
+      "text": "{b}Note:{/b} Microsoft's DirectX web setup program will, by default, install the Bing toolbar. If you do not want this toolbar, uncheck the appropriate box.",
+      "lineNumber": 252,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gltest.rpy:272",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "{b}Note:{/b} Microsoft's DirectX web setup program will, by default, install the Bing toolbar. If you do not want this toolbar, uncheck the appropriate box."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:1015",
+      "text": "When setup finishes, please click below to restart this program.",
+      "lineNumber": 253,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gltest.rpy:276",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "When setup finishes, please click below to restart this program."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:1019",
+      "text": "Restart",
+      "lineNumber": 254,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gltest.rpy:278",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Restart"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:1023",
+      "text": "Select Gamepad to Calibrate",
+      "lineNumber": 255,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gamepad.rpy:32",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Select Gamepad to Calibrate"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:1027",
+      "text": "No Gamepads Available",
+      "lineNumber": 256,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gamepad.rpy:35",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "No Gamepads Available"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:1031",
+      "text": "Calibrating [name] ([i]/[total])",
+      "lineNumber": 257,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gamepad.rpy:54",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Calibrating [name] ([i]/[total])"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:1035",
+      "text": "Press or move the [control!r] [kind].",
+      "lineNumber": 258,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gamepad.rpy:58",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Press or move the [control!r] [kind]."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:1039",
+      "text": "Skip (A)",
+      "lineNumber": 259,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gamepad.rpy:66",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Skip (A)"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:1043",
+      "text": "Back (B)",
+      "lineNumber": 260,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/00gamepad.rpy:69",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Back (B)"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:1047",
+      "text": "Open",
+      "lineNumber": 261,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_errorhandling.rpym:538",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Open"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:1051",
+      "text": "Opens the traceback.txt file in a text editor.",
+      "lineNumber": 262,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_errorhandling.rpym:540",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Opens the traceback.txt file in a text editor."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:1055",
+      "text": "Copy BBCode",
+      "lineNumber": 263,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_errorhandling.rpym:542",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Copy BBCode"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:1059",
+      "text": "Copies the traceback.txt file to the clipboard as BBcode for forums like https://lemmasoft.renai.us/.",
+      "lineNumber": 264,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_errorhandling.rpym:544",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Copies the traceback.txt file to the clipboard as BBcode for forums like https://lemmasoft.renai.us/."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:1063",
+      "text": "Copy Markdown",
+      "lineNumber": 265,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_errorhandling.rpym:546",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Copy Markdown"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:1067",
+      "text": "Copies the traceback.txt file to the clipboard as Markdown for Discord.",
+      "lineNumber": 266,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_errorhandling.rpym:548",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Copies the traceback.txt file to the clipboard as Markdown for Discord."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:1071",
+      "text": "An exception has occurred.",
+      "lineNumber": 267,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_errorhandling.rpym:577",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "An exception has occurred."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:1075",
+      "text": "Rollback",
+      "lineNumber": 268,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_errorhandling.rpym:597",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Rollback"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:1079",
+      "text": "Attempts a roll back to a prior time, allowing you to save or choose a different choice.",
+      "lineNumber": 269,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_errorhandling.rpym:599",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Attempts a roll back to a prior time, allowing you to save or choose a different choice."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:1083",
+      "text": "Ignore",
+      "lineNumber": 270,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_errorhandling.rpym:602",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Ignore"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:1087",
+      "text": "Ignores the exception, allowing you to continue.",
+      "lineNumber": 271,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_errorhandling.rpym:606",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Ignores the exception, allowing you to continue."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:1091",
+      "text": "Ignores the exception, allowing you to continue. This often leads to additional errors.",
+      "lineNumber": 272,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_errorhandling.rpym:608",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Ignores the exception, allowing you to continue. This often leads to additional errors."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:1095",
+      "text": "Reload",
+      "lineNumber": 273,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_errorhandling.rpym:612",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Reload"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:1099",
+      "text": "Reloads the game from disk, saving and restoring game state if possible.",
+      "lineNumber": 274,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_errorhandling.rpym:614",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Reloads the game from disk, saving and restoring game state if possible."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:1103",
+      "text": "Console",
+      "lineNumber": 275,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_errorhandling.rpym:617",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Console"
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:1107",
+      "text": "Opens a console to allow debugging the problem.",
+      "lineNumber": 276,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_errorhandling.rpym:619",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Opens a console to allow debugging the problem."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:1111",
+      "text": "Quits the game.",
+      "lineNumber": 277,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_errorhandling.rpym:629",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Quits the game."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:1115",
+      "text": "Parsing the script failed.",
+      "lineNumber": 278,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_errorhandling.rpym:653",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Parsing the script failed."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:1119",
+      "text": "Opens the errors.txt file in a text editor.",
+      "lineNumber": 279,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_errorhandling.rpym:679",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Opens the errors.txt file in a text editor."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:1123",
+      "text": "Copies the errors.txt file to the clipboard as BBcode for forums like https://lemmasoft.renai.us/.",
+      "lineNumber": 280,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_errorhandling.rpym:683",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Copies the errors.txt file to the clipboard as BBcode for forums like https://lemmasoft.renai.us/."
+      }
+    },
+    {
+      "id": "common.rpy:strings:1:1127",
+      "text": "Copies the errors.txt file to the clipboard as Markdown for Discord.",
+      "lineNumber": 281,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "renpy/common/_errorhandling.rpym:687",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Copies the errors.txt file to the clipboard as Markdown for Discord."
+      }
+    },
+    {
+      "id": "common.rpy:strings:2:1134",
+      "text": "High Contrast Text",
+      "lineNumber": 282,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:2",
+        "sourceReference": "renpy/common/00accessibility.rpy:180",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "High Contrast Text"
+      }
+    },
+    {
+      "id": "common.rpy:strings:2:1138",
+      "text": "Self-Voicing Volume Drop",
+      "lineNumber": 283,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:2",
+        "sourceReference": "renpy/common/00accessibility.rpy:215",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Self-Voicing Volume Drop"
+      }
+    },
+    {
+      "id": "common.rpy:strings:2:1142",
+      "text": "self voicing volume drop",
+      "lineNumber": 284,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:2",
+        "sourceReference": "renpy/common/00preferences.rpy:402",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "self voicing volume drop"
+      }
+    },
+    {
+      "id": "common.rpy:strings:2:1146",
+      "text": "system cursor",
+      "lineNumber": 285,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:2",
+        "sourceReference": "renpy/common/00preferences.rpy:478",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "system cursor"
+      }
+    },
+    {
+      "id": "common.rpy:strings:2:1150",
+      "text": "renderer menu",
+      "lineNumber": 286,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:2",
+        "sourceReference": "renpy/common/00preferences.rpy:487",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "renderer menu"
+      }
+    },
+    {
+      "id": "common.rpy:strings:2:1154",
+      "text": "accessibility menu",
+      "lineNumber": 287,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:2",
+        "sourceReference": "renpy/common/00preferences.rpy:490",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "accessibility menu"
+      }
+    },
+    {
+      "id": "common.rpy:strings:2:1158",
+      "text": "high contrast text",
+      "lineNumber": 288,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:2",
+        "sourceReference": "renpy/common/00preferences.rpy:493",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "high contrast text"
+      }
+    },
+    {
+      "id": "common.rpy:strings:2:1162",
+      "text": "Force GL Renderer",
+      "lineNumber": 289,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:2",
+        "sourceReference": "renpy/common/00gltest.rpy:100",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Force GL Renderer"
+      }
+    },
+    {
+      "id": "common.rpy:strings:2:1166",
+      "text": "Force ANGLE Renderer",
+      "lineNumber": 290,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:2",
+        "sourceReference": "renpy/common/00gltest.rpy:105",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Force ANGLE Renderer"
+      }
+    },
+    {
+      "id": "common.rpy:strings:2:1170",
+      "text": "Force GLES Renderer",
+      "lineNumber": 291,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:2",
+        "sourceReference": "renpy/common/00gltest.rpy:110",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Force GLES Renderer"
+      }
+    },
+    {
+      "id": "common.rpy:strings:2:1174",
+      "text": "Force GL2 Renderer",
+      "lineNumber": 292,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:2",
+        "sourceReference": "renpy/common/00gltest.rpy:116",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Force GL2 Renderer"
+      }
+    },
+    {
+      "id": "common.rpy:strings:2:1178",
+      "text": "Force ANGLE2 Renderer",
+      "lineNumber": 293,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:2",
+        "sourceReference": "renpy/common/00gltest.rpy:121",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Force ANGLE2 Renderer"
+      }
+    },
+    {
+      "id": "common.rpy:strings:2:1182",
+      "text": "Force GLES2 Renderer",
+      "lineNumber": 294,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:2",
+        "sourceReference": "renpy/common/00gltest.rpy:126",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Force GLES2 Renderer"
+      }
+    },
+    {
+      "id": "common.rpy:strings:2:1186",
+      "text": "Enable (No Blocklist)",
+      "lineNumber": 295,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:2",
+        "sourceReference": "renpy/common/00gltest.rpy:136",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Enable (No Blocklist)"
+      }
+    },
+    {
+      "id": "common.rpy:strings:2:1190",
+      "text": "This game requires use of GL2 that can't be initialised.",
+      "lineNumber": 296,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:2",
+        "sourceReference": "renpy/common/00gltest.rpy:249",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "This game requires use of GL2 that can't be initialised."
+      }
+    },
+    {
+      "id": "common.rpy:strings:2:1194",
+      "text": "The {a=edit:1:log.txt}log.txt{/a} file may contain information to help you determine what is wrong with your computer.",
+      "lineNumber": 297,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:2",
+        "sourceReference": "renpy/common/00gltest.rpy:259",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "The {a=edit:1:log.txt}log.txt{/a} file may contain information to help you determine what is wrong with your computer."
+      }
+    },
+    {
+      "id": "common.rpy:strings:2:1198",
+      "text": "More details on how to fix this can be found in the {a=[url]}documentation{/a}.",
+      "lineNumber": 298,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:2",
+        "sourceReference": "renpy/common/00gltest.rpy:264",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "More details on how to fix this can be found in the {a=[url]}documentation{/a}."
+      }
+    },
+    {
+      "id": "common.rpy:strings:2:1202",
+      "text": "Change render options",
+      "lineNumber": 299,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:2",
+        "sourceReference": "renpy/common/00gltest.rpy:281",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Change render options"
+      }
+    },
+    {
+      "id": "common.rpy:strings:2:1206",
+      "text": "Press or move the '[control!s]' [kind].",
+      "lineNumber": 300,
+      "metadata": {
+        "sourceRelPath": "common.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:2",
+        "sourceReference": "renpy/common/00gamepad.rpy:58",
+        "entryType": "old_new",
+        "hasNewTranslation": false,
+        "oldText": "Press or move the '[control!s]' [kind]."
+      }
+    }
+  ]
+}

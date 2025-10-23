@@ -1,0 +1,18 @@
+{
+  "pathPatternRules": [
+    {
+      "pattern": "script*.rpy",
+      "metadata": {
+        "category": "dialogue"
+      }
+    },
+    {
+      "pattern": "common.rpy",
+      "metadata": {
+        "category": "engine-ui"
+      }
+    }
+  ],
+  "fileRegexRules": [],
+  "prefixRules": []
+}

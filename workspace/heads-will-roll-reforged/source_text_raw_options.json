@@ -1,0 +1,56 @@
+{
+  "sourcePath": "C:\\Users\\Coel\\Documents\\Godot\\LORE-LLM\\raw-input\\head-will-roll\\options.rpy",
+  "sourceRelPath": "options.rpy",
+  "generatedAt": "2025-10-22T13:40:17.589788+00:00",
+  "project": "heads-will-roll-reforged",
+  "projectDisplayName": "Heads Will Roll Reforged",
+  "inputHash": "a9112f40408e318e27fa4ace2a1b6beb35c1bfd095195cb96cda15e5f945251c",
+  "blockCount": {
+    "strings": 3
+  },
+  "segmentCount": 3,
+  "segments": [
+    {
+      "id": "options.rpy:strings:1:7",
+      "text": "Нeads Will Roll",
+      "lineNumber": 1,
+      "metadata": {
+        "sourceRelPath": "options.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:1",
+        "sourceReference": "game/options.rpy:15",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Нeads Will Roll"
+      }
+    },
+    {
+      "id": "options.rpy:strings:2:14",
+      "text": "Нeads Will Roll — Downfall",
+      "lineNumber": 2,
+      "metadata": {
+        "sourceRelPath": "options.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:2",
+        "sourceReference": "game/options.rpy:15",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Нeads Will Roll — Downfall"
+      }
+    },
+    {
+      "id": "options.rpy:strings:3:21",
+      "text": "Нeads Will Roll — Reforged",
+      "lineNumber": 3,
+      "metadata": {
+        "sourceRelPath": "options.rpy",
+        "translationBlock": "strings",
+        "blockInstance": "strings:3",
+        "sourceReference": "game/options.rpy:15",
+        "entryType": "old_new",
+        "hasNewTranslation": true,
+        "oldText": "Нeads Will Roll — Reforged"
+      }
+    }
+  ]
+}
