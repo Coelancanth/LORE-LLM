@@ -107,12 +107,11 @@
   - Persist outputs as reviewable knowledge artifacts (e.g., `knowledge/npc_profiles.json`) and integrate them into translation prompts and glossary validation.
 - [] VS-0019 Deterministic cluster partitioning (dialogue vs. UI/system).
   - Extend `cluster-prep` so non-dialogue entries (e.g., `old_new`, `string_literal`, other UI metadata) consolidate per `(sourceRelPath, translationBlock, entryType)` rather than per `blockInstance`.
-  - Emit coexisting artifacts: `clusters_ui.json` for UI/system strings and `clusters_dialogue_blocks.json` capturing full dialogue blocks (all speakers) for LLM ingestion.
-  - Record new shard locations in `workspace.json` (`clustersPrecomputedUi`, `clustersPrecomputedDialogue`) and teach downstream loaders/tests to read both while retaining the legacy aggregate for compatibility.
+  - Emit coexisting artifacts: `clusters_ui.json` for UI/system strings and `clusters_dialogue_blocks.json` capturing full dialogue blocks (all speakers) as the final clustering outputs (no LLM pass required).
+  - Record new shard locations in `workspace.json` (`clustersPrecomputedUi`, `clustersPrecomputedDialogue`) and teach downstream loaders/tests to read both while retaining the legacy aggregate for compatibility (or skipping it entirely when deterministic output is sufficient).
   - Document configuration flags (e.g., `--split-ui-dialogue`) and update handbook/backlog guidance so teams can opt into the new layout without breaking existing pipelines.
 - [] VS-0020 Character dialogue dossiers for knowledge/context assembly.
   - Build a post-processing step that groups dialogue segments by `speaker`, nesting them under their block metadata (`translationBlock`, `blockInstance`, participants).
   - Generate Markdown dossiers under `workspace/<project>/knowledge/characters/<speaker>.md`, formatting scene descriptions plus ordered dialogue lines with source anchors.
   - Ensure dossiers are marked read-only for the pipeline (consumed by context/knowledge builders only) and avoid double-processing in LLM flows.
   - Update documentation to describe the dossier format, intended use, and how it ties back to the dialogue/UID shard outputs.
-
