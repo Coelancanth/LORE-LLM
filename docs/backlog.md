@@ -96,14 +96,23 @@
   - Adapter tracks handled lines, surfaces warnings for unknown constructs, and supports `--strict-unhandled` to fail fast when new translation shapes appear.
   - Preserves original-language comments, trailing tokens (e.g., `nointeract`), and speaker labels; trims unused flags such as `isEmpty` in the JSON payload.
   - Regenerated Heads Will Roll workspace artifacts; documentation updated to describe per-file exports and strict parsing expectations.
-- [] VS-0017 Deterministic pre-clustering ahead of LLM workflows (Heads Will Roll exemplar).
-  - Implement a `cluster-prep` CLI that buckets segments using deterministic metadata (`sourceRelPath`, `translationBlock`, `blockInstance`, `entryType`, `speaker`) and writes `clusters_precomputed.json`.
-  - Encode Heads Will Roll heuristics: keep Ren’Py blocks intact, split `character_line` clusters per speaker, and merge adjacent UI tables when `sourceReference` ranges align.
-  - Update `cluster` verb with flags to ingest precomputed clusters (accept, seed, or ignore) and persist transcripts showing how deterministic + LLM clustering interact.
-  - Provide tests and documentation using Heads Will Roll segments as the worked example; record configuration advice in `raw-input/head-will-roll/metadata.md`.
+- [x] VS-0017 Deterministic pre-clustering ahead of LLM workflows (Heads Will Roll exemplar).
+  - Implemented `cluster-prep` CLI that buckets segments using deterministic metadata (`sourceRelPath`, `translationBlock`, `blockInstance`, `entryType`, `speaker`) and writes `clusters_precomputed.json`.
+  - Encoded Heads Will Roll heuristics: keep Ren’Py blocks intact and split `character_line` clusters per `speaker` within the same `blockInstance`.
+  - Updated `cluster` with `--precomputed` ingest: `ignore` (default), `seed` (remove pre-grouped segments from LLM batches), `accept` (persist precomputed clusters as final).
+  - Added tests covering precompute generation and accept-ingest behavior; handbook updated with command usage and examples.
 - [] VS-0018 Cluster-driven NPC persona synthesis.
   - Consume deterministic/LLM clusters to identify dominant speakers and dialog spans.
   - Prompt LLMs (with human approval checkpoints) to infer personality, tone, sample quotes, and translation guidance per NPC.
   - Persist outputs as reviewable knowledge artifacts (e.g., `knowledge/npc_profiles.json`) and integrate them into translation prompts and glossary validation.
-
+- [] VS-0019 Deterministic cluster partitioning (dialogue vs. UI/system).
+  - Extend `cluster-prep` so non-dialogue entries (e.g., `old_new`, `string_literal`, other UI metadata) consolidate per `(sourceRelPath, translationBlock, entryType)` rather than per `blockInstance`.
+  - Emit coexisting artifacts: `clusters_ui.json` for UI/system strings and `clusters_dialogue_blocks.json` capturing full dialogue blocks (all speakers) for LLM ingestion.
+  - Record new shard locations in `workspace.json` (`clustersPrecomputedUi`, `clustersPrecomputedDialogue`) and teach downstream loaders/tests to read both while retaining the legacy aggregate for compatibility.
+  - Document configuration flags (e.g., `--split-ui-dialogue`) and update handbook/backlog guidance so teams can opt into the new layout without breaking existing pipelines.
+- [] VS-0020 Character dialogue dossiers for knowledge/context assembly.
+  - Build a post-processing step that groups dialogue segments by `speaker`, nesting them under their block metadata (`translationBlock`, `blockInstance`, participants).
+  - Generate Markdown dossiers under `workspace/<project>/knowledge/characters/<speaker>.md`, formatting scene descriptions plus ordered dialogue lines with source anchors.
+  - Ensure dossiers are marked read-only for the pipeline (consumed by context/knowledge builders only) and avoid double-processing in LLM flows.
+  - Update documentation to describe the dossier format, intended use, and how it ties back to the dialogue/UID shard outputs.
 
