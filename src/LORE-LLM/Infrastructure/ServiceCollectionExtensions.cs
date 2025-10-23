@@ -85,6 +85,7 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<InvestigationReportGenerator>();
         services.AddSingleton<IInvestigationWorkflow, InvestigationWorkflow>();
         services.AddSingleton<IClusterWorkflow, ClusterWorkflow>();
+        services.AddSingleton<IClusterPrepWorkflow, ClusterPrepWorkflow>();
         services.AddSingleton<ChatProviderResolver>();
         services.AddSingleton<IChatProvider, LocalChatProvider>();
 
@@ -151,6 +152,7 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<ICommandHandler<ClusterCommandOptions>, ClusterCommandHandler>();
         services.AddSingleton<IClusterContextWorkflow, ClusterContextWorkflow>();
         services.AddSingleton<ICommandHandler<ClusterContextCommandOptions>, ClusterContextCommandHandler>();
+        services.AddSingleton<ICommandHandler<ClusterPrepCommandOptions>, ClusterPrepCommandHandler>();
 
         return services;
     }

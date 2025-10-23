@@ -11,7 +11,7 @@ Comprehensive guide for contributors, operators, and reviewers working with the 
 | **Purpose** | Deterministic, CLI-driven localization workflow that extracts raw text, enriches it with knowledge-aware metadata (clusters, glossary, context), and prepares machine-assisted translation while preserving audit trails. |
 | **Tech Stack** | .NET 8 (C#), `CSharpFunctionalExtensions`, `Microsoft.Extensions.Hosting`, `System.CommandLine`, xUnit + Shouldly + NSubstitute. |
 | **Key Artifacts** | Workspace-local JSON/TOML files (`source_text_raw.json`, `clusters_current.json`, `cluster_context.json`, `translation_raw_{lang}.json`, etc.). |
-| **CLI Verbs** | `extract`, `crawl-wiki`, `index-*`, `investigate`, `cluster`, `translate`, `validate`, `integrate` (with additional feature verbs enabled via config). |
+| **CLI Verbs** | `extract`, `crawl-wiki`, `index-*`, `investigate`, `cluster-prep`, `cluster`, `cluster-context`, `translate`, `validate`, `integrate` (with additional feature verbs enabled via config). |
 
 ### Repository Layout
 
@@ -196,7 +196,7 @@ Enforcement uses an Aho–Corasick matcher to tag source occurrences, propagate 
 4. **Crawl**: `crawl-wiki` pulls MediaWiki content into `knowledge/raw/`, honoring per-project HTML post processors and tab variants.
 5. **Index**: Pluggable `index-*` commands (e.g., `index-wiki`) materialize retrieval stores and record active providers in `knowledge/index.manifest.json`. Keyword dictionaries are the default; vector/graph indexes can plug in.
 6. **Investigate (optional)**: `investigate` queries the active retrieval providers to attach per-segment suggestions (`investigation.json`, `knowledge_base.json`). Useful for provenance and glossary seeding, but not required for clustering/translation if caches exist.
-7. **Cluster**: The incremental `cluster` command processes unassigned segments in batches, referencing the current ledger and overlap window to extend clusters. Outputs `clusters_current.json`, per-batch checkpoints, transcripts, and updated workspace manifests.
+7. **Cluster**: Optionally run `cluster-prep` to pre-bucket segments deterministically into `clusters_precomputed.json`. Then the incremental `cluster` command processes remaining unassigned segments in batches (respecting precomputed ingest mode), outputting `clusters_current.json`, per-batch checkpoints, transcripts, and updated workspace manifests.
 8. **Context Selection**: A deterministic job queries the retrieval index(es) to map clusters to wiki snippets and translation notes, emitting `cluster_context.json`.
 9. **Glossary Enforcement**: The glossary manager tags terms, injects required targets into metadata, and preps enforcement hints for prompts.
 10. **Enrich & Translate**: Category-aware templates combine cluster metadata, cached snippets, glossary directives, and global cultural guidance in a single LLM pass per cluster. Outputs enriched metadata and `translation_raw_{lang}.json` with deterministic fallbacks.
@@ -303,7 +303,19 @@ dotnet run --project src/LORE-LLM -- investigate \
 
 Uses the retrieval providers from the manifest to match segments with knowledge entries. Generates `investigation.json` and `knowledge_base.json` for provenance and glossary cues.
 
-### 5.5 Clustering
+### 5.5 Deterministic Pre-Clustering
+
+```bash
+dotnet run --project src/LORE-LLM -- cluster-prep \
+  --workspace workspace \
+  --project "Heads Will Roll Reforged"
+```
+
+Behavior:
+- Groups segments by `sourceRelPath`, `translationBlock`, `blockInstance`, `entryType`, and `speaker` (speaker only for `entryType == "character_line"`).
+- Writes `clusters_precomputed.json` and updates `workspace.json` with `artifacts.clustersPrecomputed`.
+
+### 5.6 Clustering
 
 Incremental LLM-driven clustering:
 ```bash
@@ -322,6 +334,11 @@ Workflow features:
 - Prompts can use built-in or custom templates (`--prompt-template`) and global context files.
 - Providers (`local`, `deepseek`, etc.) register via DI/config; `config/chat.providers.json` controls defaults.
 
+Precomputed ingest:
+- `--precomputed ignore` (default): ignore precomputed clusters.
+- `--precomputed seed`: accept precomputed clusters and exclude their member segments from LLM batches.
+- `--precomputed accept`: skip LLM entirely and persist precomputed clusters as final.
+
 Manual workflow (Cursor/ChatGPT):
 1. Run `cluster` with `--provider local --save-transcript`.
 2. Copy the latest `# Prompt` section and paste into your chat tool.
@@ -329,7 +346,7 @@ Manual workflow (Cursor/ChatGPT):
 4. Paste the response under `# Response` in the transcript file.
 5. Re-run `cluster` to parse and persist clusters.
 
-### 5.6 Context Selection
+### 5.7 Context Selection
 
 ```bash
 dotnet run --project src/LORE-LLM -- cluster-context \
@@ -339,7 +356,7 @@ dotnet run --project src/LORE-LLM -- cluster-context \
 
 Resolves snippets by querying retrieval providers (vector via Qdrant with keyword filters). The workflow embeds a simple query per cluster (clusterId + shared context), applies any knowledge reference tokens as filters, and writes `cluster_context.json` with snippet entries (title, slug, path). Downstream stages can enrich summaries and translation notes.
 
-### 5.7 Translation & Glossary Enforcement
+### 5.8 Translation & Glossary Enforcement
 
 ```bash
 dotnet run --project src/LORE-LLM -- translate \
@@ -354,7 +371,7 @@ dotnet run --project src/LORE-LLM -- translate \
 - Glossary matches (via Aho–Corasick) are injected as hard requirements; violations recorded in `glossary_consistency.json`.
 - Deterministic fallbacks ensure glossary annotations persist even if LLM calls are retried or replaced.
 
-### 5.8 Source Validation & Metadata Enrichment
+### 5.9 Source Validation & Metadata Enrichment
 
 ```bash
 dotnet run --project src/LORE-LLM -- validate-source \
@@ -375,7 +392,7 @@ dotnet run --project src/LORE-LLM -- enrich-metadata \
 
 Layered config precedence: repo default → project override → workspace override → `--config`. Base enrichers include: id-prefix, id-lookup, and path-pattern rules. Enrichment updates segment `metadata` bags without mutating IDs or text.
 
-### 5.9 Validation & Integration
+### 5.10 Validation & Integration
 
 `validate` performs placeholder checks, glossary coverage enforcement, and cluster completeness audits. `integrate` packages approved translations, runs regression hooks, and writes deployment-ready outputs.
 
@@ -491,6 +508,12 @@ dotnet run --project src/LORE-LLM -- investigate --workspace workspace --project
 
 # Clustering with DeepSeek
 dotnet run --project src/LORE-LLM -- cluster --workspace workspace --project "Pathologic2 Marble Nest" --provider deepseek --batch-size 800 --overlap 80 --save-transcript
+
+# Deterministic pre-clustering (Heads Will Roll)
+dotnet run --project src/LORE-LLM -- cluster-prep --workspace workspace --project "Heads Will Roll Reforged"
+
+# Clustering (accept precomputed)
+dotnet run --project src/LORE-LLM -- cluster --workspace workspace --project "Heads Will Roll Reforged" --provider local --precomputed accept
 
 # Generate cluster context
 dotnet run --project src/LORE-LLM -- cluster-context --workspace workspace --project "Pathologic2 Marble Nest"

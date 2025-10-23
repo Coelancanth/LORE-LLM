@@ -78,10 +78,47 @@ public sealed class ClusterWorkflow : IClusterWorkflow
             segments = segments.Take(options.MaxSegments).ToList();
         }
 
-        var batches = BatchSegments(segments, Math.Max(1, options.BatchSize));
-
+        // Optionally seed from precomputed clusters
         var transcript = new StringBuilder();
         var allClusters = new List<ClusterContext>();
+        if (options.Precomputed != PrecomputedIngestMode.Ignore)
+        {
+            var precomputedPath = Path.Combine(projectDirectory.FullName, "clusters_precomputed.json");
+            if (File.Exists(precomputedPath))
+            {
+                var pre = await DeserializeAsync<ClusterDocument>(precomputedPath, cancellationToken);
+                if (pre is not null && pre.Clusters is not null)
+                {
+                    if (options.Precomputed == PrecomputedIngestMode.Accept)
+                    {
+                        allClusters.AddRange(pre.Clusters);
+                        // Accept mode: skip LLM entirely and persist precomputed as-is
+                        var clusterDocAccept = new ClusterDocument(
+                            sourceDocument.Project,
+                            sourceDocument.ProjectDisplayName,
+                            DateTimeOffset.UtcNow,
+                            sourceDocument.InputHash,
+                            allClusters);
+                        var clustersPathAccept = Path.Combine(projectDirectory.FullName, "clusters_llm.json");
+                        await SerializeAsync(clustersPathAccept, clusterDocAccept, cancellationToken);
+
+                        var manifestPathAccept = Path.Combine(projectDirectory.FullName, "workspace.json");
+                        if (File.Exists(manifestPathAccept))
+                        {
+                            await UpdateManifestAsync(projectDirectory, manifestPathAccept, clusterDocAccept.GeneratedAt, cancellationToken);
+                        }
+                        return Result.Success(0);
+                    }
+
+                    // Seed: remove seeded segments from the LLM batches
+                    var seededIds = new HashSet<string>(pre.Clusters.SelectMany(c => c.MemberIds));
+                    segments = segments.Where(s => !seededIds.Contains(s.Id)).ToList();
+                    allClusters.AddRange(pre.Clusters);
+                }
+            }
+        }
+
+        var batches = BatchSegments(segments, Math.Max(1, options.BatchSize));
 
         foreach (var batch in batches)
         {

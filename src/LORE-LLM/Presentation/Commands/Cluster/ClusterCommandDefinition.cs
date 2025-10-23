@@ -64,6 +64,12 @@ internal static class ClusterCommandDefinition
             Required = false
         };
 
+        var precomputedIngestOption = new Option<string>("--precomputed")
+        {
+            Description = "How to use clusters_precomputed.json: ignore | seed | accept",
+            Required = false
+        };
+
         var command = new Command("cluster", "Cluster segments via LLM with a pluggable chat provider.");
         command.Options.Add(workspaceOption);
         command.Options.Add(projectOption);
@@ -74,6 +80,7 @@ internal static class ClusterCommandDefinition
         command.Options.Add(saveTranscriptOption);
         command.Options.Add(maxSegmentsOption);
         command.Options.Add(maxClustersOption);
+        command.Options.Add(precomputedIngestOption);
 
         command.SetAction(async (parseResult, cancellationToken) =>
         {
@@ -91,6 +98,15 @@ internal static class ClusterCommandDefinition
             var saveTranscript = parseResult.GetValue(saveTranscriptOption);
             var maxSegments = parseResult.GetValue(maxSegmentsOption);
             var maxClusters = parseResult.GetValue(maxClustersOption);
+            var precomputedRaw = parseResult.GetValue(precomputedIngestOption);
+            var preMode = string.IsNullOrWhiteSpace(precomputedRaw)
+                ? LORE_LLM.Application.Clustering.PrecomputedIngestMode.Ignore
+                : precomputedRaw.Trim().ToLowerInvariant() switch
+                {
+                    "seed" => LORE_LLM.Application.Clustering.PrecomputedIngestMode.Seed,
+                    "accept" => LORE_LLM.Application.Clustering.PrecomputedIngestMode.Accept,
+                    _ => LORE_LLM.Application.Clustering.PrecomputedIngestMode.Ignore
+                };
 
             // Fill defaults from config if not provided
             if (maxClusters == 0)
@@ -101,7 +117,12 @@ internal static class ClusterCommandDefinition
 
             var handler = services.GetRequiredService<ICommandHandler<ClusterCommandOptions>>();
             var result = await handler.HandleAsync(
-                new ClusterCommandOptions(workspace, project, provider, batchSize == 0 ? 25 : batchSize, includeEmpty, promptTemplate, saveTranscript) with { MaxSegments = maxSegments, MaxClusters = maxClusters },
+                new ClusterCommandOptions(workspace, project, provider, batchSize == 0 ? 25 : batchSize, includeEmpty, promptTemplate, saveTranscript)
+                {
+                    MaxSegments = maxSegments,
+                    MaxClusters = maxClusters,
+                    Precomputed = preMode
+                },
                 cancellationToken);
 
             if (result.IsSuccess)

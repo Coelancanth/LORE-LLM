@@ -41,6 +41,7 @@ public sealed class CliApplication : ICliApplication
         root.Add(WikiCrawlCommandDefinition.Build(_services));
         root.Add(ClusterCommandDefinition.Build(_services));
         root.Add(LORE_LLM.Presentation.Commands.Cluster.ClusterContextCommandDefinition.Build(_services));
+        root.Add(LORE_LLM.Presentation.Commands.Cluster.ClusterPrepCommandDefinition.Build(_services));
         root.Add(IndexWikiCommandDefinition.Build(_services));
         root.Add(ValidateSourceCommandDefinition.Build(_services));
         root.Add(EnrichMetadataCommandDefinition.Build(_services));

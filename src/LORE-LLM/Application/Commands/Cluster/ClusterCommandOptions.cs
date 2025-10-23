@@ -1,4 +1,5 @@
 using System.IO;
+using LORE_LLM.Application.Clustering;
 
 namespace LORE_LLM.Application.Commands.Cluster;
 
@@ -13,6 +14,7 @@ public sealed record ClusterCommandOptions(
 {
     public int MaxSegments { get; init; } = 0;
     public int MaxClusters { get; init; } = 0;
+    public PrecomputedIngestMode Precomputed { get; init; } = PrecomputedIngestMode.Ignore;
 }
 
 
